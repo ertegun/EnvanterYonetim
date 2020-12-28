@@ -1,0 +1,168 @@
+.scrollable::-webkit-scrollbar {
+    display: none;
+}
+.scrollable{
+    height: auto;
+    max-height: 170px;
+    overflow: scroll;
+    -ms-overflow-style: none;
+      scrollbar-width: none;
+}
+.top-write{
+    font-size: 35px;
+    font-family: 'Fredoka One', cursive;
+}
+.top-write1{
+    font-size: 30px;
+    font-family: 'Fredoka One', cursive;
+}
+.mid-write{
+    color: whitesmoke;
+    font-size: 65px;
+    font-family: 'Fredoka One', cursive;
+}
+.bot-write1{
+    color: #f1f2f6;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.bot-write2{
+    color: whitesmoke;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.bot-write3{
+    color: whitesmoke;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.wire-success{
+    background-color: #28a745;
+    border-bottom: 2px solid rgba(0,0,0,.125);
+}
+.wire-warning{
+    background-color: #ffc107;
+    border-bottom: 2px solid rgba(0,0,0,.125);
+}
+.top, .bottom{
+    display: flex;
+    justify-content: space-between;
+}
+.alert-error{
+    background-color: #eb3b5a;
+    border: 1px solid rgba(0,0,0,.125);
+    width: 270px;
+    height: 75px;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    margin: 5px;
+    padding:0;
+    align-items: center;
+    transition: all .3s ease-out;
+    display: flex;
+    z-index: 4;
+    transition: 500ms all;
+}
+.alert-error:hover{
+    background-color: #fc5c65;
+    transform: translate(0, -5px);
+}
+.alert-success{
+    background-color: #20bf6b;
+    border: 1px solid rgba(0,0,0,.125);
+    width: 270px;
+    height: 75px;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    margin: 5px;
+    padding:0;
+    align-items: center;
+    transition: all .3s ease-out;
+    display: flex;
+    z-index: 4;
+    transition: 500ms all;
+}
+.alert-success:hover{
+    background-color: #26de81;
+    transform: translate(0, -5px);
+}
+.btn-sm{
+    flex: none !important;
+}
+.info-widget{
+    color: whitesmoke;
+    font-size: 50px;
+    font-family: 'Fredoka One', cursive;
+    height: 130px;
+    overflow: hidden;
+}
+.widget-icon{
+    position: relative;
+    left: -44px;
+    top: 50%;
+    font-size: 110px;
+    opacity: 0.7;
+    transform: translate(0,-50%);
+    transition: 400ms all;
+}
+.widget-info{
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    transform: translate(-10%,15%);
+}
+.widget-loading{
+    position: relative;
+    left: -44px;
+    font-size: 110px;
+    opacity: 0.7;
+    transform: translate(0,-50%);
+}
+.widget-text{
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-40%, 70%);
+}
+.widget-href{
+    text-decoration: none;
+    cursor: pointer;
+    color: whitesmoke;
+    transition: 400ms all;
+}
+.widget-href:hover ,.widget-href:focus, .widget-href:visited{
+    text-decoration: none;
+    cursor: pointer;
+    color: whitesmoke;
+    transition: 400ms all;
+    font-size: 55px;
+}
+.bg-purple{
+    background-color: #6c5ce7;
+}
+.input-group > .select2-container--bootstrap {
+    width: auto;
+    flex: 1 1 auto;
+}
+
+.input-group > .select2-container--bootstrap .select2-selection--single {
+    height: 100%;
+    line-height: inherit;
+    padding: 0.5rem 1rem;
+}
+.table-icon{
+    font-size: 22px;
+    cursor: pointer;
+}.table-icon-disabled{
+    font-size: 22px;
+    cursor: none;
+    color: #ccc;
+}
