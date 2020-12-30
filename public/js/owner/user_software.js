@@ -1,6 +1,5 @@
-$(document).ready( function () {
-    setTimeout(createSoftwareTable,250);
-    function createSoftwareTable (){
+function createSoftwareTable (){
+    if($('#softwareCollapse').hasClass('drawTable')==false){
         $('#softwareTable').DataTable({
         ajax:{
             type:'POST',
@@ -135,5 +134,6 @@ $(document).ready( function () {
             $('[data-toggle="tooltip"]').tooltip();
         }
         });
+        $('#softwareCollapse').addClass('drawTable');
     }
-});
+}

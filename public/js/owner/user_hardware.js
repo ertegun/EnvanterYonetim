@@ -1,6 +1,5 @@
-$(document).ready( function () {
-    setTimeout(createHardwareTable,250);
-    function createHardwareTable (){
+function createHardwareTable (){
+    if($('#hardwareCollapse').hasClass('drawTable')==false){
         $('#hardwareTable').DataTable({
         ajax:{
             type:'POST',
@@ -167,5 +166,6 @@ $(document).ready( function () {
             $('[data-toggle="tooltip"]').tooltip();
         }
         });
+        $('#hardwareCollapse').addClass('drawTable');
     }
-});
+}

@@ -125,7 +125,8 @@ Route::middleware([LoginControl::class])->group(function(){
     Route::post('zimmet/yazilim/ajax',[OwnerController::class,'owner_software_table_ajax'])->name('owner_software_table_ajax');
     Route::post('zimmet/ortak_kullanim/ajax',[OwnerController::class,'owner_common_table_ajax'])->name('owner_common_table_ajax');
     Route::post('zimmet/malzeme/ajax',[OwnerController::class,'owner_material_table_ajax'])->name('owner_material_table_ajax');
-
+    Route::post('zimmet/yeni/donanim_secim/ajax',[OwnerController::class,'get_useable_hardware'])->name('get_useable_hardware');
+    Route::post('zimmet/yeni/donanim',[OwnerController::class,'hardware_create_ajax'])->name('hardware_create_ajax');
     //DONANIM
         //Donanım CRUD
         Route::get('/donanim', [HardwareController::class, "hardware"])->name("hardware");

@@ -11,7 +11,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-danger">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#hardwareCollapse" role="button" aria-expanded="false" aria-controls="hardwareCollapse">Donanımlar</a>
+                        <a class="text-white" data-toggle="collapse" href="#hardwareCollapse" onclick="createHardwareTable()" role="button" aria-expanded="false" aria-controls="hardwareCollapse"><i class="fas fa-hdd"></i> Donanımlar</a>
                     </li>
                 </ol>
             </nav>
@@ -25,7 +25,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-info">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#softwareCollapse" role="button" aria-expanded="false" aria-controls="softwareCollapse">Yazılımlar</a>
+                        <a class="text-white" data-toggle="collapse" href="#softwareCollapse" onclick="createSoftwareTable()" role="button" aria-expanded="false" aria-controls="softwareCollapse"><i class="fas fa-compact-disc"></i> Yazılımlar</a>
                     </li>
                 </ol>
             </nav>
@@ -39,7 +39,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-purple">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#commonCollapse" role="button" aria-expanded="false" aria-controls="commonCollapse">Ortak Kullanılan Ekipmanlar</a>
+                        <a class="text-white" data-toggle="collapse" href="#commonCollapse" onclick="createCommonTable()" role="button" aria-expanded="false" aria-controls="commonCollapse"><i class="fas fa-handshake"></i> Ortak Kullanılan Ekipmanlar</a>
                     </li>
                 </ol>
             </nav>
@@ -53,7 +53,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-dark">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#materialCollapse" role="button" aria-expanded="false" aria-controls="materialCollapse">Malzemeler</a>
+                        <a class="text-white" data-toggle="collapse" href="#materialCollapse" onclick="createMaterialTable()" role="button" aria-expanded="false" aria-controls="materialCollapse"><i class="fas fa-tools"></i> Malzemeler</a>
                     </li>
                 </ol>
             </nav>
@@ -71,7 +71,7 @@
                 <a href="{{ route('owner_pdf', ['id'=>$user->id]) }}" class="btn btn-sm btn-danger btn-block ">Zimmet Fişi</a>
             </div>
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 ">
-                <a href="{{ route('owner_create_software', ['id'=>$user->id]) }}" class="btn btn-sm btn-success btn-block">Zimmet Ekle</a>
+                <a href="{{ route('owner_create', ['id'=>$user->id]) }}" class="btn btn-sm btn-success btn-block">Zimmet Ekle</a>
             </div>
         </div>
     </div>

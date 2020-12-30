@@ -28,7 +28,7 @@
                         </th>
                         <td data-sort='{{$transaction->created_at}}'>{{$transaction->date}}</td>
                         <td>{{$transaction->trans_info}}</td>
-                        <td>{{$transaction->trans_detail}}</td>
+                        <td>{{$transaction->trans_details}}</td>
                         <td>{{$transaction->user_name}}</td>
                         <td>{{$transaction->admin_name}}</td>
                     </tr>

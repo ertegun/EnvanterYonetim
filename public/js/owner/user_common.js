@@ -1,6 +1,5 @@
-$(document).ready( function () {
-    setTimeout(createCommonTable,250);
-    function createCommonTable (){
+function createCommonTable (){
+    if($('#commonCollapse').hasClass('drawTable')==false){
         $('#commonTable').DataTable({
         ajax:{
             type:'POST',
@@ -145,5 +144,6 @@ $(document).ready( function () {
             $('[data-toggle="tooltip"]').tooltip();
         }
         });
+        $('#commonCollapse').addClass('drawTable');
     }
-});
+}

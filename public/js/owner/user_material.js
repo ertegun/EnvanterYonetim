@@ -1,6 +1,5 @@
-$(document).ready( function () {
-    setTimeout(createMaterialTable,250);
-    function createMaterialTable (){
+function createMaterialTable (){
+    if($('#materialCollapse').hasClass('drawTable')==false){
         $('#materialTable').DataTable({
         ajax:{
             type:'POST',
@@ -145,5 +144,7 @@ $(document).ready( function () {
             $('[data-toggle="tooltip"]').tooltip();
         }
         });
+        $('#materialCollapse').addClass('drawTable');
     }
-});
+}
+
