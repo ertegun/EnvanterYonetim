@@ -354,6 +354,7 @@ class OwnerController extends Controller
             else{
                 $model_id = $request->model_id;
             }
+            $taha = 'Taha';
             $control        =   Hardware::insert([
                 'barcode_number'=>$barcode_number,
                 'serial_number'=>$request->serial_number,
