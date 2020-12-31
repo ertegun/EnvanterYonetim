@@ -23,7 +23,8 @@ class InventoryManagementSeeder extends Seeder
     {
         Admin::insert([
             ['name'=>'Taha Yerlikaya','user_name'=>'admin','password'=>'admin','email'=>'taha.yerlikaya@gruparge.com','created_at'=>now(),'updated_at'=>now()],
-            ['name'=>'Mehmet Portuz','user_name'=>'mp','password'=>'M1234567','email'=>'mehmet.portuz@gruparge.com','created_at'=>now(),'updated_at'=>now()]
+            ['name'=>'Mehmet Portuz','user_name'=>'mp','password'=>'M1234567','email'=>'mehmet.portuz@gruparge.com','created_at'=>now(),'updated_at'=>now()],
+            ['name'=>'Ataullah Turgut','user_name'=>'ata','password'=>'Ata123123a','email'=>'ataullah.turgut@gruparge.com','created_at'=>now(),'updated_at'=>now()]
         ]);
         Department::insert([
             ['name' => 'Yazılım','created_at'=> now(),'updated_at'=> now()],
@@ -31,31 +32,21 @@ class InventoryManagementSeeder extends Seeder
             ['name' => 'Satış Destek','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'Sevkiyat','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'Muhasebe','created_at'=> now(),'updated_at'=> now()],
-        ]);
-        User::insert([
-            ['name'=>'Taha Yerlikaya','department_id'=>'1','email'=>'tahayerlikaya@gruparge.com','created_at'=> now(),'updated_at'=> now()],
-            ['name'=>'Baha Yerlikaya','department_id'=>'1','email'=>'bahayerlikaya@gruparge.com','created_at'=> now(),'updated_at'=> now()],
-            ['name'=>'Bedirhan Yerlikaya','department_id'=>'2','email'=>'bedirhanyerlikaya@gruparge.com','created_at'=> now(),'updated_at'=> now()],
-            ['name'=>'Ertegün Fidan','department_id'=>'2','email'=>'ertegunfidan@gruparge.com','created_at'=> now(),'updated_at'=> now()],
+            ['name' => 'Üretim','created_at'=> now(),'updated_at'=> now()]
         ]);
         HardwareType::insert([
             ['name' => 'Bilgisayar','prefix'=>'PC','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Laptop','prefix'=>'NB','created_at'=> now(),'updated_at'=> now()],
         ]);
         HardwareModel::insert([
-            ['name' => 'Acer','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Dell','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'HP','created_at'=> now(),'updated_at'=> now()],
         ]);
         SoftwareType::insert([
             ['name'=>'Microsoft','created_at'=>now(),'updated_at'=>now()],
         ]);
         MaterialType::insert([
-            ['name' => 'Terlik','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'Maktap Ucu','created_at'=> now(),'updated_at'=> now()],
         ]);
         CommonItemType::insert([
-            ['name' => 'Kamera','created_at'=> now(),'updated_at'=> now()],
             ['name' => '3D Printer','created_at'=> now(),'updated_at'=> now()],
         ]);
         TransactionType::insert([

@@ -7,7 +7,7 @@
         </ol>
     </nav>
     <div class="col-12 mx-auto mt-3">
-        <table id="userTransactionTable" class="table table-sm table-striped table-bordered dt-responsive nowrap" data-name="{{$user->name}}" style="width: 100%;">
+        <table id="userTransactionTable" class="table table-sm small table-striped table-bordered dt-responsive nowrap" data-name="{{$user->name}}" style="width: 100%;">
             <thead>
                 <th>İşlem Türü</th>
                 <th>İşlem Tarihi</th>
@@ -19,7 +19,7 @@
             <tbody>
             @foreach ($transactions as $transaction)
                 @if($transaction->type_id%2 == 1)
-                    <tr class="table-success">
+                    <tr  class="table-success">
                 @else
                     <tr class="table-danger">
                 @endif
