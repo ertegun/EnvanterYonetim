@@ -171,4 +171,8 @@ class SoftwareController extends Controller
             $data['software'] = $softwares;
             return response()->json($data);
         }
+        public function getSoftwareElements(Request $request){
+            $data['types']  = SoftwareType::all();
+            return response()->json($data);
+        }
 }

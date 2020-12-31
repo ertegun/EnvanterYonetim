@@ -12,12 +12,116 @@
                 <a href="{{ route('department') }}" class="btn btn-info btn-block">Departmanlar</a>
             </div>
             <div class="col-5 col-sm-4 col-lg-2 col-xl-2 ml-auto">
-                <a href="{{ route('user_create') }}" class="btn btn-success btn-block">Yeni Kullanıcı</a>
+                <button type="button" data-toggle="modal" data-target="#userCreateModal" class="btn btn-sm btn-success btn-block">Yeni Kullanıcı</button>
             </div>
         </div>
     </div>
 </div>
 <!-- Modal -->
+<div class="modal fade" id="routingModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" role="document" style="top: 25%">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h3> Oluşturduğunuz Kullanıcı İçin Zimmet Atama Sayfasına Yönlendiriliyorsunuz...</h3></br>
+                <b id="delayTime" class=" text-danger mt-1" style="font-size: 45px"></b>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="userCreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="userController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Kullanıcı</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="userCreateForm" action="{{ route('user_create_ajax') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <b class="text-danger"><u id="userErrorMessage"></u></b>
+                    </div>
+                    <div class="input-group mt-3 mb-3">
+                        <div class="input-group-prepend">
+                            <button onclick="CreateShowDepartment()" class="btn btn-outline-secondary" type="button">Departman</button>
+                        </div>
+                        <select class="form-control create_department_select" name="department_id">
+                            <option ng-repeat="department in departments" value="@{{department.id}}">@{{department.name}}</option>
+                        </select>
+                        <input type="text" id="create_new_department" placeholder="Yeni Departman" name="new_department" class="form-control" disabled style="display: none">
+                        <div class="input-group-append">
+                            <button onclick="CreateNewDepartment()" class="btn btn-outline-secondary" type="button">Yeni</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="user_update_name">Ad Soyad</label>
+                        </div>
+                    <input name="name" type="text" class="form-control" placeholder="Örn:Taha Yerlikaya" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="email" type="text" class="form-control" placeholder="Örn:taha.yerlikaya" aria-describedby="email" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">@gruparge.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit" >Kaydet</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="userUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="userController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kullanıcı Güncelleme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('user_update') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="input-group mt-3 mb-3">
+                        <div class="input-group-prepend">
+                            <button onclick="UpdateShowDepartment()" class="btn btn-outline-secondary" type="button">Departman</button>
+                        </div>
+                        <select class="form-control update_department_select" name="department_id">
+                            <option ng-repeat="department in departments" value="@{{department.id}}">@{{department.name}}</option>
+                        </select>
+                        <input type="text" id="update_new_department" placeholder="Yeni Departman" name="new_department" class="form-control" disabled style="display: none">
+                        <div class="input-group-append">
+                            <button onclick="UpdateNewDepartment()" class="btn btn-outline-secondary" type="button">Yeni</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="user_update_name">Ad Soyad</label>
+                        </div>
+                    <input name="name" id="user_update_name" type="text" class="form-control" placeholder="Örn:Taha Yerlikaya" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input name="email" id="user_update_email" type="text" class="form-control" placeholder="Örn:taha.yerlikaya" aria-describedby="email" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">@gruparge.com</span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" id="user_update_id" value="">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit" >Güncelle</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="userDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -39,54 +143,6 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" type="submit">Sil</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="userUpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Kullanıcı Güncelleme</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('user_update') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="input-group mt-3 mb-3">
-                        <div class="input-group-prepend">
-                            <button onclick="ShowDepartment()" class="btn btn-outline-secondary" type="button">Departman</button>
-                        </div>
-                        <select class="form-control department_select" name="department_id">
-                            @foreach ($departments as $department)
-                                <option value="{{$department->id}}">{{$department->name}}</option>
-                            @endforeach
-                        </select>
-                        <input type="text" id="new_department" placeholder="Yeni Departman" name="new_department" class="form-control" disabled style="display: none">
-                        <div class="input-group-append">
-                            <button onclick="NewDepartment()" class="btn btn-outline-secondary" type="button">Yeni</button>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="user_update_name">Ad Soyad</label>
-                        </div>
-                    <input name="name" id="user_update_name" type="text" class="form-control" placeholder="Örn:Taha Yerlikaya" required>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input name="email" id="user_update_email" type="text" class="form-control" placeholder="Örn:taha.yerlikaya" aria-describedby="email" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text">@gruparge.com</span>
-                        </div>
-                    </div>
-                    <input type="hidden" name="id" id="user_update_id" value="">
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-success" type="submit" >Güncelle</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
                 </div>
             </form>

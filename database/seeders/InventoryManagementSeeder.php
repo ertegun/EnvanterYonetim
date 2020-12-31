@@ -39,54 +39,24 @@ class InventoryManagementSeeder extends Seeder
             ['name'=>'Ertegün Fidan','department_id'=>'2','email'=>'ertegunfidan@gruparge.com','created_at'=> now(),'updated_at'=> now()],
         ]);
         HardwareType::insert([
-            ['name' => 'Bilgisayar','prefix'=>'C','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Laptop','prefix'=>'L','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Dolap','prefix'=>'D','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Masa','prefix'=>'M','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Sandalye','prefix'=>'S','created_at'=> now(),'updated_at'=> now()],
+            ['name' => 'Bilgisayar','prefix'=>'PC','created_at'=> now(),'updated_at'=> now()],
+            ['name' => 'Laptop','prefix'=>'NB','created_at'=> now(),'updated_at'=> now()],
         ]);
         HardwareModel::insert([
             ['name' => 'Acer','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'Dell','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'HP','created_at'=> now(),'updated_at'=> now()],
         ]);
-        Hardware::insert([
-            ['barcode_number' => 'C1','serial_number'=>'SN:01','type_id'=>'1','model_id'=>'1','detail'=>'Bilgisayar 01','created_at'=> now(),'updated_at'=> now()],
-            ['barcode_number' => 'C2','serial_number'=>'SN:02','type_id'=>'1','model_id'=>'1','detail'=>'Bilgisayar 02','created_at'=> now(),'updated_at'=> now()],
-            ['barcode_number' => 'M1','serial_number'=>'SN:03','type_id'=>'4','model_id'=>'2','detail'=>'Masa 01','created_at'=> now(),'updated_at'=> now()],
-            ['barcode_number' => 'M2','serial_number'=>'SN:04','type_id'=>'4','model_id'=>'3','detail'=>'Masa 02','created_at'=> now(),'updated_at'=> now()],
-            ['barcode_number' => 'L1','serial_number'=>'SN:05','type_id'=>'2','model_id'=>'2','detail'=>'Laptop 01','created_at'=> now(),'updated_at'=> now()],
-        ]);
         SoftwareType::insert([
-            ['name'=>'Süreli','created_at'=>now(),'updated_at'=>now()],
-            ['name'=>'Süresiz','created_at'=>now(),'updated_at'=>now()],
-        ]);
-        Software::insert([
-            ['type_id'=>'1','name'=>'Windows','license_time'=>2,'start_time'=> now(),'finish_time'=>date('Y-m-d H:i:s',strtotime("+2 year")) ],
-            ['type_id'=>'1','name'=>'Visual Studio','license_time'=>10,'start_time'=> now(),'finish_time'=>date('Y-m-d H:i:s',strtotime("+10 year")) ],
-            ['type_id'=>'2','name'=>'Office','license_time'=>NULL,'start_time'=> now(),'finish_time'=>date('Y-m-d H:i:s',strtotime("+10 year")) ],
-            ['type_id'=>'2','name'=>'Php','license_time'=>NULL,'start_time'=> now(),'finish_time'=>date('Y-m-d H:i:s',strtotime("+3 year"))],
-            ['type_id'=>'1','name'=>'Unity3D','license_time'=>1,'start_time'=> now(),'finish_time'=>date('Y-m-d H:i:s',strtotime("+1 year")) ],
+            ['name'=>'Microsoft','created_at'=>now(),'updated_at'=>now()],
         ]);
         MaterialType::insert([
             ['name' => 'Terlik','created_at'=> now(),'updated_at'=> now()],
             ['name' => 'Maktap Ucu','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Önlük','created_at'=> now(),'updated_at'=> now()],
-        ]);
-        Material::insert([
-            ['name' => 'Deneme 01', 'type_id' => '1','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Deneme 02', 'type_id' => '2','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Deneme 03', 'type_id' => '1','created_at'=> now(),'updated_at'=> now()],
         ]);
         CommonItemType::insert([
             ['name' => 'Kamera','created_at'=> now(),'updated_at'=> now()],
             ['name' => '3D Printer','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Yazıcı','created_at'=> now(),'updated_at'=> now()],
-        ]);
-        CommonItem::insert([
-            ['name' => 'Deneme 01', 'type_id' => '1','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Deneme 02', 'type_id' => '2','created_at'=> now(),'updated_at'=> now()],
-            ['name' => 'Deneme 03', 'type_id' => '1','created_at'=> now(),'updated_at'=> now()],
         ]);
         TransactionType::insert([
             ['name' => 'Donanım Atama','created_at'=> now(),'updated_at'=> now()],

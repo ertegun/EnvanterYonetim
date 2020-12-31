@@ -159,4 +159,8 @@ class CommonItemController extends Controller
             $data['common_item'] = $common_item;
             return response()->json($data);
         }
+        public function getCommonItemElements(Request $request){
+            $data['types']  = CommonItemType::all();
+            return response()->json($data);
+        }
 }

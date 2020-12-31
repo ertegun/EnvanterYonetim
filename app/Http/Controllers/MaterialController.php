@@ -159,4 +159,8 @@ class MaterialController extends Controller
             $data['material'] = $material;
             return response()->json($data);
         }
+        public function getMaterialElements(Request $request){
+            $data['types']  = MaterialType::all();
+            return response()->json($data);
+        }
 }

@@ -92,8 +92,7 @@ Route::middleware([LoginControl::class])->group(function(){
     //KULLANICI
         //Kullanıcı CRUD
         Route::get('/kullanici', [UserController::class, "user"])->name("user");
-        Route::get('/kullanici/ekle', [UserController::class, "user_create"])->name("user_create");
-        Route::post('/kullanici/ekle/sonuc', [UserController::class, "user_create_result"])->middleware(UserCreate::class)->name("user_create_result");
+        Route::post('/kullanici/ekle', [UserController::class, "user_create_ajax"])->name("user_create_ajax");
         Route::post('/kullanici/duzenle', [UserController::class, "user_update"])->middleware(UserUpdate::class)->name("user_update");
         Route::post('/kullanici/sil', [UserController::class, "user_delete"])->middleware(UserDelete::class)->name("user_delete");
         //Kullanıcı İşlem Geçmişi
@@ -106,7 +105,8 @@ Route::middleware([LoginControl::class])->group(function(){
         Route::post('/kullanici/departman/ekle', [UserController::class, "department_create"])->middleware(DepartmentCreate::class)->name("department_create");
         Route::post('/kullanici/departman/duzenle', [UserController::class, "department_update"])->middleware(DepartmentUpdate::class)->name("department_update");
         Route::post('/kullanici/departman/sil', [UserController::class, "department_delete"])->middleware(DepartmentDelete::class)->name("department_delete");
-
+        //Departman Ajax Sorguları
+        Route::post('/kullanici/departman/getDepartments',[UserController::class,'getDepartments'])->name('getDepartments');
     //ZİMMET
     //Zimmet CRUD
     Route::get('/zimmet/{id}', [OwnerController::class, "owner"])->middleware(OwnerView::class)->name("owner");
@@ -125,8 +125,18 @@ Route::middleware([LoginControl::class])->group(function(){
     Route::post('zimmet/yazilim/ajax',[OwnerController::class,'owner_software_table_ajax'])->name('owner_software_table_ajax');
     Route::post('zimmet/ortak_kullanim/ajax',[OwnerController::class,'owner_common_table_ajax'])->name('owner_common_table_ajax');
     Route::post('zimmet/malzeme/ajax',[OwnerController::class,'owner_material_table_ajax'])->name('owner_material_table_ajax');
+
     Route::post('zimmet/yeni/donanim_secim/ajax',[OwnerController::class,'get_useable_hardware'])->name('get_useable_hardware');
     Route::post('zimmet/yeni/donanim',[OwnerController::class,'hardware_create_ajax'])->name('hardware_create_ajax');
+
+    Route::post('zimmet/yeni/yazilim_secim/ajax',[OwnerController::class,'get_useable_software'])->name('get_useable_software');
+    Route::post('zimmet/yeni/yazilim',[OwnerController::class,'software_create_ajax'])->name('software_create_ajax');
+
+    Route::post('zimmet/yeni/ortak_kullanim_secim/ajax',[OwnerController::class,'get_useable_common_item'])->name('get_useable_common_item');
+    Route::post('zimmet/yeni/ortak_kullanim',[OwnerController::class,'common_item_create_ajax'])->name('common_item_create_ajax');
+
+    Route::post('zimmet/yeni/malzeme_secim/ajax',[OwnerController::class,'get_useable_material'])->name('get_useable_material');
+    Route::post('zimmet/yeni/malzeme',[OwnerController::class,'material_create_ajax'])->name('material_create_ajax');
     //DONANIM
         //Donanım CRUD
         Route::get('/donanim', [HardwareController::class, "hardware"])->name("hardware");
@@ -163,6 +173,7 @@ Route::middleware([LoginControl::class])->group(function(){
         Route::post('/yazilim/türler/sil', [SoftwareController::class, "software_type_delete"])->middleware(SoftwareTypeDelete::class)->name("software_type_delete");
 
         //Yazılım Ajax Sorguları
+        Route::post('/yazilim/ajax/getSoftwareElements',[SoftwareController::class,'getSoftwareElements'])->name('getSoftwareElements');
         Route::post('/yazilim/ajax/getTable',[SoftwareController::class,'software_table_ajax'])->name('software_table_ajax');
     //ORTAK KULLANIM
         //Ortak Kullanım CRUD
@@ -178,6 +189,7 @@ Route::middleware([LoginControl::class])->group(function(){
         Route::post('/ortak_kullanim/türler/sil', [CommonItemController::class, "common_item_type_delete"])->middleware(CommonItemTypeDelete::class)->name("common_item_type_delete");
 
         //Ortak Kullanım Ajax Sorguları
+        Route::post('/ortak_kullanim/ajax/getCommonItemElements',[CommonItemController::class,'getCommonItemElements'])->name('getCommonItemElements');
         Route::post('/ortak_kullanim/ajax/getTable',[CommonItemController::class,'common_item_table_ajax'])->name('common_item_table_ajax');
     //MALZEME
         //Malzeme CRUD
@@ -193,6 +205,7 @@ Route::middleware([LoginControl::class])->group(function(){
         Route::post('/malzeme/türler/sil', [MaterialController::class, "material_type_delete"])->middleware(MaterialTypeDelete::class)->name("material_type_delete");
 
         //Malzeme Ajax Sorguları
+        Route::post('/malzeme/ajax/getMaterialElements',[MaterialController::class,'getMaterialElements'])->name('getMaterialElements');
         Route::post('/malzeme/ajax/getTable',[MaterialController::class,'material_table_ajax'])->name('material_table_ajax');
 
 

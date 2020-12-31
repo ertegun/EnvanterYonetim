@@ -86,24 +86,58 @@ class UserController extends Controller
 
 
     //Kullanıcı Ekleme
-        public function user_create(Request $request)
+        public function user_create_ajax(Request $request)
         {
-            $departments                =   Department::all();
-            return view("front.user.create",compact('departments'));
-        }
-        public function user_create_result(Request $request)
-        {
-            date_default_timezone_set('Europe/Istanbul');
-            $email =   $request->email;
-            $email.=   "@gruparge.com";
-            $control = User::insert(['name'=>$request->name,'email'=>$email ,'dep_id'=>$request->dep_id,'created_at'=>now(),'updated_at'=>now()]);
-            if($control>0){
-                return redirect()->route("user")->withCookie(cookie('success', 'Kayıt Başarılı!',0.02));
-            }
-            else{
-                return redirect()->route('user_create')->withCookie(cookie('error', 'Kayıt İşlemi Başarısız!',0.02));
-
-            }
+            //Kontrol
+                $email =   $request->email;
+                $email.=   "@gruparge.com";
+                $control    =   User::where("email",$email)->first();
+                if($control != NULL){
+                    $data['error'] = "E-Mail Kullanılıyor!";
+                    return response()->json($data);
+                }
+                if($request->new_department){
+                    $control = Department::where('name',$request->new_department)->first();
+                    if($control != NULL){
+                        $data['error'] = "Departman Zaten Mevcut!";
+                        return response()->json($data);
+                    }
+                }
+                else{
+                    $control =  Department::find($request->department_id);
+                    if($control == NULL){
+                        $data['error'] = "İşlem Sırasında Hata!";
+                        return response()->json($data);
+                    }
+                }
+            //Kullanıcı Ekleme
+                if($request->new_department){
+                    $control = Department::insert([
+                        'name' => $request->new_department,
+                        'created_at' => now()
+                    ]);
+                    $department = Department::orderByDesc('id')->first();
+                    $department_id = $department->id;
+                }
+                else{
+                    $department_id = $request->department_id;
+                }
+                $control = User::insert([
+                    'name' => $request->name,
+                    'email' => $email,
+                    'department_id' => $department_id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+                if($control >0){
+                    $user_id = User::orderByDesc('id')->first()->id;
+                    $data['id'] = $user_id;
+                    return response()->json($data);
+                }
+                else{
+                    $data['error'] = "Kullanıcı Ekleme İşlemi Başarısız!";
+                    return response()->json($data);
+                }
         }
     //DEPARTMAN
         public function department(){
@@ -155,5 +189,11 @@ class UserController extends Controller
             else{
                 return redirect()->route('department')->withCookie(cookie('success','Departman Silme İşlemi Başarılı!',0.02));
             }
+        }
+    //Departman Ajax
+        public function getDepartments(){
+            $departments = Department::all();
+            $data['departments'] = $departments;
+            return response()->json($data);
         }
 }
