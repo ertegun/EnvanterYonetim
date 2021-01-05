@@ -248,12 +248,6 @@
                             <button onclick="materialCreateNewType()" class="btn btn-outline-secondary" type="button">Yeni</button>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Malzeme Adı</span>
-                        </div>
-                        <input placeholder="Malzeme Adı" class="form-control" id="material_create_name" name="name" required>
-                    </div>
                     <label for="detail">Detay</label>
                     <div class="input-group mb-3">
                         <textarea id="material_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>

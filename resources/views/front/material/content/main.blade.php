@@ -43,12 +43,6 @@
                             <button onclick="materialCreateNewType()" class="btn btn-outline-secondary" type="button">Yeni</button>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Malzeme Adı</span>
-                        </div>
-                        <input placeholder="Malzeme Adı" class="form-control" id="material_create_name" name="name" required>
-                    </div>
                     <label for="detail">Detay</label>
                     <div class="input-group mb-3">
                         <textarea id="material_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
@@ -88,12 +82,6 @@
                             <button onclick="materialUpdateNewType()" class="btn btn-outline-secondary" type="button">Yeni</button>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Malzeme Adı</span>
-                        </div>
-                        <input class="form-control" id="material_update_name" name="name" required>
-                    </div>
                     <label for="detail">Detay</label>
                     <div class="input-group mb-3">
                         <textarea id="material_update_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
@@ -122,7 +110,6 @@
                 <div class="modal-body px-5">
                     <div>
                         <b><u>Türü:</u></b> <span id="material_delete_type"></span></br>
-                        <b><u>Malzeme Adı:</u></b> <span id="material_delete_name"></span></br>
                         <b><u>Detay:</u></b> <span id="material_delete_detail"></span></br>
                     </div>
                     <div class="mt-3 my-2 text-center">

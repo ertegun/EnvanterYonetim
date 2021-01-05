@@ -277,8 +277,28 @@ class OwnerController extends Controller
             return response()->json($data);
         }
         public function owner_material_table_ajax(Request $request){
-            $materials = MaterialOwner::where('owner_id',$request->id)->get();
+            $last_three_month = strtotime('-3 months');
+            $last_three_month = date('Y-m-d H:i:s',$last_three_month);
+            $current_time = now();
+            $last_month = strtotime('-1 month');
+            $last_month = date('Y-m-d H:i:s',$last_month);
+            $materials = MaterialOwner::where('owner_id',$request->id)
+            ->whereBetween('created_at',[$last_month,$current_time])
+            ->orderByDesc('created_at')
+            ->get();
             foreach($materials as $material){
+                $prev_issue_time = MaterialOwner::where('material_id',$material->material_id)
+                ->where('created_at','<',$material->created_at)
+                ->orderByDesc('created_at')->first();
+                if($prev_issue_time){
+                    $material->prev_issue_time = createTurkishDate($prev_issue_time->created_at);
+                }
+                else{
+                    $material->prev_issue_time = createTurkishDate($material->created_at);
+                }
+                $month_average = MaterialOwner::where('material_id',$material->material_id)
+                ->whereBetween('created_at',[$last_three_month,$current_time])->count();
+                $material->month_average = ceil($month_average/3);
                 $material->type         =   $material->getInfo->getType->name;
                 $material->issue_time   =   createTurkishDate($material->created_at);
             }
@@ -488,13 +508,11 @@ class OwnerController extends Controller
         public function get_useable_material(Request $request){
             if(isset($request->search)){
                 $search = "%".$request->search."%";
-                $useable_material = Material::select('material.id as id','material.name as name','material_type.name as type','material.detail')
+                $useable_material = Material::select('material.id as id','material_type.name as type','material.detail')
                 ->leftJoin("material_owner","material_owner.material_id","=","material.id")
                 ->leftJoin("material_type","material_type.id","=","material.type_id")
-                ->whereNull('owner_id')
                 ->where(function($query) use ($search){
-                    $query->where('material.name','like',$search)
-                    ->orWhere('material_type.name','like',$search)
+                    $query->where('material_type.name','like',$search)
                     ->orWhere('detail','like',$search);
                 })->get();
                 if(count($useable_material)>0){
@@ -504,7 +522,6 @@ class OwnerController extends Controller
                         $detail = str_replace('\\n','</br>',$detail);
                         $text = "<b>$item->type</b>";
                         $html = "<div class='border border-dark p-3'><span><b><u>Tür:</u></b> $item->type</span></br>
-                        <span><b><u>Malzeme Adı:</u></b> $item->name</span></br>
                         <span><b><u>Detay:</u></b> $detail</span></div>";
                         $data[] = array(
                             'id'=> $item->id,
@@ -519,10 +536,10 @@ class OwnerController extends Controller
                 }
             }
             else{
-                $useable_material = Material::select('material.id as id','material.name as name','material_type.name as type','material.detail')
+                $useable_material = Material::select('material.id as id','material_type.name as type','material.detail')
                 ->leftJoin("material_owner","material_owner.material_id","=","material.id")
                 ->leftJoin("material_type","material_type.id","=","material.type_id")
-                ->whereNull('owner_id')->limit(5)->get();
+                ->limit(5)->get();
                 if(count($useable_material)>0){
                     foreach($useable_material as $item){
                         $detail = str_split($item->detail,30);
@@ -530,7 +547,6 @@ class OwnerController extends Controller
                         $detail = str_replace('\\n','</br>',$detail);
                         $text = "<b>$item->type</b>";
                         $html = "<div class='border border-dark p-3'><span><b><u>Tür:</u></b> $item->type</span></br>
-                        <span><b><u>Malzeme Adı:</u></b> $item->name</span></br>
                         <span><b><u>Detay:</u></b> $detail</span></div>";
                         $data[] = array(
                             'id'=> $item->id,
@@ -839,15 +855,15 @@ class OwnerController extends Controller
             }
             $control = Material::insert([
                 'type_id' => $type_id,
-                'name' => $request->name,
                 'detail' => $detail,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
             if($control > 0){
                 $item = Material::orderByDesc('id')->first();
+                $item->type = $item->getType->name;
                 $data['id'] = $item->id;
-                $data['text'] ="<b>$item->name</b>";
+                $data['text'] ="<b>$item->type</b>";
                 return response()->json($data);
             }
             else{

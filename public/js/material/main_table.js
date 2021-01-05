@@ -9,10 +9,6 @@ $(document).ready( function () {
         },
         columns: [
             {
-                title:'Adı',
-                data:'name'
-            },
-            {
                 title:'Türü',
                 data: 'type',
             },
@@ -29,8 +25,8 @@ $(document).ready( function () {
                         var detail_row = 'Yok';
                         var detail = '';
                     }
-                    if(detail_row.length >20){
-                        html+=detail_row.slice(0,18)
+                    if(detail_row.length >70){
+                        html+=detail_row.slice(0,68)
                         +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="'
                         +detail+'"><i class="fas fa-ellipsis-h" style="vertical-align: bottom;"></i></span>';
 
@@ -39,19 +35,6 @@ $(document).ready( function () {
                         html += detail_row;
                     }
                     return html;
-                }
-            },
-            {
-                title:'Sahibi',
-                class: 'text-center',
-                data:'owner',
-                render:function(data){
-                    if(data){
-                        return data.name;
-                    }
-                    else{
-                        return 'Yok';
-                    }
                 }
             },
             {
@@ -79,10 +62,10 @@ $(document).ready( function () {
                     }
                     else{
                         html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Düzenle">'
-                        +'<a onclick="materialUpdate(\''+row.id+'\',\''+row.type_id+'\',\''+row.name+'\',\''+detail_text+'\')" data-toggle="modal" data-target="#materialUpdateModal">'
+                        +'<a onclick="materialUpdate(\''+row.id+'\',\''+row.type_id+'\',\''+detail_text+'\')" data-toggle="modal" data-target="#materialUpdateModal">'
                         +'<i class="fas fa-edit table-icon text-primary"></i></a></span>'
                         +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Siler!">'
-                        +'<a onclick="materialDelete(\''+row.id+'\',\''+row.type+'\',\''+row.name+'\',\''+detail+'\')" data-toggle="modal" data-target="#materialDeleteModal">'
+                        +'<a onclick="materialDelete(\''+row.id+'\',\''+row.type+'\',\''+detail+'\')" data-toggle="modal" data-target="#materialDeleteModal">'
                         +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
                     }
                     return html;
@@ -118,7 +101,7 @@ $(document).ready( function () {
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,1,7,3,6]
+                    columns:[0,3]
                 }
             },
             {
@@ -128,7 +111,7 @@ $(document).ready( function () {
                 filename: 'Malzeme Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,1,7,3,6],
+                    columns:[0,3],
                     trim:false
                 }
             }

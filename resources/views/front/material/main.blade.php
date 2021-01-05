@@ -7,14 +7,12 @@
 @section("script")
     <script>
         var material_table_ajax_url = "{{route('material_table_ajax')}}";
-        function materialUpdate(id,type_id,name,detail){
-            $('#material_update_name').val(name);
+        function materialUpdate(id,type_id,detail){
             $('#material_update_detail').val(detail);
             $('.material_update_type_select').select2("val",type_id);
             $('#material_update_id').val(id);
         }
-        function materialDelete(id,type,name,detail){
-            $('#material_delete_name').text(name);
+        function materialDelete(id,type,detail){
             $('#material_delete_detail').html(detail);
             $('#material_delete_type').text(type);
             $('#material_delete_id').val(id);

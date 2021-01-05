@@ -72,10 +72,6 @@ class OwnerCreate
                     if($control == NULL){
                         return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
                     }
-                    $control = MaterialOwner::where('material_id',$item)->first();
-                    if($control != NULL){
-                        return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
-                    }
                 }
             }
         }

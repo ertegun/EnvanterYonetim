@@ -53,7 +53,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-dark">
                     <li class="breadcrumb-item">
-                        <a class="text-white" data-toggle="collapse" href="#materialCollapse" onclick="createMaterialTable()" role="button" aria-expanded="false" aria-controls="materialCollapse"><i class="fas fa-tools"></i> Malzemeler</a>
+                        <a class="text-white" data-toggle="collapse" href="#materialCollapse" onclick="createMaterialTable()" role="button" aria-expanded="false" aria-controls="materialCollapse"><i class="fas fa-tools"></i> Malzemeler (Son 1 Aylık)</a>
                     </li>
                 </ol>
             </nav>
@@ -187,7 +187,6 @@
                 @csrf
                 <div class="modal-body px-5">
                     <div>
-                        <b><u>Malzeme Adı:</u></b> <span id="material_drop_name"></span></br>
                         <b><u>Tip:</u></b> <span id="material_drop_type"></span></br>
                         <b><u>Detay:</u></b></br> <span id="material_drop_detail"></span></br>
                     </div>

@@ -40,7 +40,6 @@ class MaterialController extends Controller
             }
             $control = Material::insert([
                 'type_id' => $type_id,
-                'name' => $request->name,
                 'detail' => $detail,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -79,7 +78,6 @@ class MaterialController extends Controller
             $control = Material::where('id',$request->id)
             ->update([
                 'type_id' => $type_id,
-                'name' => $request->name,
                 'detail' => $detail,
                 'updated_at' => now()
             ]);
@@ -154,7 +152,6 @@ class MaterialController extends Controller
             $material = Material::all();
             foreach ($material as $item){
                 $item->type     =   $item->getType->name;
-                $item->owner    =   $item->getOwner;
             }
             $data['material'] = $material;
             return response()->json($data);

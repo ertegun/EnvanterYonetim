@@ -91,7 +91,6 @@ class Alltables extends Migration
         Schema::create('material', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('type_id');
-            $table->string('name');
             $table->string('detail')->nullable();
             $table->timestamps();
         });
@@ -103,7 +102,7 @@ class Alltables extends Migration
         });
         //Malzeme Sahipleri
         Schema::create('material_owner', function (Blueprint $table) {
-            $table->unsignedBigInteger('material_id')->unique();
+            $table->unsignedBigInteger('material_id');
             $table->unsignedBigInteger('owner_id');
             $table->timestamp('created_at');
         });
