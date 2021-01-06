@@ -102,6 +102,7 @@ class Alltables extends Migration
         });
         //Malzeme Sahipleri
         Schema::create('material_owner', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('material_id');
             $table->unsignedBigInteger('owner_id');
             $table->timestamp('created_at');

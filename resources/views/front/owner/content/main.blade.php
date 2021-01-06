@@ -195,6 +195,7 @@
                         <u>Malzemeyi İade Almak Üzeresiniz!</u></br>
                         <b>İade İşlemi Geri Döndürülemez!</b>
                     </div>
+                    <input type="hidden" name="id" id="material_drop_id">
                     <input type="hidden" name="material_id" id="material_drop_material_id">
                     <input type="hidden" name="user_id" value="{{$user->id}}">
                 </div>

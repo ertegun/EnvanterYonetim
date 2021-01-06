@@ -61,7 +61,7 @@ function createMaterialTable (){
                     }
                     var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi İade Al">'
                     +'<a data-toggle="modal" data-target="#materialDropModal" '
-                    +'onclick="materialDrop(\''+row.get_info.id+'\',\''+row.type+'\',\''+detail+'\')"'
+                    +'onclick="materialDrop(\''+row.id+'\',\''+row.get_info.id+'\',\''+row.type+'\',\''+detail+'\')"'
                     +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     return html;
                 }

@@ -225,18 +225,25 @@ class OwnerController extends Controller
             }
         }
         public function material_drop(Request $request){
-            $control = MaterialOwner::where('material_id',$request->material_id)->delete();
+            $control = MaterialOwner::where('id',$request->id)->delete();
             if($control>0){
                 $user = User::find($request->user_id);
                 $material = Material::find($request->material_id);
+                $detail = $material->detail;
+                if($detail == NULL){
+                    $detail = "Yok";
+                }
+                else{
+                    $detail = str_replace('\\n','</br>',$detail);
+                }
                 Transaction::insert([
                     'type_id'=> 6,
                     'user_id'=>$user->id,
                     'admin_name'=>$request->session()->get('name'),
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
-                    'trans_info'=>$material->name,
-                    'trans_details'=>$material->getType->name,
+                    'trans_info'=>$material->getType->name,
+                    'trans_details'=>$detail,
                     'created_at'=>now()
                 ]);
                 return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Malzeme İade İşlemi Başarılı!',0.02));

@@ -31,11 +31,11 @@
         $('#common_drop_detail').html(detail);
         $('#common_drop_common_id').val(common_id);
     }
-    function materialDrop(material_id,name,type,detail){
-        $('#material_drop_name').text(name);
+    function materialDrop(id,material_id,type,detail){
         $('#material_drop_type').text(type);
         $('#material_drop_detail').html(detail);
         $('#material_drop_material_id').val(material_id);
+        $('#material_drop_id').val(id);
     }
 </script>
     <script src="{{ asset('js/owner/user_hardware.js') }}"></script>
