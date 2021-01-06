@@ -12,7 +12,7 @@ class SoftwareDrop
     {
         $control    =   SoftwareOwner::where('software_id',$request->software_id)->where('owner_id',$request->user_id)->first();
         if($control==NULL){
-            return redirect()->back()->withCookie(cookie('error','Silme İşlemi Sırasında Hata Oluştu!',0.02));
+            return redirect()->back()->withCookie(cookie('error','Yazılım İade İşlemi Sırasında Hata Oluştu!',0.02));
         }
         return $next($request);
     }

@@ -25,7 +25,11 @@
             <div ng-mouseenter="WidgetMouseEnter(1)" ng-mouseleave="WidgetMouseLeave(1)" class="card-header info-widget">
                 <i ng-style="widget_icon[1]" class="fas fa-compact-disc widget-icon"></i>
                 <span class="widget-info">Yazılım</span>
-                <span class="widget-text">@{{result.software_use}}/@{{result.software_all}}</span>
+                <span class="widget-text">
+                    <a class="widget-href" href="{{route('software')}}">
+                        @{{result.software_use}}/@{{result.software_all}}
+                    </a>
+                </span>
             </div>
         </div>
     </div>
@@ -42,7 +46,11 @@
             <div ng-mouseenter="WidgetMouseEnter(2)" ng-mouseleave="WidgetMouseLeave(2)" class="card-header info-widget">
                 <i ng-style="widget_icon[2]" class="fas fa-users widget-icon"></i>
                 <span class="widget-info">Kullanıcı</span>
-                <span class="widget-text">@{{result.user}}</span>
+                <span class="widget-text">
+                    <a class="widget-href ml-5 pl-5" href="{{route('user')}}">
+                        @{{result.user}}
+                    </a>
+                </span>
             </div>
         </div>
     </div>
@@ -59,7 +67,11 @@
             <div ng-mouseenter="WidgetMouseEnter(3)" ng-mouseleave="WidgetMouseLeave(3)" class="card-header info-widget">
                 <i ng-style="widget_icon[3]" class="fas fa-tools widget-icon"></i>
                 <span class="widget-info">Malzeme</span>
-                <span class="widget-text">@{{result.material_use}}/@{{result.material_all}}</span>
+                <span class="widget-text">
+                    <a class="widget-href ml-5 pl-5" href="{{route('material')}}">
+                        @{{result.material_all}}
+                    </a>
+                </span>
             </div>
         </div>
     </div>
@@ -76,7 +88,11 @@
             <div ng-mouseenter="WidgetMouseEnter(4)" ng-mouseleave="WidgetMouseLeave(4)" class="card-header info-widget">
                 <i ng-style="widget_icon[4]" class="fas fa-handshake widget-icon"></i>
                 <span class="widget-info">Ortak Kullanım</span>
-                <span class="widget-text">@{{result.common_use}}/@{{result.common_all}}</span>
+                <span class="widget-text">
+                    <a class="widget-href" href="{{route('common_item')}}">
+                        @{{result.common_use}}/@{{result.common_all}}
+                    </a>
+                </span>
             </div>
         </div>
     </div>
@@ -92,8 +108,12 @@
         <div class="card bg-warning">
             <div ng-mouseenter="WidgetMouseEnter(5)" ng-mouseleave="WidgetMouseLeave(5)" class="card-header info-widget">
                 <i ng-style="widget_icon[5]" class="fas fa-briefcase widget-icon"></i>
-                <span class="widget-info">Birim</span>
-                <span class="widget-text">@{{result.department}}</span>
+                <span class="widget-info">Departman</span>
+                <span class="widget-text">
+                    <a class="widget-href ml-5 pl-5" href="{{route('department')}}">
+                        @{{result.department}}
+                    </a>
+                </span>
             </div>
         </div>
     </div>
@@ -135,10 +155,10 @@
                 </ol>
             </nav>
             <div class="col-12">
-                <table id="lastFiveUser" class="table table-striped table-bordered" style="width: 100%">
+                <table id="lastFiveUser" class="table table-sm small table-striped table-bordered" style="width: 100%">
                 <thead>
                     <th>Ad Soyad</th>
-                    <th>Birim</th>
+                    <th>Departman</th>
                 </thead>
                 <tbody ng-show="lastFiveUserInfo">
                     <tr ng-repeat="user in lastFiveUser">
@@ -158,7 +178,7 @@
                 </ol>
             </nav>
             <div class="col-12">
-                <table id="lastFiveTransaction" class="table table-striped table-bordered" style="width: 100%">
+                <table id="lastFiveTransaction" class="table table-sm small table-striped table-bordered" style="width: 100%">
                 <thead>
                     <th>Ad Soyad</th>
                     <th>Hakkında</th>

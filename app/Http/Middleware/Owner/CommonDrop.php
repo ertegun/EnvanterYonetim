@@ -12,7 +12,7 @@ class CommonDrop
     {
         $control    =   CommonItemOwner::where('common_item_id',$request->common_item_id)->where('owner_id',$request->user_id)->first();
         if($control==NULL){
-            return redirect()->back()->withCookie(cookie('error','Silme İşlemi Sırasında Hata Oluştu!',0.02));
+            return redirect()->back()->withCookie(cookie('error','Ortak Kullanımdan Kaldırma İşlemi Sırasında Hata Oluştu!',0.02));
         }
         return $next($request);
     }

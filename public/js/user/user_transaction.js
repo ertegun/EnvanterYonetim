@@ -10,6 +10,7 @@ $(document).ready( function () {
         order:[
             [1,"desc"]
         ],
+        scrollY: "300px",
         lengthMenu: [ [10, 25, 50, -1], ["10 Adet", "25 Adet", "50 Adet", "Tümü"] ],
         dom: '<"top"Bf>t<"bottom"lp><"clear">',
         buttons:[
@@ -18,8 +19,8 @@ $(document).ready( function () {
                 footer: false,
                 className:"btn-sm btn-danger",
                 pageSize: 'A4',
-                title: $('#userTransactionTable').data('name')+' İşlemler Raporu',
-                filename: $('#userTransactionTable').data('name')+' İşlemler Raporu',
+                title: $('#userTransactionTable').data('name')+' İşlem Geçmişi',
+                filename: $('#userTransactionTable').data('name')+' İşlem Geçmişi',
                 customize: function(doc) {
                     doc.pageMargins = [ 100, 20, 100, 20 ];
                     doc.defaultStyle.fontSize = 14;
@@ -33,8 +34,8 @@ $(document).ready( function () {
                 extend: 'excel',
                 className:"btn-sm btn-danger",
                 footer: false,
-                title: $('#userTransactionTable').data('name')+' İşlemler Excel',
-                filename: $('#userTransactionTable').data('name')+' İşlemler Excel',
+                title: $('#userTransactionTable').data('name')+' İşlem Geçmişi',
+                filename: $('#userTransactionTable').data('name')+' İşlem Geçmişi',
                 exportOptions:{
                     columns:[0,1,2,3,4,5]
                 }

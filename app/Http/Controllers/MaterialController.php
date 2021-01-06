@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Material\MaterialType;
 use App\Models\Material\Material;
+use App\Models\Material\MaterialOwner;
 
 class MaterialController extends Controller
 {
@@ -151,6 +152,7 @@ class MaterialController extends Controller
             $material = Material::all();
             foreach ($material as $item){
                 $item->type     =   $item->getType->name;
+                $item->using_item = MaterialOwner::where('material_id',$item->id)->count();
             }
             $data['material'] = $material;
             return response()->json($data);

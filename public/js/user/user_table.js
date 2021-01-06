@@ -48,9 +48,12 @@ $(document).ready( function () {
                 render:function(data,type,row){
                     var email = row.email;
                     email = email.split('@')[0];
-                    var html ='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcı Üzerinde Sahiplik İşlemleri">'
+                    var html ='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcı Üzerinde Zimmet İşlemleri">'
                     +'<a href="zimmet/'+row.id+'" class="text-decoration-none">'
                     +'<i class="fas fa-street-view table-icon text-success"></i></a></span>'
+                    +'<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıya Zimmet Ata">'
+                    +'<a href="zimmet/yeni/'+row.id+'" class="text-decoration-none">'
+                    +'<i class="fas fa-truck-loading table-icon text-dark"></i></a></span>'
                     +'<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıyı Düzenle">'
                     +'<a data-toggle="modal" data-target="#userUpdateModal" onclick="userUpdate(\''+row.department_id+'\',\''+row.name+'\',\''+email+'\',\''+row.id+'\')" class="text-decoration-none">'
                     +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';

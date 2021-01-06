@@ -44,13 +44,13 @@ class MainController extends Controller
         session()->forget(['admin_id']);
         return redirect()->route('login');
     }
-    public function transaction()
-    {
+    //İŞLEM GEÇMİŞİ
+    public function transaction(){
         return view('front.transaction.main');
     }
     public function transaction_ajax(Request $request){
-        $orderColumnId  = $request['order']['0']['column'];
-        $orderColumn    =   $request['columns'][$orderColumnId]['data'];
+        $orderColumnId  =   $request['order']['0']['column'];
+        $orderColumn    =   $request['columns'][$orderColumnId]['name'];
         $data['recordsTotal']  =   Transaction::all()->count();
         $length = $request->length;
         if($length == -1){
@@ -58,30 +58,41 @@ class MainController extends Controller
         }
         if($request->search['value']){
             $search     =   "%".$request->search['value']."%";
-            $data['data']  =   Transaction::where($request->columns[0]['data'],"like",$search);
+            $transaction  =   Transaction::select('transaction_type.name as type','transaction.type_id','transaction.created_at as created_at','transaction.user_name','transaction.admin_name','transaction.trans_info','transaction.trans_details')
+            ->leftJoin('transaction_type','transaction.type_id','=','transaction_type.id')
+            ->where($request->columns[0]['name'],"like",$search);
             for($i=2;$i<=4;$i++){
-                $data['data']=$data['data']->orwhere($request->columns[$i]['data'],"like",$search);
+                $transaction=$transaction->orwhere($request->columns[$i]['name'],"like",$search);
             }
-            $data['data']=$data['data']->orWhere('hard_sn',"like",$search);
-            $data['data']=$data['data']->orderBy($orderColumn,$request['order']['0']['dir'])->skip($request->start)->take($length)->get();
+            $transaction=$transaction->orderBy($orderColumn,$request['order']['0']['dir'])->skip($request->start)->take($length)->get();
+            foreach($transaction as $item){
+                $item->issue_time = createTurkishDate($item->created_at);
+            }
+            $data['data'] = $transaction;
             $data['recordsFiltered']    =   count($data['data']);
         }
         else{
-            $data['data']=Transaction::orderBy($orderColumn,$request['order']['0']['dir'])->skip($request->start)->take($length)->get();
+            $transaction=Transaction::select('transaction_type.name as type','transaction.type_id','transaction.created_at as created_at','transaction.user_name','transaction.admin_name','transaction.trans_info','transaction.trans_details')
+            ->leftJoin('transaction_type','transaction.type_id','=','transaction_type.id')
+            ->orderBy($orderColumn,$request['order']['0']['dir'])->skip($request->start)->take($length)->get();
+            foreach($transaction as $item){
+                $item->issue_time = createTurkishDate($item->created_at);
+            }
+            $data['data'] = $transaction;
             $data['recordsFiltered']    =   $data['recordsTotal'];
         }
         $data['request'] = $request->all();
         return response()->json($data);
     }
+    //Ana Sayfa Widgetlar
     public function homepage_widgets(Request $request){
         $data['hardware_all']   =   Hardware::all()->count();
         $data['hardware_use']   =   HardwareOwner::all()->count();
         $data['software_all']   =   Software::all()->count();
         $data['software_use']   =   SoftwareOwner::all()->count();
         $data['material_all']   =   Material::all()->count();
-        $data['material_use']   =   MaterialOwner::all()->count();
         $data['common_all']     =   CommonItem::all()->count();
-        $data['common_use']     =   CommonItemOwner::all()->count();
+        $data['common_use']     =   CommonItem::where('owner_count','>',0)->count();
         $data['department']     =   Department::all()->count();
         $data['user']           =   User::all()->count();
         return response()->json($data);
@@ -100,13 +111,13 @@ class MainController extends Controller
     }
     public function homepage_FiveMonthMaterial(Request $request){
         for($i=4;$i>=0;$i--){
-            $start_date = strtotime("-$i month",time());
+            $start_date = strtotime("-$i months",time());
             $start_date = date("Y-m-01 00:00:00",$start_date);
-            $end_date = strtotime("+1 month",strtotime($start_date));
+            $end_date = strtotime("+1 months",strtotime($start_date));
             $end_date = date("Y-m-d 00:00:00",$end_date);
-            $data['FiveMonth'][]            =   getCurrentMonth(strtotime("-$i month",time()));
-            $data['FiveMonthMaterial'][]    =   Transaction::whereBetween('created_at',[$start_date,$end_date])->
-            where('type_id',5)->count();
+            $data['date'][] = array('start'=> $start_date,'end'=>$end_date);
+            $data['FiveMonth'][]            =   getCurrentMonth(strtotime("-$i months",time()));
+            $data['FiveMonthMaterial'][]    =   MaterialOwner::whereBetween('created_at',[$start_date,$end_date])->count();
         }
         return response()->json($data);
     }

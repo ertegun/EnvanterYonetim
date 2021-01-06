@@ -1,22 +1,21 @@
-<div class="col-12 mx-auto mt-3">
-    <div class="alert alert-info text-center mx-auto" style="width: 65%; font-size: 20px" id='report_title' data-name='İşlem Geçmişi'>
-        <b>İşlem Geçmişi</b>
-    </div>
-    <table id="table" class="table table-striped table-bordered dt-responsive nowrap" style="text-align: center;width: 100%;">
-        <thead>
-            <tr>
-                <th>İşlem Tipi</th>
+<div class="card mt-2">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('homepage')}}"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item active" aria-current="page">İşlem Geçmişi</li>
+        </ol>
+    </nav>
+    <div class="col-12 mx-auto my-3">
+        <table id="table" class="table table-sm small table-striped table-bordered dt-responsive nowrap" style="text-align: center;width: 100%;">
+            <thead>
+                <th>İşlem Türü</th>
                 <th>İşlem Tarihi</th>
-                <th class="nosort">Ekipman/Yazılım</th>
-                <th>İşlemi Yapan</th>
-                <th>İşlem Yapılan</th>
-            </tr>
-        </thead>
-    </table>
-    <div class="row my-3">
-        <div class="col-5 col-sm-3 col-md-4 col-xl-3 ml-auto">
-            <a href="{{route("user")}}" class="btn btn-primary btn-block">Geri Dön</a>
-        </div>
+                <th>Hakkında İşlem Yapılan</th>
+                <th>İşlem Detayı</th>
+                <th>İşlem Yapılan Kişi</th>
+                <th>İşlemi Yapan Kişi</th>
+            </thead>
+        </table>
     </div>
 </div>
 @if (Cookie::get('success'))

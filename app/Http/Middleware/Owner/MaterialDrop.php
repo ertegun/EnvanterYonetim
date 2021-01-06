@@ -15,7 +15,7 @@ class MaterialDrop
         ->where('id',$request->id)
         ->first();
         if($control==NULL){
-            return redirect()->back()->withCookie(cookie('error','Silme İşlemi Sırasında Hata Oluştu!',0.02));
+            return redirect()->back()->withCookie(cookie('error','Malzeme İade İşlemi Sırasında Hata Oluştu!',0.02));
         }
         return $next($request);
     }

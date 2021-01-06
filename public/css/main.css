@@ -130,7 +130,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    transform: translate(-40%, 70%);
+    transform: translate(-30%, 70%);
 }
 .widget-href{
     text-decoration: none;

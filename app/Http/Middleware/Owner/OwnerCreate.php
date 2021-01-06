@@ -14,8 +14,6 @@ use App\Models\User\User;
 use Closure;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\isNull;
-
 class OwnerCreate
 {
     public function handle(Request $request, Closure $next)

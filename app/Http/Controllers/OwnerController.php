@@ -45,11 +45,17 @@ class OwnerController extends Controller
                     if($control){
                         $hardware = Hardware::where('id',$item)->first();
                         $trans_info = 'Tür: '.$hardware->getType->name.
-                        '\nBarkod No: '.$hardware->barcode_number;
-                        $detail = str_split($hardware->detail,30);
-                        $detail = $detail[0];
-                        $trans_details = 'Seri No: '.$hardware->serial_number.
-                        '\nDetay: '.$detail;
+                        '  Barkod No: '.$hardware->barcode_number;
+                        if($hardware->detail != NULL){
+                            $trans_details = str_replace('\\n','  ',$hardware->detail);
+                            if(strlen($hardware->detail) > 30){
+                                $trans_details = str_split($trans_details,28);
+                                $trans_details = $trans_details[0]."...";
+                            }
+                        }
+                        else{
+                            $trans_details = "Yok";
+                        }
                         Transaction::insert([
                             'type_id' => 1,
                             'user_id' => $user->id,
@@ -72,7 +78,7 @@ class OwnerController extends Controller
                     if($control){
                         $software = Software::find($item);
                         $trans_info = 'Tür: '.$software->getType->name.
-                        '\nYazılım Adı: '.$software->name;
+                        '  Yazılım Adı: '.$software->name;
                         if($software->finish_time){
                             $finish_time = createTurkishDate($software->finish_time);
                         }
@@ -102,10 +108,17 @@ class OwnerController extends Controller
                     if($control){
                         $common = CommonItem::find($item);
                         $trans_info = 'Tür: '.$common->getType->name.
-                        '\nEkipman Adı: '.$common->name;
-                        $detail = str_split($common->detail,30);
-                        $detail = $detail[0];
-                        $trans_details = $detail;
+                        '  Ekipman Adı: '.$common->name;
+                        if($common->detail != NULL){
+                            $trans_details = str_replace('\\n','  ',$common->detail);
+                            if(strlen($common->detail) > 30){
+                                $trans_details = str_split($trans_details,28);
+                                $trans_details = $trans_details[0]."...";
+                            }
+                        }
+                        else{
+                            $trans_details = "Yok";
+                        }
                         Transaction::insert([
                             'type_id' => 7,
                             'user_id' => $user->id,
@@ -131,18 +144,23 @@ class OwnerController extends Controller
                     $control = MaterialOwner::insert(['material_id' => $item,'owner_id' => $user->id]);
                     if($control){
                         $material = Material::find($item);
-                        $trans_info = 'Tür: '.$material->getType->name.
-                        '\nMalzeme Adı: '.$material->name;
-                        $detail = str_split($material->detail,30);
-                        $detail = $detail[0];
-                        $trans_details = $detail;
+                        if($material->detail != NULL){
+                            $trans_details = str_replace('\\n','  ',$material->detail);
+                            if(strlen($material->detail) > 30){
+                                $trans_details = str_split($trans_details,28);
+                                $trans_details = $trans_details[0]."...";
+                            }
+                        }
+                        else{
+                            $trans_details = "Yok";
+                        }
                         Transaction::insert([
                             'type_id' => 5,
                             'user_id' => $user->id,
                             'admin_name' => $request->session()->get('name'),
                             'user_name' => $user->name,
                             'user_email' => $user->email,
-                            'trans_info' => $trans_info,
+                            'trans_info' => $material->getType->name,
                             'trans_details' => $trans_details,
                             'created_at' => now()
                         ]);
@@ -160,14 +178,26 @@ class OwnerController extends Controller
             if($control>0){
                 $user = User::find($request->user_id);
                 $hardware = Hardware::where('id',$request->hardware_id)->first();
+                $trans_info = 'Tür: '.$hardware->getType->name.
+                '  Barkod No: '.$hardware->barcode_number;
+                if($hardware->detail != NULL){
+                    $trans_details = str_replace('\\n','  ',$hardware->detail);
+                    if(strlen($hardware->detail) > 30){
+                        $trans_details = str_split($trans_details,28);
+                        $trans_details = $trans_details[0]."...";
+                    }
+                }
+                else{
+                    $trans_details = "Yok";
+                }
                 Transaction::insert([
                     'type_id'=> 2,
                     'user_id'=>$user->id,
                     'admin_name'=>$request->session()->get('name'),
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
-                    'trans_info'=>'Barkod No: '.$hardware->barcode_number.' Seri No: '.$hardware->serial_number,
-                    'trans_details'=>$hardware->detail,
+                    'trans_info'=>$trans_info,
+                    'trans_details'=>$trans_details,
                     'created_at'=>now()
                 ]);
                 return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Donanım İade İşlemi Başarılı!',0.02));
@@ -182,14 +212,23 @@ class OwnerController extends Controller
             if($control>0){
                 $user = User::find($request->user_id);
                 $software = Software::find($request->software_id);
+                $trans_info = 'Tür: '.$software->getType->name.
+                '  Yazılım Adı: '.$software->name;
+                if($software->finish_time){
+                    $finish_time = createTurkishDate($software->finish_time);
+                }
+                else{
+                    $finish_time = 'Süresiz';
+                }
+                $trans_details = 'Bitiş Tarihi: '.$finish_time;
                 Transaction::insert([
                     'type_id'=> 4,
                     'user_id'=>$user->id,
                     'admin_name'=>$request->session()->get('name'),
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
-                    'trans_info'=>$software->name,
-                    'trans_details'=>$software->getType->name,
+                    'trans_info'=>$trans_info,
+                    'trans_details'=>$trans_details,
                     'created_at'=>now()
                 ]);
                 return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Yazılım İade İşlemi Başarılı!',0.02));
@@ -200,21 +239,34 @@ class OwnerController extends Controller
             }
         }
         public function common_drop(Request $request){
-            $control = CommonItemOwner::where('common_item_id',$request->common_item_id)->delete();
+            $control = CommonItemOwner::where('common_item_id',$request->common_item_id)
+            ->where('owner_id',$request->user_id)->delete();
             if($control>0){
                 $user = User::find($request->user_id);
                 $common = CommonItem::find($request->common_item_id);
                 CommonItem::where('id',$common->id)->update([
                     'owner_count' => $common->owner_count-1
                 ]);
+                $trans_info = 'Tür: '.$common->getType->name.
+                '  Ekipman Adı: '.$common->name;
+                if($common->detail != NULL){
+                    $trans_details = str_replace('\\n','  ',$common->detail);
+                    if(strlen($common->detail) > 30){
+                        $trans_details = str_split($trans_details,28);
+                        $trans_details = $trans_details[0]."...";
+                    }
+                }
+                else{
+                    $trans_details = "Yok";
+                }
                 Transaction::insert([
                     'type_id'=> 8,
                     'user_id'=>$user->id,
                     'admin_name'=>$request->session()->get('name'),
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
-                    'trans_info'=>$common->name,
-                    'trans_details'=>$common->getType->name,
+                    'trans_info'=>$trans_info,
+                    'trans_details'=>$trans_details,
                     'created_at'=>now()
                 ]);
                 return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Ortak Kullanımdan Çıkartıldı!',0.02));
@@ -229,12 +281,15 @@ class OwnerController extends Controller
             if($control>0){
                 $user = User::find($request->user_id);
                 $material = Material::find($request->material_id);
-                $detail = $material->detail;
-                if($detail == NULL){
-                    $detail = "Yok";
+                if($material->detail != NULL){
+                    $trans_details = str_replace('\\n','  ',$material->detail);
+                    if(strlen($material->detail) > 30){
+                        $trans_details = str_split($trans_details,28);
+                        $trans_details = $trans_details[0]."...";
+                    }
                 }
                 else{
-                    $detail = str_replace('\\n','</br>',$detail);
+                    $trans_details = "Yok";
                 }
                 Transaction::insert([
                     'type_id'=> 6,
@@ -243,7 +298,7 @@ class OwnerController extends Controller
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
                     'trans_info'=>$material->getType->name,
-                    'trans_details'=>$detail,
+                    'trans_details'=>$trans_details,
                     'created_at'=>now()
                 ]);
                 return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Malzeme İade İşlemi Başarılı!',0.02));
@@ -566,7 +621,6 @@ class OwnerController extends Controller
             if(isset($request->search)){
                 $search = "%".$request->search."%";
                 $useable_material = Material::select('material.id as id','material_type.name as type','material.detail')
-                ->leftJoin("material_owner","material_owner.material_id","=","material.id")
                 ->leftJoin("material_type","material_type.id","=","material.type_id")
                 ->where(function($query) use ($search){
                     $query->where('material_type.name','like',$search)
@@ -594,7 +648,6 @@ class OwnerController extends Controller
             }
             else{
                 $useable_material = Material::select('material.id as id','material_type.name as type','material.detail')
-                ->leftJoin("material_owner","material_owner.material_id","=","material.id")
                 ->leftJoin("material_type","material_type.id","=","material.type_id")
                 ->limit(5)->get();
                 if(count($useable_material)>0){

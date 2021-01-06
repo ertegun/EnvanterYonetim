@@ -5,5 +5,8 @@
     @include('front.transaction.content')
 @endsection
 @section("script")
-    <script src="{{ asset('js/transaction.js') }}"></script>
+    <script>
+        var transaction_ajax_url = "{{route('transaction_ajax')}}";
+    </script>
+    <script src="{{ asset('js/transaction/transaction.js') }}"></script>
 @endsection

@@ -13,6 +13,11 @@ $(document).ready( function () {
                 data: 'type',
             },
             {
+                title:'Toplam Kullanım',
+                data: 'using_item',
+                class:'text-center'
+            },
+            {
                 title:'Detay',
                 data:'detail',
                 render:function(data){
@@ -52,11 +57,11 @@ $(document).ready( function () {
                         var detail_text = '';
                         var detail = '';
                     }
-                    if(row.owner){
-                        html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli </br> Malzemeyi Kullanıcı</br> Sayfasından İade Alınız!">'
+                    if(row.using_item >0 ){
+                        html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">'
                         +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
                         +'<i class="fas fa-edit table-icon-disabled"></i></a></span>'
-                        +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli </br> Malzemeyi Kullanıcı</br> Sayfasından İade Alınız!">'
+                        +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">'
                         +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
                         +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
                     }
@@ -101,7 +106,7 @@ $(document).ready( function () {
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,3]
+                    columns:[0,1,2]
                 }
             },
             {
@@ -111,7 +116,7 @@ $(document).ready( function () {
                 filename: 'Malzeme Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,3],
+                    columns:[0,1,2],
                     trim:false
                 }
             }
