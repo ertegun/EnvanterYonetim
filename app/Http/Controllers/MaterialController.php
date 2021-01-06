@@ -103,7 +103,6 @@ class MaterialController extends Controller
             $material_types = MaterialType::all();
             foreach($material_types as $type){
                 $type->using_item   =   $type->getUsingItemsCount();
-                $type->useable_item =   $type->getUseableItemsCount();
                 $type->total_item   =   $type->getItemsCount();
             }
             return view('front.material.type',compact('material_types'));

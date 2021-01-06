@@ -5,7 +5,10 @@ function createMaterialTable (){
             type:'POST',
             url: owner_material_table_ajax_url,
             data: {'id':user_id},
-            dataSrc: 'materials'
+            dataSrc: 'materials',
+            complete: function(response){
+                showMaterialWidgets(response.responseJSON.html);
+            }
         },
         columns: [
             {
@@ -36,11 +39,6 @@ function createMaterialTable (){
                     }
                     return html;
                 }
-            },
-            {
-                title:'Aylık Kullanım Ortalaması',
-                class: 'text-center',
-                data: 'month_average'
             },
             {
                 title:'Önceki Veriliş Tarihi',
@@ -99,7 +97,7 @@ function createMaterialTable (){
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,2,4]
+                    columns:[0,5,2,3]
                 }
             },
             {
@@ -109,7 +107,7 @@ function createMaterialTable (){
                 filename: $('#userName').data('name')+' Malzeme Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,2,4],
+                    columns:[0,5,2,3],
                     trim:false
                 }
             }
@@ -151,5 +149,12 @@ function createMaterialTable (){
         });
         $('#materialCollapse').addClass('drawTable');
     }
+}
+function showMaterialWidgets(html){
+    full_html='';
+    html.forEach(function(element){
+        full_html+=element;
+    })
+    $('#materialWidget').html(full_html);
 }
 

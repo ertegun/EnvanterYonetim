@@ -1,4 +1,18 @@
 <?php
+    function bgColors($index){
+        $bg_colors = [
+            'bg-danger text-white',
+            'bg-info text-white',
+            'bg-warning text-white',
+            'bg-secondary',
+            'bg-purple text-white',
+            'bg-success text-white',
+            'bg-light',
+            'bg-primary',
+            'bg-dark text-white'
+        ];
+        return $bg_colors[$index];
+    }
     function getCurrentMonth($date){
         $MonthsTr = [
             1 => "Ocak",

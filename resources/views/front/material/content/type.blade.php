@@ -11,7 +11,6 @@
             <thead>
                 <th>Tür</th>
                 <th class="text-center">Kullanılan</th>
-                <th class="text-center">Kullanılabilir</th>
                 <th class="text-center">Toplam</th>
                 <th class="text-center nosort">İşlemler</th>
             </thead>
@@ -20,7 +19,6 @@
                     <tr>
                         <td>{{$type->name}}</td>
                         <td class="text-center">{{$type->using_item}}</td>
-                        <td class="text-center">{{$type->useable_item}}</td>
                         <td class="text-center">{{$type->total_item}}</td>
                         <td class="text-center">
                             <span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Türü Düzenle">

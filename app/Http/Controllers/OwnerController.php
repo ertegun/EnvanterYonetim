@@ -18,6 +18,7 @@ use App\Models\Software\SoftwareOwner;
 use App\Models\Software\SoftwareType;
 use Illuminate\Http\Request;
 use App\Models\Transaction\Transaction;
+use Carbon\Carbon;
 use PDF;
 
 class OwnerController extends Controller
@@ -277,8 +278,6 @@ class OwnerController extends Controller
             return response()->json($data);
         }
         public function owner_material_table_ajax(Request $request){
-            $last_three_month = strtotime('-3 months');
-            $last_three_month = date('Y-m-d H:i:s',$last_three_month);
             $current_time = now();
             $last_month = strtotime('-1 month');
             $last_month = date('Y-m-d H:i:s',$last_month);
@@ -296,13 +295,64 @@ class OwnerController extends Controller
                 else{
                     $material->prev_issue_time = createTurkishDate($material->created_at);
                 }
-                $month_average = MaterialOwner::where('material_id',$material->material_id)
-                ->whereBetween('created_at',[$last_three_month,$current_time])->count();
-                $material->month_average = ceil($month_average/3);
                 $material->type         =   $material->getInfo->getType->name;
                 $material->issue_time   =   createTurkishDate($material->created_at);
             }
-            $data['materials'] = $materials;
+            $types  =   MaterialType::all();
+            $i=0;
+            foreach($types as $type){
+                $bg_color   =   bgColors($i);
+
+                $total_count    =   MaterialOwner::
+                leftJoin("material","material.id","=","material_owner.material_id")
+                ->where('material.type_id',$type->id)
+                ->where('material_owner.owner_id',$request->id)
+                ->count();
+                if($total_count >0 ){
+                    $first_issue    =   MaterialOwner::
+                    select('material_owner.created_at as created_at')
+                    ->leftJoin("material","material.id","=","material_owner.material_id")
+                    ->where('material.type_id',$type->id)
+                    ->where('material_owner.owner_id',$request->id)
+                    ->orderBy('material_owner.created_at')->first()->created_at;
+                    if($total_count == 1){
+                        $last_issue     =   $first_issue;
+                        $average_day    =   "?";
+                    }
+                    else{
+                        $last_issue     =   MaterialOwner::
+                        select('material_owner.created_at as created_at')
+                        ->leftJoin("material","material.id","=","material_owner.material_id")
+                        ->where('material.type_id',$type->id)
+                        ->where('material_owner.owner_id',$request->id)
+                        ->orderByDesc('material_owner.created_at')->first()->created_at;
+
+                        $day_count      =   Carbon::createFromFormat('Y-m-d H:i:s',$first_issue)
+                        ->diffInDays($last_issue);
+                        $average_day    =   round($day_count/$total_count);
+                    }
+                }
+                else{
+                    $average_day    =   "-";
+                    $total_count    =   "-";
+                }
+
+                $data['html'][] =
+                "<div class='col-11 col-sm-6 col-md-4 col-xl-3'>
+                    <div class='card p-1 my-3 $bg_color'>
+                        <b class='text-center p-1'>$type->name</b>
+                        <b class='small text-center'><u>Toplam Verilen</u></br><h5 class='text-center'> $total_count Adet</h5></b>
+                        <b class='small text-center'><u>Ortalama Kullanım</u></br><h5 class='text-center'> $average_day Gün</h5></b>
+                    </div>
+                </div>";
+                if($i==9){
+                    $i=0;
+                }
+                else{
+                    $i++;
+                }
+            }
+            $data['materials']  =   $materials;
             return response()->json($data);
         }
     //Zimmet Seçimleri İçin Ajax Sorguları

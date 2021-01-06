@@ -60,17 +60,18 @@
             <div class="col-12 pb-3">
                 <div id='materialCollapse' class="collapse card" style="border: none">
                     <table id="materialTable" class="table table-sm table-striped table-bordered table-hover dt-responsive nowrap" style="width: 100%"></table>
+                    <div class="row" id="materialWidget"></div>
                 </div>
             </div>
         </div>
-        <div class="row my-3">
-            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 mr-auto">
+        <div class="row my-2">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 mr-auto my-3">
                 <a href="{{ route('user') }}" class="btn btn-sm btn-primary btn-block">Kullanıcı</a>
             </div>
-            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 ml-auto">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 ml-auto my-3">
                 <a href="{{ route('owner_pdf', ['id'=>$user->id]) }}" class="btn btn-sm btn-danger btn-block ">Zimmet Fişi</a>
             </div>
-            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 ">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2  my-3">
                 <a href="{{ route('owner_create', ['id'=>$user->id]) }}" class="btn btn-sm btn-success btn-block">Zimmet Ekle</a>
             </div>
         </div>

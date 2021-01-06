@@ -23,7 +23,7 @@ $(document).ready( function () {
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,1,2,3]
+                    columns:[0,1,2]
                 }
             },
             {
@@ -33,7 +33,7 @@ $(document).ready( function () {
                 filename: 'Malzeme Türleri Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,1,2,3]
+                    columns:[0,1,2]
                 }
             }
         ],
