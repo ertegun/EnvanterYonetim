@@ -8,12 +8,25 @@
     <div class="col-12 mx-auto mt-3">
         <table id="userTable" class="table table-sm table-striped table-bordered dt-responsive nowrap" style="width: 100%;"></table>
         <div class="row my-3">
+            @canany(['isAdmin','isHR'])
             <div class="col-5 col-sm-4 col-lg-2 col-xl-2 mr-auto">
-                <a href="{{ route('department') }}" class="btn btn-info btn-block">Departmanlar</a>
+                <a href="{{ route('department') }}" class="btn btn-sm btn-info btn-block" >Departmanlar</a>
             </div>
             <div class="col-5 col-sm-4 col-lg-2 col-xl-2 ml-auto">
                 <button type="button" data-toggle="modal" data-target="#userCreateModal" class="btn btn-sm btn-success btn-block">Yeni Kullanıcı</button>
             </div>
+            @else
+            <div class="col-5 col-sm-4 col-lg-2 col-xl-2 mr-auto">
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Yetkiniz Yok!" style="width: 100%">
+                    <button class="btn btn-sm btn-info btn-block" style="pointer-events: none;" type="button" disabled>Departmanlar</button>
+                </span>
+            </div>
+            <div class="col-5 col-sm-4 col-lg-2 col-xl-2 ml-auto">
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Yetkiniz Yok!" style="width: 100%">
+                    <button class="btn btn-sm btn-success btn-block" style="pointer-events: none;" type="button" disabled>Yeni Kullanıcı</button>
+                </span>
+            </div>
+            @endcanany
         </div>
     </div>
 </div>
@@ -37,7 +50,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="userCreateForm" action="{{ route('user_create_ajax') }}" method="POST">
+            <form id="userCreateForm" action="{{ route('user_create') }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="text-center mb-3">

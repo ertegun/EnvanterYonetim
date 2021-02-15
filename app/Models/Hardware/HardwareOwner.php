@@ -6,6 +6,7 @@ class HardwareOwner extends Model
     protected $table="hardware_owner";
     protected $primaryKey="barcode_number";
     public $incrementing = false;
+    public $timestamps = false;
     public function getOwner()
     {
         return $this->hasOneThrough(

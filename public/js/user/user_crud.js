@@ -72,7 +72,7 @@ $(document).ready(function(){
         dropdownParent: $('#userCreateModal'),
     });
 });
-$('#userCreateForm').on('submit',function(e){
+/*$('#userCreateForm').on('submit',function(e){
     e.preventDefault();
     $.ajax({
         type:'POST',
@@ -89,5 +89,5 @@ $('#userCreateForm').on('submit',function(e){
             }
         }
     });
-});
+});*/
 

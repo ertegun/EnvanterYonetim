@@ -34,14 +34,27 @@
             </button>
             <a class="navbar-brand" href="{{ route('homepage') }}">Ana Sayfa</a>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link disabled text-light" href="#" tabindex="-1" aria-disabled="true">{{strtok(Session::get('name'), " ").'(Yönetici)'}}</a>
+                <li class="nav-item navbar-item">
+                    <a class="nav-link text-light mr-auto"
+                    href="https://docs.google.com/document/d/17RLF9jZL7eYGaYopbYxPiXwEZAyBDOvN7vyzZiTiVuE/edit?usp=sharing"
+                    tabindex="-1" aria-disabled="true" target="blank">
+                        <i class="fas fa-wrench"></i>
+                        Güncellemeler
+                    </a>
+                </li>
+                <li class="nav-item navbar-item">
+                    @can('isAdmin')
+                        <a class="nav-link text-light mx-2" href="{{route('admin')}}">
+                    @else
+                        <a class="nav-link text-light mx-2" href="{{route('competent')}}">
+                    @endcan
+                        <i class="fas fa-user"></i>
+                        {{strtok(Auth::user()->name, " ").'('.Auth::user()->getRole->name.')'}}
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="{{ route('logout') }}">Çıkış Yap
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-door-open-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2v13h1V2.5a.5.5 0 0 0-.5-.5H11zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
-                        </svg>
+                        <i class="fas fa-door-open fa-lg"></i>
                     </a>
                 </li>
             </ul>
@@ -53,21 +66,37 @@
                         <div class="bd-toc-item @yield('user_active')" >
                             <a class="bd-toc-link" href="{{ route('user') }}">Kullanıcı</a>
                         </div>
-                        <div class="bd-toc-item @yield('hardware_active')" >
-                            <a class="bd-toc-link" href="{{ route('hardware') }}">Donanım</a>
-                        </div>
-                        <div class="bd-toc-item @yield('software_active')" >
-                            <a class="bd-toc-link" href="{{ route('software') }}">Yazılım</a>
-                        </div>
-                        <div class="bd-toc-item @yield('common_item_active')" >
-                            <a class="bd-toc-link" href="{{ route('common_item') }}">Ortak Kullanım</a>
-                        </div>
+                        @canany(['isAdmin','isIT'])
+                            <div class="bd-toc-item @yield('hardware_active')" >
+                                <a class="bd-toc-link" href="{{ route('hardware') }}" >Donanım</a>
+                            </div>
+                            <div class="bd-toc-item @yield('software_active')" >
+                                <a class="bd-toc-link" href="{{ route('software') }}">Yazılım</a>
+                            </div>
+                            <div class="bd-toc-item @yield('common_item_active')" >
+                                <a class="bd-toc-link" href="{{ route('common_item') }}">Ortak Kullanım</a>
+                            </div>
+                        @endcanany
+                        @canany(['isAdmin','isProducer'])
                         <div class="bd-toc-item @yield('material_active')" >
                             <a class="bd-toc-link" href="{{ route('material') }}">Malzeme</a>
                         </div>
+                        <div class="bd-toc-item @yield('vehicle_active')" >
+                            <a class="bd-toc-link" href="{{ route('vehicle') }}">Araç</a>
+                        </div>
+                        @endcanany
                         <div class="bd-toc-item @yield('transaction_active')" >
                             <a class="bd-toc-link" href="{{ route('transaction') }}">İşlem Geçmişi</a>
                         </div>
+                        @can('isAdmin')
+                            <div class="bd-toc-item @yield('admin_active')" >
+                                <a class="bd-toc-link" href="{{ route('admin') }}">Yönetici Paneli</a>
+                            </div>
+                        @else
+                            <div class="bd-toc-item @yield('competent_active')" >
+                                <a class="bd-toc-link" href="{{ route('competent') }}">Yetkili Paneli</a>
+                            </div>
+                        @endcan
                     </nav>
                 </div>
                 <main class="col-12 col-sm-12 col-md-9 col-xl-10 py-md-3 px-md-4 bd-content" role="main">

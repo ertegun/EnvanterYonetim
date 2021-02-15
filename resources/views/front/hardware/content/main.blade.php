@@ -12,7 +12,7 @@
                 <a href="{{ route('hardware_type') }}" class="btn btn-sm btn-primary btn-block">Tipler</a>
             </div>
             <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 mr-auto mb-2">
-                <a href="{{ route('hardware_model') }}" class="btn btn-sm btn-primary btn-block">Modeller</a>
+                <a href="{{ route('hardware_model') }}" class="btn btn-sm btn-primary btn-block">Markalar</a>
             </div>
             <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 ml-auto">
                 <button type="button" data-toggle="modal" data-target="#hardwareCreateModal" class="btn btn-sm btn-success btn-block">Yeni Ekipman</button>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <button onclick="hardwareCreateShowModel()" class="btn btn-outline-secondary" type="button">Model</button>
+                            <button onclick="hardwareCreateShowModel()" class="btn btn-outline-secondary" type="button">Marka</button>
                         </div>
                         <select class="hardware_create_model_select" id="create_model_select" name="model_id" required>
                             <option ng-repeat="model in models" value="@{{model.id}}">@{{model.name}}</option>
@@ -72,6 +72,12 @@
                             <span class="input-group-text">Seri No</span>
                         </div>
                         <input value="" class="form-control" id="hardware_create_serial_number" name="serial_number" aria-describedby="serial_help">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Ömür(Yıl)</span>
+                        </div>
+                        <input type="number" value="2" min="1" max="10" class="form-control" id="hardware_create_duration" name="duration" required>
                     </div>
                     <small id="serial_help" class="form-text text-muted mb-3">Örn:SN:012345</small>
                     <label for="detail">Detay</label>
@@ -114,12 +120,12 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <button onclick="hardwareUpdateShowModel()" class="btn btn-outline-secondary" type="button">Model</button>
+                            <button onclick="hardwareUpdateShowModel()" class="btn btn-outline-secondary" type="button">Marka</button>
                         </div>
                         <select class="hardware_update_model_select" id="update_model_select" name="model_id" required>
                             <option ng-repeat="model in models" value="@{{model.id}}">@{{model.name}}</option>
                         </select>
-                        <input type="text" id="hardware_update_new_model" placeholder="Yeni Model" name="new_model" class="form-control" disabled style="display: none">
+                        <input type="text" id="hardware_update_new_model" placeholder="Yeni Marka" name="new_model" class="form-control" disabled style="display: none">
                         <div class="input-group-append">
                             <button onclick="hardwareUpdateNewModel()" class="btn btn-outline-secondary" type="button">Yeni</button>
                         </div>
@@ -136,6 +142,12 @@
                             <span class="input-group-text">Seri No</span>
                         </div>
                         <input value="" class="form-control" id="hardware_update_serial_number_info" name="serial_number" aria-describedby="serial_help">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Ömür(Yıl)</span>
+                        </div>
+                        <input type="number" min="1" max="10" class="form-control" id="hardware_update_duration" name="duration" required>
                     </div>
                     <small id="serial_help" class="form-text text-muted mb-3">Örn:SN:012345</small>
                     <label for="detail">Detay</label>
@@ -170,7 +182,7 @@
                 <div class="modal-body px-5">
                     <div>
                         <b><u>Tip:</u></b> <span id="hardware_delete_type"></span></br>
-                        <b><u>Model:</u></b> <span id="hardware_delete_model"></span></br>
+                        <b><u>Marka:</u></b> <span id="hardware_delete_model"></span></br>
                         <b><u>Barkod No:</u></b> <span id="hardware_delete_barcode_number_info"></span></br>
                         <b><u>Seri No:</u></b> <span id="hardware_delete_serial_number"></span></br>
                         <b><u>Detay:</u></b></br> <span id="hardware_delete_detail"></span></br>

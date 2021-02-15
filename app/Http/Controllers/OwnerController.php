@@ -18,8 +18,11 @@ use App\Models\Software\SoftwareOwner;
 use App\Models\Software\SoftwareType;
 use Illuminate\Http\Request;
 use App\Models\Transaction\Transaction;
+use App\Models\Vehicle\Vehicle;
+use App\Models\Vehicle\VehicleModel;
+use App\Models\Vehicle\VehicleOwner;
 use Carbon\Carbon;
-use PDF;
+use Illuminate\Support\Facades\Auth;
 
 class OwnerController extends Controller
 {
@@ -39,9 +42,11 @@ class OwnerController extends Controller
         public function owner_create_result(Request $request)
         {
             $user = User::find($request->user_id);
+            $issue_time_stamp = strtotime($request->issue_time);
+            $issue_time = date('Y-m-d H:i:s',$issue_time_stamp);
             if(isset($request->hardwares)){
                 foreach($request->hardwares as $item){
-                    $control = HardwareOwner::insert(['hardware_id' => $item,'owner_id' => $user->id]);
+                    $control = HardwareOwner::insert(['hardware_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
                     if($control){
                         $hardware = Hardware::where('id',$item)->first();
                         $trans_info = 'Tür: '.$hardware->getType->name.
@@ -59,12 +64,12 @@ class OwnerController extends Controller
                         Transaction::insert([
                             'type_id' => 1,
                             'user_id' => $user->id,
-                            'admin_name' => $request->session()->get('name'),
+                            'admin_name' => Auth::user()->name,
                             'user_name' => $user->name,
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => now()
+                            'created_at' => $issue_time
                         ]);
                     }
                     else{
@@ -74,7 +79,7 @@ class OwnerController extends Controller
             }
             if(isset($request->softwares)){
                 foreach($request->softwares as $item){
-                    $control = SoftwareOwner::insert(['software_id' => $item,'owner_id' => $user->id]);
+                    $control = SoftwareOwner::insert(['software_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
                     if($control){
                         $software = Software::find($item);
                         $trans_info = 'Tür: '.$software->getType->name.
@@ -89,12 +94,12 @@ class OwnerController extends Controller
                         Transaction::insert([
                             'type_id' => 3,
                             'user_id' => $user->id,
-                            'admin_name' => $request->session()->get('name'),
+                            'admin_name' => Auth::user()->name,
                             'user_name' => $user->name,
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => now()
+                            'created_at' => $issue_time
                         ]);
                     }
                     else{
@@ -104,7 +109,7 @@ class OwnerController extends Controller
             }
             if(isset($request->commons)){
                 foreach($request->commons as $item){
-                    $control = CommonItemOwner::insert(['common_item_id' => $item,'owner_id' => $user->id]);
+                    $control = CommonItemOwner::insert(['common_item_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
                     if($control){
                         $common = CommonItem::find($item);
                         $trans_info = 'Tür: '.$common->getType->name.
@@ -122,12 +127,12 @@ class OwnerController extends Controller
                         Transaction::insert([
                             'type_id' => 7,
                             'user_id' => $user->id,
-                            'admin_name' => $request->session()->get('name'),
+                            'admin_name' => Auth::user()->name,
                             'user_name' => $user->name,
                             'user_email' => $user->email,
                             'trans_info' => $trans_info,
                             'trans_details' => $trans_details,
-                            'created_at' => now()
+                            'created_at' => $issue_time
                         ]);
                         CommonItem::where('id',$item)->update([
                             'owner_count' => $common->owner_count+1,
@@ -141,7 +146,7 @@ class OwnerController extends Controller
             }
             if(isset($request->materials)){
                 foreach($request->materials as $item){
-                    $control = MaterialOwner::insert(['material_id' => $item,'owner_id' => $user->id]);
+                    $control = MaterialOwner::insert(['material_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
                     if($control){
                         $material = Material::find($item);
                         if($material->detail != NULL){
@@ -157,12 +162,45 @@ class OwnerController extends Controller
                         Transaction::insert([
                             'type_id' => 5,
                             'user_id' => $user->id,
-                            'admin_name' => $request->session()->get('name'),
+                            'admin_name' => Auth::user()->name,
                             'user_name' => $user->name,
                             'user_email' => $user->email,
                             'trans_info' => $material->getType->name,
                             'trans_details' => $trans_details,
-                            'created_at' => now()
+                            'created_at' => $issue_time
+                        ]);
+                    }
+                    else{
+                        return redirect()->route('owner_create',['id'=>$request->id])->withCookie(cookie('error', 'Zimmet Atama(ları) İşlemi Başarısız!',0.02));
+                    }
+                }
+            }
+            if(isset($request->vehicles)){
+                foreach($request->vehicles as $item){
+                    $control = VehicleOwner::insert(['vehicle_id' => $item,'owner_id' => $user->id,'created_at' => $issue_time]);
+                    if($control){
+                        $vehicle = Vehicle::find($item);
+                        if($vehicle->detail != NULL){
+                            $trans_details = str_replace('\\n','  ',$vehicle->detail);
+                            if(strlen($vehicle->detail) > 30){
+                                $trans_details = str_split($trans_details,28);
+                                $trans_details = $trans_details[0]."...";
+                            }
+                        }
+                        else{
+                            $trans_details = "Yok";
+                        }
+                        $trans_info = "Araç Adı: $vehicle->name".
+                        "   Marka: ".$vehicle->getModel->name;
+                        Transaction::insert([
+                            'type_id' => 9,
+                            'user_id' => $user->id,
+                            'admin_name' => Auth::user()->name,
+                            'user_name' => $user->name,
+                            'user_email' => $user->email,
+                            'trans_info' => $trans_info,
+                            'trans_details' => $trans_details,
+                            'created_at' => $issue_time
                         ]);
                     }
                     else{
@@ -172,7 +210,7 @@ class OwnerController extends Controller
             }
                 return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Atama(ları) Başarılı!',0.02));
         }
-    //ZİMMET İADE
+    //Zimmet İade
         public function hardware_drop(Request $request){
             $control = HardwareOwner::where('hardware_id',$request->hardware_id)->delete();
             if($control>0){
@@ -193,7 +231,7 @@ class OwnerController extends Controller
                 Transaction::insert([
                     'type_id'=> 2,
                     'user_id'=>$user->id,
-                    'admin_name'=>$request->session()->get('name'),
+                    'admin_name'=>Auth::user()->name,
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
                     'trans_info'=>$trans_info,
@@ -224,7 +262,7 @@ class OwnerController extends Controller
                 Transaction::insert([
                     'type_id'=> 4,
                     'user_id'=>$user->id,
-                    'admin_name'=>$request->session()->get('name'),
+                    'admin_name'=>Auth::user()->name,
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
                     'trans_info'=>$trans_info,
@@ -262,7 +300,7 @@ class OwnerController extends Controller
                 Transaction::insert([
                     'type_id'=> 8,
                     'user_id'=>$user->id,
-                    'admin_name'=>$request->session()->get('name'),
+                    'admin_name'=>Auth::user()->name,
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
                     'trans_info'=>$trans_info,
@@ -294,7 +332,7 @@ class OwnerController extends Controller
                 Transaction::insert([
                     'type_id'=> 6,
                     'user_id'=>$user->id,
-                    'admin_name'=>$request->session()->get('name'),
+                    'admin_name'=>Auth::user()->name,
                     'user_name'=>$user->name,
                     'user_email'=>$user->email,
                     'trans_info'=>$material->getType->name,
@@ -308,38 +346,102 @@ class OwnerController extends Controller
 
             }
         }
+        public function vehicle_drop(Request $request){
+            $control = VehicleOwner::where('vehicle_id',$request->vehicle_id)->delete();
+            if($control>0){
+                $user = User::find($request->user_id);
+                $vehicle = Vehicle::find($request->vehicle_id);
+                $trans_info = 'Araç Adı: '.$vehicle->name.
+                '  Marka: '.$vehicle->getModel->name;
+                if($vehicle->detail != NULL){
+                    $trans_details = str_replace('\\n','  ',$vehicle->detail);
+                    if(strlen($vehicle->detail) > 30){
+                        $trans_details = str_split($trans_details,28);
+                        $trans_details = $trans_details[0]."...";
+                    }
+                }
+                else{
+                    $trans_details = "Yok";
+                }
+                Transaction::insert([
+                    'type_id'=> 10,
+                    'user_id'=>$user->id,
+                    'admin_name'=>Auth::user()->name,
+                    'user_name'=>$user->name,
+                    'user_email'=>$user->email,
+                    'trans_info'=>$trans_info,
+                    'trans_details'=>$trans_details,
+                    'created_at'=>now()
+                ]);
+                return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Araç Teslim Alındı!',0.02));
+            }
+            else{
+                return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Araç Teslim Alma İşlemi Başarısız!',0.02));
+
+            }
+        }
     //Tablolar İçin Ajax Sorguları
         public function owner_hardware_table_ajax(Request $request){
             $hardwares = HardwareOwner::where('owner_id',$request->id)->get();
+            if($request->user()->can('isAdmin') || $request->user()->can('isIT')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
             foreach($hardwares as $hardware){
+                $hardware->role         =   $role;
                 $hardware->type         =   $hardware->getInfo->getType->name;
                 $hardware->model        =   $hardware->getInfo->getModel->name;
                 $hardware->issue_time   =   createTurkishDate($hardware->created_at);
+                $hardware->issue_input  =   date('Y-m-d',strtotime($hardware->created_at));
             }
             $data['hardwares'] = $hardwares;
             return response()->json($data);
         }
         public function owner_software_table_ajax(Request $request){
             $softwares = SoftwareOwner::where('owner_id',$request->id)->get();
+            if($request->user()->can('isAdmin') || $request->user()->can('isIT')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
             foreach($softwares as $software){
+                $software->role             =   $role;
                 $software->type             =   $software->getInfo->getType->name;
                 $software->issue_time       =   createTurkishDate($software->created_at);
                 $software->start_time_show  =   createTurkishDate($software->getInfo->start_time);
                 $software->finish_time_show =   createTurkishDate($software->getInfo->finish_time);
+                $software->issue_input      =   date('Y-m-d',strtotime($software->created_at));
             }
             $data['softwares'] = $softwares;
             return response()->json($data);
         }
         public function owner_common_table_ajax(Request $request){
             $commons = CommonItemOwner::where('owner_id',$request->id)->get();
+            if($request->user()->can('isAdmin') || $request->user()->can('isIT')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
             foreach($commons as $common){
-                $common->type         =   $common->getInfo->getType->name;
-                $common->issue_time   =   createTurkishDate($common->created_at);
+                $common->role           =   $role;
+                $common->type           =   $common->getInfo->getType->name;
+                $common->issue_time     =   createTurkishDate($common->created_at);
+                $common->issue_input    =   date('Y-m-d',strtotime($common->created_at));
             }
             $data['commons'] = $commons;
             return response()->json($data);
         }
         public function owner_material_table_ajax(Request $request){
+            if($request->user()->can('isAdmin') || $request->user()->can('isProducer')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
             $current_time = now();
             $last_month = strtotime('-1 month');
             $last_month = date('Y-m-d H:i:s',$last_month);
@@ -359,6 +461,8 @@ class OwnerController extends Controller
                 }
                 $material->type         =   $material->getInfo->getType->name;
                 $material->issue_time   =   createTurkishDate($material->created_at);
+                $material->issue_input  =   date('Y-m-d',strtotime($material->created_at));
+                $material->role         =   $role;
             }
             $types  =   MaterialType::all();
             $i=0;
@@ -415,6 +519,23 @@ class OwnerController extends Controller
                 }
             }
             $data['materials']  =   $materials;
+            return response()->json($data);
+        }
+        public function owner_vehicle_table_ajax(Request $request){
+            $vehicles = VehicleOwner::where('owner_id',$request->id)->get();
+            if($request->user()->can('isAdmin') || $request->user()->can('isProducer')){
+                $role= true;
+            }
+            else{
+                $role = false;
+            }
+            foreach($vehicles as $vehicle){
+                $vehicle->role          =   $role;
+                $vehicle->model         =   $vehicle->getInfo->getModel->name;
+                $vehicle->issue_time    =   createTurkishDate($vehicle->created_at);
+                $vehicle->issue_input   =   date('Y-m-d',strtotime($vehicle->created_at));
+            }
+            $data['vehicles'] = $vehicles;
             return response()->json($data);
         }
     //Zimmet Seçimleri İçin Ajax Sorguları
@@ -671,6 +792,70 @@ class OwnerController extends Controller
                 }
             }
         }
+        public function get_useable_vehicle(Request $request){
+            if(isset($request->search)){
+                $search = "%".$request->search."%";
+                $useable_vehicle = Vehicle::select('vehicle.id as id','vehicle.name as name','vehicle_model.name as model','detail')
+                ->leftJoin("vehicle_owner","vehicle_owner.vehicle_id","=","vehicle.id")
+                ->leftJoin("vehicle_model","vehicle_model.id","=","vehicle.model_id")
+                ->whereNull('owner_id')
+                ->where(function($query) use ($search){
+                    $query->where('vehicle.name','like',$search)
+                    ->orWhere('vehicle_model.name','like',$search)
+                    ->orWhere('vehicle.detail','like',$search);
+                })->get();
+                if(count($useable_vehicle)>0){
+                    foreach($useable_vehicle as $item){
+                        $detail = str_split($item->detail,30);
+                        $detail = $detail[0];
+                        $detail = str_replace('\\n','</br>',$detail);
+                        $text = "<b>$item->model</b>";
+                        $html = "<div class='border border-dark p-3'>
+                        <span><b><u>Araç Adı:</u></b> $item->name</span></br>
+                        <span><b><u>Marka:</u></b> $item->model</span></br>
+                        <span><b><u>Detay:</u></b> $detail</span></br></div>";
+                        $data[] = array(
+                            'id'=> $item->id,
+                            'text'=> $text,
+                            'html' => $html,
+                            'detail' => $item->detail
+                        );
+                    }
+                    return response()->json($data);
+                }
+                else{
+                    return null;
+                }
+            }
+            else{
+                $vehicle = Vehicle::select('vehicle.id as id','vehicle.name as name','vehicle_model.name as model','detail')
+                ->leftJoin("vehicle_owner","vehicle_owner.vehicle_id","=","vehicle.id")
+                ->leftJoin("vehicle_model","vehicle_model.id","=","vehicle.model_id")
+                ->whereNull('owner_id')->limit(5)->get();
+                if(count($vehicle)>0){
+                    foreach($vehicle as $item){
+                        $detail = str_split($item->detail,30);
+                        $detail = $detail[0];
+                        $detail = str_replace('\\n','</br>',$detail);
+                        $text = "<b>$item->model-$item->name</b>";
+                        $html = "<div class='border border-dark p-3'>
+                        <span><b><u>Araç Adı:</u></b> $item->name</span></br>
+                        <span><b><u>Marka:</u></b> $item->model</span></br>
+                        <span><b><u>Detay:</u></b> $detail</span></br></div>";
+                        $data[] = array(
+                            'id'=> $item->id,
+                            'text'=> $text,
+                            'html' => $html,
+                            'detail' => $item->detail
+                        );
+                    }
+                    return response()->json($data);
+                }
+                else{
+                    return null;
+                }
+            }
+        }
     //Zimmet Sayfasında Yeni Envanter Oluşturma
         public function hardware_create_ajax (Request $request){
             //KONTROL
@@ -716,6 +901,12 @@ class OwnerController extends Controller
                     $control    =   Hardware::where('serial_number',$request->serial_number)->count();
                     if($control>0){
                         $data['error'] = "Seri Numarası Kullanılıyor!";
+                        return response()->json($data);
+                    }
+                }
+                if(isset($request->duration)){
+                    if($request->duration<1 || $request->duration>10){
+                        $data['error'] = "Ömür Hatalı!";
                         return response()->json($data);
                     }
                 }
@@ -784,6 +975,7 @@ class OwnerController extends Controller
                     'type_id'=>$type_id,
                     'model_id'=>$model_id,
                     'detail'=>$detail,
+                    'duration'=>$request->duration,
                     'created_at'=>now(),
                     'updated_at'=>now()
                 ]);
@@ -796,7 +988,8 @@ class OwnerController extends Controller
                 }
                 else{
                     $data['error'] = "Donanım Ekleme Sırasında Hata!";
-                    return response()->json($data);            }
+                    return response()->json($data);
+                }
         }
         public function software_create_ajax (Request $request){
             //KONTROL
@@ -981,18 +1174,168 @@ class OwnerController extends Controller
                 return response()->json($data);
             }
         }
+        public function vehicle_create_ajax(Request $request)
+        {
+            //KONTROL
+                if($request->new_model){
+                    $model = VehicleModel::where('name',$request->new_model)->first();
+                    if($model){
+                        $data['error'] = "Bu Marka Zaten Mevcut!";
+                        return response()->json($data);
+                    }
+                }
+                else{
+                    $model = VehicleModel::find($request->model_id);
+                    if($model==NULL){
+                        $data['error'] = "İşlem Sırasında Hata!";
+                        return response()->json($data);
+                    }
+                }
+            //Araç Ekleme
+                $get_detail = trim($request->detail);
+                $get_detail = explode(PHP_EOL,$get_detail);
+                $detail='';
+                for($i=0;$i<count($get_detail);$i++){
+                    if($i != (count($get_detail)-1)){
+                        $detail .=  $get_detail[$i].'\n';
+                    }
+                    else{
+                        $detail .=  $get_detail[$i];
+                    }
+                }
+                if($request->new_model){
+                    VehicleModel::insert(['name' => $request->new_model,'created_at' => now(),'updated_at' => now()]);
+                    $model = VehicleModel::where('name',$request->new_model)->first();
+                    $model_id = $model->id;
+                    $data['model'] = array('id'=>$model_id,'text'=>$model->name);
+                }
+                else{
+                    $model_id = $request->model_id;
+                }
+                $control        =   Vehicle::insert([
+                    'name'=>$request->name,
+                    'model_id'=>$model_id,
+                    'detail'=>$detail,
+                    'created_at'=>now(),
+                    'updated_at'=>now()
+                ]);
+                if($control>0){
+                    $item = Vehicle::orderByDesc('id')->first();
+                    $model = $item->getModel->name;
+                    $data['id'] = $item->id;
+                    $data['text'] ="<b>$model-$item->name</b>";
+                    return response()->json($data);
+                }
+                else{
+                    $data['error'] = "Araç Ekleme Sırasında Hata!";
+                    return response()->json($data);
+                }
+        }
     //Zimmet Fişi
         public function owner_pdf($id){
             $user               =   User::find($id);
-            $items              =   Owner::where('id',$id)->get();
+            $hardware           =   $user->getHardware;
+            $software           =   $user->getSoftware;
             $i=1;
-            foreach($items as $item){
-                $item->type     =   $item->getType->name;
-                $item->detail   =   $item->getDetail->detail;
-                $item->sn       =   $item->getDetail->sn;
+            foreach($hardware as $item){
+                $item->id               =   $i;
+                $item->type             =   $item->getInfo->getType->name;
+                $detail                 =   $item->getInfo->detail;
+                $item->serial_number    =   $item->getInfo->serial_number;
+                $item->barcode_number   =   $item->getInfo->barcode_number;
+                if($item->serial_number == NULL){
+                    $item->serial_number = "Belirtilmemiş";
+                }
+                if($detail != NULL){
+                    $detail = str_replace('\\n','  ',$detail);
+                    if(strlen($detail) > 40){
+                        $detail = str_split($detail,38);
+                        $detail = $detail[0]."...";
+                    }
+                }
+                else{
+                    $detail = "Yok";
+                }
+                $item->detail           =   $detail;
+                $item->issue_time       =   date_create($item->created_at)->format('d/m/Y');
+                $i++;
+            }
+            $i=1;
+            foreach($software as $item){
+                $info           =   $item->getInfo;
+                $item->type     =   $info->getType->name;
+                $item->name     =   $info->name;
+                $license_time   =   $info->license_time;
+                if($license_time == NULL){
+                    $item->license_time = "Süresiz";
+                }
+                else{
+                    $item->license_time = $license_time." Yıl";
+                }
+                $item->issue_time       =   date_create($item->created_at)->format('d/m/Y');
                 $item->id    =   $i;
                 $i++;
             }
-            return view('front.owner.pdf',compact('items','user'));
+            return view('front.owner.pdf',compact('user','hardware','software'));
+        }
+    //Zimmet Tarihi Değiştirme
+        public function change_issue_time(Request $request){
+            $item_type = $request->item_type;
+            $issue_time = date('Y-m-d H:i:s',strtotime($request->issue_time));
+            if($item_type == 'hardware'){
+                $control = HardwareOwner::where('hardware_id',$request->item_id)->where('owner_id',$request->user_id)->update([
+                    'created_at' => $issue_time
+                ]);
+                if($control >0 ){
+                    return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
+                }
+                else{
+                    return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Zimmet Tarihi Değiştirme İşlemi Başarısız',0.02));
+                }
+            }
+            else if($item_type == 'software'){
+                $control = SoftwareOwner::where('software_id',$request->item_id)->where('owner_id',$request->user_id)->update([
+                    'created_at' => $issue_time
+                ]);
+                if($control >0 ){
+                    return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
+                }
+                else{
+                    return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Zimmet Tarihi Değiştirme İşlemi Başarısız',0.02));
+                }
+            }
+            else if($item_type == 'common'){
+                $control = CommonItemOwner::where('common_item_id',$request->item_id)->where('owner_id',$request->user_id)->update([
+                    'created_at' => $issue_time
+                ]);
+                if($control >0 ){
+                    return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
+                }
+                else{
+                    return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Zimmet Tarihi Değiştirme İşlemi Başarısız',0.02));
+                }
+            }
+            else if($item_type == 'material'){
+                $control = MaterialOwner::where('id',$request->item_id)->where('owner_id',$request->user_id)->update([
+                    'created_at' => $issue_time
+                ]);
+                if($control >0 ){
+                    return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
+                }
+                else{
+                    return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Zimmet Tarihi Değiştirme İşlemi Başarısız',0.02));
+                }
+            }
+            else{
+                $control = VehicleOwner::where('vehicle_id',$request->item_id)->where('owner_id',$request->user_id)->update([
+                    'created_at' => $issue_time
+                ]);
+                if($control >0 ){
+                    return redirect()->route("owner",['id'=>$request->user_id])->withCookie(cookie('success', 'Zimmet Tarihi Değiştirme İşlemi Başarılı!',0.02));
+                }
+                else{
+                    return redirect()->route('owner',['id'=>$request->user_id])->withCookie(cookie('error', 'Zimmet Tarihi Değiştirme İşlemi Başarısız',0.02));
+                }
+            }
         }
 }

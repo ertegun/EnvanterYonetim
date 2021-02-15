@@ -42,6 +42,11 @@ $(document).ready( function () {
                 class: 'text-center'
             },
             {
+                title:'Araç',
+                data:'vehicle_count',
+                class: 'text-center'
+            },
+            {
                 title:'İşlemler',
                 data:'all_equipment',
                 class: 'text-center',
@@ -50,22 +55,50 @@ $(document).ready( function () {
                     email = email.split('@')[0];
                     var html ='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcı Üzerinde Zimmet İşlemleri">'
                     +'<a href="zimmet/'+row.id+'" class="text-decoration-none">'
-                    +'<i class="fas fa-street-view table-icon text-success"></i></a></span>'
-                    +'<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıya Zimmet Ata">'
-                    +'<a href="zimmet/yeni/'+row.id+'" class="text-decoration-none">'
-                    +'<i class="fas fa-truck-loading table-icon text-dark"></i></a></span>'
-                    +'<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıyı Düzenle">'
-                    +'<a data-toggle="modal" data-target="#userUpdateModal" onclick="userUpdate(\''+row.department_id+'\',\''+row.name+'\',\''+email+'\',\''+row.id+'\')" class="text-decoration-none">'
-                    +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
-                    if(row.all_equipment == 0){
-                        html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıyı Siler">'
-                        +'<a data-toggle="modal" data-target="#userDeleteModal" onclick="userDelete(\''+row.id+'\',\''+row.name+'\',\''+row.department+'\')" class="text-decoration-none">'
-                        +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
+                    +'<i class="fas fa-street-view table-icon text-success"></i></a></span>';
+                    if(row.debit){
+                        html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıya Zimmet Ata">'
+                        +'<a href="zimmet/yeni/'+row.id+'" class="text-decoration-none">'
+                        +'<i class="fas fa-truck-loading table-icon text-dark"></i></a></span>';
                     }
                     else{
-                        html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Öncelikle kullanıcı üzerindeki ekipmanları iade alınız!">'
+                        html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Yetkiniz Yok!">'
                         +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
-                        +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
+                        +'<i class="fas fa-truck-loading table-icon-disabled"></i></a></span>';
+                    }
+                    if(row.user_crud){
+                        html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıyı Düzenle">'
+                        +'<a data-toggle="modal" data-target="#userUpdateModal" onclick="userUpdate(\''+row.department_id+'\',\''+row.name+'\',\''+email+'\',\''+row.id+'\')" class="text-decoration-none">'
+                        +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
+                    }
+                    else{
+                        html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Yetkiniz Yok!">'
+                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
+                        +'<i class="fas fa-edit table-icon-disabled"></i></a></span>';
+                    }
+                    if(row.all_equipment == 0){
+                        if(row.user_crud){
+                            html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Kullanıcıyı Siler">'
+                            +'<a data-toggle="modal" data-target="#userDeleteModal" onclick="userDelete(\''+row.id+'\',\''+row.name+'\',\''+row.department+'\')" class="text-decoration-none">'
+                            +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
+                        }
+                        else{
+                            html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Yetkiniz Yok!">'
+                            +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
+                            +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
+                        }
+                    }
+                    else{
+                        if(row.user_crud){
+                            html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Öncelikle kullanıcı üzerindeki ekipmanları iade alınız!">'
+                            +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
+                            +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
+                        }
+                        else{
+                            html+='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Yetkiniz Yok!">'
+                            +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
+                            +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
+                        }
                     }
                     html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="İşlemlerini Görüntüle">'
                     +'<a href="kullanici/islemler/'+row.id+'" class="text-decoration-none">'

@@ -34,6 +34,13 @@ function createHardwareTable (){
                 }
             },
             {
+                title:'Ömür',
+                data:'get_info.duration',
+                render:function(data,row){
+                    return data+' Yıl';
+                }
+            },
+            {
                 title:'Detay',
                 data:'get_info.detail',
                 render:function(data){
@@ -60,29 +67,47 @@ function createHardwareTable (){
             },
             {
                 title:'Zimmet Tarihi',
-                data:'issue_time'
+                data:null,
+                render:function(row){
+                    var html = '';
+                    if(row.role){
+                        html += '<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Zimmet Tarihini Değiştir">'
+                        +'<a data-toggle="modal" data-target="#changeIssueTimeModal" '
+                        +'onclick="changeIssueTime(\'hardware\',\''+row.get_info.id+'\',\''+row.issue_input+'\')"'
+                        +' class="text-decoration-none"><i class="fas fa-clock table-icon text-success"></i></a></span>';
+                    }
+                    html+=row.issue_time;
+                    return html;
+                }
             },
             {
                 title:'İşlemler',
                 data:null,
                 class: 'text-center',
                 render:function(row){
-                    if(row.get_info.detail){
-                        var detail = row.get_info.detail.replaceAll('\\n', '</br>');
+                    if(row.role){
+                        if(row.get_info.detail){
+                            var detail = row.get_info.detail.replaceAll('\\n', '</br>');
+                        }
+                        else{
+                            var detail = '';
+                        }
+                        if(row.get_info.serial_number){
+                            var serial_number = row.get_info.serial_number;
+                        }
+                        else{
+                            var serial_number = '-';
+                        }
+                        var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Donanımı İade Al">'
+                        +'<a data-toggle="modal" data-target="#hardwareDropModal" '
+                        +'onclick="hardwareDrop(\''+row.get_info.id+'\',\''+row.get_info.barcode_number+'\',\''+serial_number+'\',\''+detail+'\',\''+row.type+'\',\''+row.model+'\',\''+row.issue_time+'\')"'
+                        +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     }
                     else{
-                        var detail = '';
+                        var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Yetkiniz Yok!">'
+                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
+                        +'<i class="fas fa-eraser table-icon-disabled"></i></a></span>';
                     }
-                    if(row.get_info.serial_number){
-                        var serial_number = row.get_info.serial_number;
-                    }
-                    else{
-                        var serial_number = '-';
-                    }
-                    var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Donanımı İade Al">'
-                    +'<a data-toggle="modal" data-target="#hardwareDropModal" '
-                    +'onclick="hardwareDrop(\''+row.get_info.id+'\',\''+row.get_info.barcode_number+'\',\''+serial_number+'\',\''+detail+'\',\''+row.type+'\',\''+row.model+'\',\''+row.issue_time+'\')"'
-                    +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     return html;
                 }
             },
@@ -122,7 +147,7 @@ function createHardwareTable (){
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,1,2,6,7,4]
+                    columns:[0,1,2,7,3,8,5]
                 }
             },
             {
@@ -132,7 +157,7 @@ function createHardwareTable (){
                 filename: $('#userName').data('name')+' Donanım Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,1,2,6,7,4],
+                    columns:[0,1,2,7,3,8,5],
                     trim:false
                 }
             }

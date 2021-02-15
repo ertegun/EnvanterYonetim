@@ -84,19 +84,16 @@ $(document).ready( function () {
                     var detail_text = '';
                     var detail = '';
                 }
+                html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
+                +'<a onclick="commonItemUpdate(\''+row.id+'\',\''+row.type_id+'\',\''+row.name+'\',\''+detail_text+'\')" data-toggle="modal" data-target="#commonItemUpdateModal">'
+                +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
                 if(row.owner_count == 0){
-                    html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
-                    +'<a onclick="commonItemUpdate(\''+row.id+'\',\''+row.type_id+'\',\''+row.name+'\',\''+detail_text+'\')" data-toggle="modal" data-target="#commonItemUpdateModal">'
-                    +'<i class="fas fa-edit table-icon text-primary"></i></a></span>'
-                    +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
+                    html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
                     +'<a onclick="commonItemDelete(\''+row.id+'\',\''+row.type+'\',\''+row.name+'\',\''+detail+'\')" data-toggle="modal" data-target="#commonItemDeleteModal">'
                     +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
                 }
                 else{
-                    html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli </br> Ekipman Üzerindeki </br>Tüm Kullanıcıları Kullanıcı</br> Sayfasından Kullanım Dışı </br> Yapınız!">'
-                    +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
-                    +'<i class="fas fa-edit table-icon-disabled"></i></a></span>'
-                    +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Ekipman </br> Üzerindeki </br>Tüm Kullanıcıları Kullanıcı</br> Sayfasından Kullanım Dışı </br> Yapınız!">'
+                    html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Ekipman </br> Üzerindeki </br>Tüm Kullanıcıları Kullanıcı</br> Sayfasından Kullanım Dışı </br> Yapınız!">'
                     +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
                     +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
                 }

@@ -5,8 +5,8 @@
                 <i ng-style="widget_icon[0]" class="fas fa-hdd widget-icon"></i>
                 <span class="widget-info">Donanım</span>
                 <span class="widget-text">
-                    <a class="widget-href" href="{{route('hardware')}}">
-                        @{{result.hardware_use}}/@{{result.hardware_all}}
+                    <a class="widget-href" @canany(['isAdmin','isIT'])href="{{route('hardware')}}" @endcanany>
+                        @{{result.hardware_all}}
                     </a>
                 </span>
             </div>
@@ -26,8 +26,8 @@
                 <i ng-style="widget_icon[1]" class="fas fa-compact-disc widget-icon"></i>
                 <span class="widget-info">Yazılım</span>
                 <span class="widget-text">
-                    <a class="widget-href" href="{{route('software')}}">
-                        @{{result.software_use}}/@{{result.software_all}}
+                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('software')}}" @endcanany>
+                        @{{result.software_all}}
                     </a>
                 </span>
             </div>
@@ -47,7 +47,7 @@
                 <i ng-style="widget_icon[2]" class="fas fa-users widget-icon"></i>
                 <span class="widget-info">Kullanıcı</span>
                 <span class="widget-text">
-                    <a class="widget-href ml-5 pl-5" href="{{route('user')}}">
+                    <a class="widget-href" href="{{route('user')}}">
                         @{{result.user}}
                     </a>
                 </span>
@@ -68,7 +68,7 @@
                 <i ng-style="widget_icon[3]" class="fas fa-tools widget-icon"></i>
                 <span class="widget-info">Malzeme</span>
                 <span class="widget-text">
-                    <a class="widget-href ml-5 pl-5" href="{{route('material')}}">
+                    <a class="widget-href" @canany(['isAdmin','isProducer']) href="{{route('material')}}" @endcanany>
                         @{{result.material_all}}
                     </a>
                 </span>
@@ -89,8 +89,8 @@
                 <i ng-style="widget_icon[4]" class="fas fa-handshake widget-icon"></i>
                 <span class="widget-info">Ortak Kullanım</span>
                 <span class="widget-text">
-                    <a class="widget-href" href="{{route('common_item')}}">
-                        @{{result.common_use}}/@{{result.common_all}}
+                    <a class="widget-href" @canany(['isAdmin','isIT']) href="{{route('common_item')}}" @endcanany>
+                        @{{result.common_all}}
                     </a>
                 </span>
             </div>
@@ -107,11 +107,11 @@
     <div class="col-12 col-md-6 col-log-4 col-xl-4 my-3" ng-show="widget_ok" ng-cloak>
         <div class="card bg-warning">
             <div ng-mouseenter="WidgetMouseEnter(5)" ng-mouseleave="WidgetMouseLeave(5)" class="card-header info-widget">
-                <i ng-style="widget_icon[5]" class="fas fa-briefcase widget-icon"></i>
-                <span class="widget-info">Departman</span>
+                <i ng-style="widget_icon[5]" class="fas fa-truck widget-icon"></i>
+                <span class="widget-info">Araç</span>
                 <span class="widget-text">
-                    <a class="widget-href ml-5 pl-5" href="{{route('department')}}">
-                        @{{result.department}}
+                    <a class="widget-href" @canany(['isAdmin','isProducer']) href="{{route('vehicle')}}" @endcanany>
+                        @{{result.vehicle_all}}
                     </a>
                 </span>
             </div>
@@ -127,7 +127,7 @@
     </div>
 </div>
 <div class="row" ng-controller="HomepageTables">
-    <div class="col-6 my-3">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
         <div class="card">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -137,7 +137,7 @@
             <canvas id="currentMonthTransactionChart"></canvas>
         </div>
     </div>
-    <div class="col-6 my-3">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
         <div class="card">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -147,7 +147,7 @@
             <canvas id="FiveMonthMaterialChart"></canvas>
         </div>
     </div>
-    <div class="col-6 my-3">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
         <div class="card">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -170,7 +170,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6 my-3">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6 my-3">
         <div class="card">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

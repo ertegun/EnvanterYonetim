@@ -13,7 +13,7 @@ $(document).ready( function () {
                 data: 'type',
             },
             {
-                title:'Model',
+                title:'Marka',
                 data:'model'
             },
             {
@@ -31,6 +31,13 @@ $(document).ready( function () {
                          html += row.barcode_number;
                     }
                     return html;
+                }
+            },
+            {
+                title:'Ömür',
+                data:'duration',
+                render:function(data,row){
+                    return data+' Yıl';
                 }
             },
             {
@@ -90,20 +97,16 @@ $(document).ready( function () {
                     else{
                         var serial_number = '';
                     }
-                        var html ='';
+                        var html ='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
+                        +'<a onclick="hardwareUpdate(\''+row.barcode_number+'\',\''+serial_number+'\',\''+detail_text+'\',\''+row.type_id+'\',\''+row.model_id+'\',\''+row.prefix+'\',\''+row.duration+'\')" data-toggle="modal" data-target="#hardwareUpdateModal">'
+                        +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
                     if(!row.owner){
-                        html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
-                        +'<a onclick="hardwareUpdate(\''+row.barcode_number+'\',\''+serial_number+'\',\''+detail_text+'\',\''+row.type_id+'\',\''+row.model_id+'\',\''+row.prefix+'\')" data-toggle="modal" data-target="#hardwareUpdateModal">'
-                        +'<i class="fas fa-edit table-icon text-primary"></i></a></span>'
-                        +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
+                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
                         +'<a onclick="hardwareDelete(\''+row.barcode_number+'\',\''+serial_number+'\',\''+detail+'\',\''+row.type+'\',\''+row.model+'\')" data-toggle="modal" data-target="#hardwareDeleteModal">'
                         +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
                     }
                     else{
-                        html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Ekipmanı </br> Kullanıcı Sayfasından </br> İade Alınız!">'
-                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
-                        +'<i class="fas fa-edit table-icon-disabled"></i></a></span>'
-                        +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Ekipmanı </br> Kullanıcı Sayfasından </br> İade Alınız!">'
+                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Ekipmanı </br> Kullanıcı Sayfasından </br> İade Alınız!">'
                         +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
                         +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
                     }
@@ -116,12 +119,16 @@ $(document).ready( function () {
                 visible: false
             },
             {
-                title: 'Detay',
-                data: 'detail',
-                visible: false,
-                render: function(data){
-                    var html = data.replaceAll('\\n','  ');
-                    return html;
+                title:'Detay',
+                data:'detail',
+                visible:false,
+                render:function(data){
+                    if(data){
+                        return data.replaceAll('\\n', '   ');
+                    }
+                    else{
+                        return 'Yok';
+                    }
                 }
             }
         ],
@@ -141,7 +148,7 @@ $(document).ready( function () {
                     doc.styles.tableHeader.fontSize = 14;
                 },
                 exportOptions:{
-                    columns:[0,1,6,2,7,4]
+                    columns:[0,1,2,7,3,8,5]
                 }
             },
             {
@@ -151,7 +158,7 @@ $(document).ready( function () {
                 filename: 'Donanım Raporu',
                 footer: false,
                 exportOptions:{
-                    columns:[0,1,6,2,7,4],
+                    columns:[0,1,2,7,3,8,5],
                     trim:false
                 }
             }

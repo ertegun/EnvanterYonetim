@@ -64,15 +64,41 @@
                 </div>
             </div>
         </div>
+        <div class="card my-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-warning">
+                    <li class="breadcrumb-item">
+                        <a class="text-white" data-toggle="collapse" href="#vehicleCollapse" onclick="createVehicleTable()" role="button" aria-expanded="false" aria-controls="vehicleCollapse"><i class="fas fa-truck"></i> Araçlar</a>
+                    </li>
+                </ol>
+            </nav>
+            <div class="col-12 pb-3">
+                <div id='vehicleCollapse' class="collapse card" style="border: none">
+                    <table id="vehicleTable" class="table table-sm table-striped table-bordered table-hover dt-responsive nowrap" style="width: 100%"></table>
+                </div>
+            </div>
+        </div>
         <div class="row my-2">
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 mr-auto my-3">
                 <a href="{{ route('user') }}" class="btn btn-sm btn-primary btn-block">Kullanıcı</a>
             </div>
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 ml-auto my-3">
-                <a href="{{ route('owner_pdf', ['id'=>$user->id]) }}" class="btn btn-sm btn-danger btn-block ">Zimmet Fişi</a>
+                @canany(['isAdmin','isIT'])
+                <a target="blank" href="{{ route('owner_pdf', ['id'=>$user->id]) }}" class="btn btn-sm btn-danger btn-block ">Zimmet Fişi</a>
+                @else
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Yetkiniz Yok!" style="width: 100%">
+                    <button class="btn btn-sm btn-danger btn-block" style="pointer-events: none;" type="button" disabled>Zimmet Fişi</button>
+                </span>
+                @endcanany
             </div>
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2  my-3">
+                @canany(['isAdmin','isIT','isProducer'])
                 <a href="{{ route('owner_create', ['id'=>$user->id]) }}" class="btn btn-sm btn-success btn-block">Zimmet Ekle</a>
+                @else
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Yetkiniz Yok!" style="width: 100%">
+                    <button class="btn btn-sm btn-success btn-block" style="pointer-events: none;" type="button" disabled>Zimmet Ekle</button>
+                </span>
+                @endcanany
             </div>
         </div>
     </div>
@@ -201,6 +227,69 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" type="submit">İade Al</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="vehicleDropModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Araç Teslim İşlemi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('vehicle_drop') }}" method="POST">
+                @csrf
+                <div class="modal-body px-5">
+                    <div>
+                        <b><u>Araç Adı:</u></b> <span id="vehicle_drop_name"></span></br>
+                        <b><u>Marka:</u></b> <span id="vehicle_drop_model"></span></br>
+                        <b><u>Detay:</u></b></br> <span id="vehicle_drop_detail"></span></br>
+                    </div>
+                    <div class="mt-3 my-2 text-center">
+                        <u>Kullanıcıdan Aracı Teslim Almak Üzeresiniz!</u></br>
+                        <b>Bu İşlem Geri Döndürülemez!</b>
+                    </div>
+                    <input type="hidden" name="vehicle_id" id="vehicle_drop_vehicle_id">
+                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="submit">Teslim Al</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="changeIssueTimeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Zimmet Tarihi Değiştirme</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('change_issue_time') }}" method="POST">
+                @csrf
+                <div class="modal-body px-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Zimmet Tarihi</span>
+                        </div>
+                        <input type="date" max="{{date('Y-m-d')}}" class="form-control" id="issue_time" name="issue_time" required>
+                    </div>
+                    <input type="hidden" id="item_type" name="item_type">
+                    <input type="hidden" id="item_id" name="item_id">
+                    <input type="hidden" id="old_issue_time" name="old_issue_time">
+                    <input type="hidden" value="{{$user->id}}" name="user_id">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Değiştir</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
                 </div>
             </form>

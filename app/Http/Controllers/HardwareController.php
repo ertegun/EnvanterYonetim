@@ -75,6 +75,7 @@ class HardwareController extends Controller
                 'type_id'=>$type_id,
                 'model_id'=>$model_id,
                 'detail'=>$detail,
+                'duration'=>$request->duration,
                 'created_at'=>now(),
                 'updated_at'=>now()
             ]);
@@ -126,20 +127,26 @@ class HardwareController extends Controller
             }
             if($barcode_number!=$request->old_barcode_number){
                 $control    =   Hardware::where('barcode_number',$request->old_barcode_number)
-                ->update(['barcode_number'=>$barcode_number,
-                'serial_number'=>$serial_number,
-                'type_id'=>$type_id,
-                'model_id'=>$model_id,
-                'detail'=>$detail,
-                'updated_at'=>now()]);
+                ->update([
+                    'barcode_number'=>$barcode_number,
+                    'serial_number'=>$serial_number,
+                    'type_id'=>$type_id,
+                    'model_id'=>$model_id,
+                    'detail'=>$detail,
+                    'duration'=>$request->duration,
+                    'updated_at'=>now()
+                ]);
             }
             else{
                 $control    =   Hardware::where('barcode_number',$request->old_barcode_number)
-                ->update(['serial_number'=>$serial_number,
-                'type_id'=>$type_id,
-                'model_id'=>$model_id,
-                'detail'=>$detail,
-                'updated_at'=>now()]);
+                ->update([
+                    'serial_number'=>$serial_number,
+                    'type_id'=>$type_id,
+                    'model_id'=>$model_id,
+                    'detail'=>$detail,
+                    'duration'=>$request->duration,
+                    'updated_at'=>now()
+                ]);
             }
             if($control>0){
                 return redirect()->route('hardware')->withCookie(cookie('success','Güncelleme Başarılı!',0.02));
@@ -217,7 +224,7 @@ class HardwareController extends Controller
                 return redirect()->back()->withCookie(cookie('error','Tip Silme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
             }
         }
-    //Donanım Modelleri CRUD
+    //Donanım Markaları CRUD
         public function hardware_model(Request $request){
             $hardware_models = HardwareModel::all();
             foreach($hardware_models as $model){
@@ -234,10 +241,10 @@ class HardwareController extends Controller
                 'updated_at' => now()
             ]);
             if($control > 0){
-                return redirect()->route('hardware_model')->withCookie(cookie('success','Model Eklendi!',0.02));
+                return redirect()->route('hardware_model')->withCookie(cookie('success','Marka Eklendi!',0.02));
             }
             else{
-                return redirect()->back()->withCookie(cookie('error','Model Ekleme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
+                return redirect()->back()->withCookie(cookie('error','Marka Ekleme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
             }
         }
         public function hardware_model_update(Request $request){
@@ -247,19 +254,19 @@ class HardwareController extends Controller
                 'updated_at' => now()
             ]);
             if($control > 0){
-                return redirect()->route('hardware_model')->withCookie(cookie('success','Model Güncelleme Başarılı!',0.02));
+                return redirect()->route('hardware_model')->withCookie(cookie('success','Marka Güncelleme Başarılı!',0.02));
             }
             else{
-                return redirect()->back()->withCookie(cookie('error','Model Güncelleme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
+                return redirect()->back()->withCookie(cookie('error','Marka Güncelleme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
             }
         }
         public function hardware_model_delete(Request $request){
             $control = HardwareModel::where('id',$request->id)->delete();
             if($control > 0){
-                return redirect()->route('hardware_model')->withCookie(cookie('success','Model Silme Başarılı!',0.02));
+                return redirect()->route('hardware_model')->withCookie(cookie('success','Marka Silme Başarılı!',0.02));
             }
             else{
-                return redirect()->back()->withCookie(cookie('error','Model Silme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
+                return redirect()->back()->withCookie(cookie('error','Marka Silme İşlemi Sırasında Bir Hata Meydana Geldi!',0.02));
             }
         }
     //Ajax Sorguları

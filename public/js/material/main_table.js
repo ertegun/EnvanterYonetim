@@ -58,9 +58,9 @@ $(document).ready( function () {
                         var detail = '';
                     }
                     if(row.using_item >0 ){
-                        html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">'
-                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
-                        +'<i class="fas fa-edit table-icon-disabled"></i></a></span>'
+                        html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi Düzenle">'
+                        +'<a onclick="materialUpdate(\''+row.id+'\',\''+row.type_id+'\',\''+detail_text+'\')" data-toggle="modal" data-target="#materialUpdateModal">'
+                        +'<i class="fas fa-edit table-icon text-primary"></i></a></span>'
                         +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Tüm </br> Malzemeleri Kullanıcı</br> Sayfasından İade Alınız!">'
                         +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
                         +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';

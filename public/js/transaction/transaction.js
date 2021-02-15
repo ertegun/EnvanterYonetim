@@ -9,7 +9,8 @@ $(document).ready( function () {
         columns: [
             {
                 data:'type',
-                name:'transaction_type.name'
+                name:'transaction_type.name',
+                class:'font-weight-bold'
             },
             {
                 data:'issue_time',

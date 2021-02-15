@@ -9,7 +9,7 @@
     <div class="col-12 mx-auto mt-3">
         <table id="hardwareModelTable" class="table table-sm table-striped table-bordered dt-responsive nowrap" style="width: 100%;">
             <thead>
-                <th>Model</th>
+                <th>Marka</th>
                 <th class="text-center">Kullanılan</th>
                 <th class="text-center">Kullanılabilir</th>
                 <th class="text-center">Toplam</th>
@@ -63,7 +63,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Donanım Modeli Silme İşlemi</h5>
+                <h5 class="modal-title">Donanım Marka Silme İşlemi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -72,10 +72,10 @@
                 @csrf
                 <div class="modal-body px-5">
                     <div>
-                        <b><u>Model Adı:</u></b> <span id="hardware_model_delete_name"></span></br>
+                        <b><u>Marka Adı:</u></b> <span id="hardware_model_delete_name"></span></br>
                     </div>
                     <div class="mt-3 my-2 text-center">
-                        <u>Donanım Modelini Silmek Üzeresiniz!</u></br>
+                        <u>Donanım Markasını Silmek Üzeresiniz!</u></br>
                         <b>Silme İşlemi Geri Döndürülemez!</b>
                     </div>
                     <input type="hidden" name="id" id="hardware_model_delete_id">
@@ -92,7 +92,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Donanım Modeli Güncelleme</h5>
+                <h5 class="modal-title">Donanım Marka Güncelleme</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -102,7 +102,7 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Model Adı</span>
+                            <span class="input-group-text">Marka Adı</span>
                         </div>
                         <input class="form-control" id="hardware_model_update_name" name="name" required>
                     </div>
@@ -121,7 +121,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Yeni Donanım Modeli</h5>
+                <h5 class="modal-title">Yeni Donanım Markası</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -131,9 +131,9 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Model Adı</span>
+                            <span class="input-group-text">Marka Adı</span>
                         </div>
-                        <input class="form-control" placeholder="Model Adı" name="name" required>
+                        <input class="form-control" placeholder="Marka Adı" name="name" required>
                     </div>
                 </div>
                 <div class="modal-footer">

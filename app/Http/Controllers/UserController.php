@@ -61,13 +61,29 @@ class UserController extends Controller
         //Ajax Sorgusu
             public function user_table_ajax(Request $request){
                 $users= User::all();
+                if($request->user()->can('isAdmin') || $request->user()->can('isHR')){
+                    $user_crud= true;
+                }
+                else{
+                    $user_crud = false;
+                }
+                if($request->user()->can('isHR')){
+                    $debit= false;
+                }
+                else{
+                    $debit = true;
+                }
                 foreach($users as $user){
+                    $user->user_crud        =   $user_crud;
+                    $user->debit            =   $debit;
                     $user->department       =   $user->getDepartment->name;
                     $user->hardware_count   =   $user->getHardwareCount();
                     $user->software_count   =   $user->getSoftwareCount();
                     $user->material_count   =   $user->getMaterialCount();
                     $user->common_count     =   $user->getCommonCount();
-                    $user->all_equipment    =   $user->hardware_count+$user->software_count+$user->material_count+$user->common_count;
+                    $user->vehicle_count    =   $user->getVehicleCount();
+                    $user->all_equipment    =   $user->hardware_count+$user->software_count
+                    +$user->material_count+$user->common_count+$user->vehicle_count;
                 }
                 $data['users'] = $users;
                 return response()->json($data);
@@ -89,6 +105,10 @@ class UserController extends Controller
         public function user_create_ajax(Request $request)
         {
             //Kontrol
+                if(!($request->user()->can('isAdmin') || $request->user()->can('isHR'))){
+                    $data['error'] = "Bu İşlem İçin Yetkiniz Yok!";
+                    return response()->json($data);
+                }
                 $email =   $request->email;
                 $email.=   "@gruparge.com";
                 $control    =   User::where("email",$email)->first();
@@ -132,12 +152,42 @@ class UserController extends Controller
                 if($control >0){
                     $user_id = User::orderByDesc('id')->first()->id;
                     $data['id'] = $user_id;
+                    $data['success'] = "Kullanıcı Eklendi!";
                     return response()->json($data);
                 }
                 else{
                     $data['error'] = "Kullanıcı Ekleme İşlemi Başarısız!";
                     return response()->json($data);
                 }
+        }
+        public function user_create(Request $request){
+            $email =   strtolower($request->email);
+            $email.=   "@gruparge.com";
+            if($request->new_department){
+                Department::insert([
+                    'name' => $request->new_department,
+                    'created_at' => now()
+                ]);
+                $department = Department::orderByDesc('id')->first();
+                $department_id = $department->id;
+            }
+            else{
+                $department_id = $request->department_id;
+            }
+            $control = User::insert([
+                'name' => $request->name,
+                'email' => $email,
+                'department_id' => $department_id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            if($control>0){
+                return redirect()->route("user")->withCookie(cookie('success', 'Kullanıcı Eklendi!',0.02));
+            }
+            else{
+                return redirect()->back()->withCookie(cookie('error', 'Kullanıcı Ekleme İşlemi Başarısız!',0.02));
+
+            }
         }
     //DEPARTMAN
         public function department(){

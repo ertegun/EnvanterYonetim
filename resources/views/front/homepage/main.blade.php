@@ -45,11 +45,11 @@
                 var Chart1 = new Chart(currentMonthTransactionChart, {
                     type: 'doughnut',
                     data: {
-                    labels: ["Donanım", "Yazılım", "Malzeme", "Ortak Kullanım"],
+                    labels: ["Donanım", "Yazılım", "Malzeme", "Ortak Kullanım","Araç"],
                     datasets: [{
                         data: currentMonthTransaction,
-                        backgroundColor: ["#dc3545", "#17a2b8", "#343a40", "#6c5ce7"],
-                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#57606f", "#A8B3C5"]
+                        backgroundColor: ["#dc3545", "#17a2b8", "#343a40", "#6c5ce7","#feca57"],
+                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#57606f", "#A8B3C5","#ff9f43"]
                     }]
                     },
                     options: {

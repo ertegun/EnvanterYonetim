@@ -51,6 +51,9 @@ class HardwareCreate
                 return redirect()->back()->withInput()->withCookie(cookie('error','Seri Numarası Kullanılıyor!',0.02));
             }
         }
+        if($request->duration<1 || $request->duration>10){
+            return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
+        }
         return $next($request);
     }
 }

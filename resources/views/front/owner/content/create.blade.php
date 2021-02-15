@@ -11,6 +11,7 @@
         <form action="{{ route('owner_create_result') }}" method="POST">
             @csrf
             <div class="row">
+                @canany(['isAdmin','isIT'])
                 <div class="col-12 col-lg-6 col-xl-6 ml-auto mb-3">
                     <label for="hardwares">Donanım(lar)</label>
                     <div class="input-group mb-1">
@@ -32,12 +33,28 @@
                     </div>
                     <button type="button" data-toggle="modal" data-target="#commonItemCreateModal" class="btn btn-sm btn-success">Yeni Ortak Kullanım</button>
                 </div>
+                @endcanany
+                @canany(['isAdmin','isProducer'])
                 <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
                     <label for="materials">Malzeme(ler)</label>
                     <div class="input-group mb-1">
                         <select class="form-control material_select" name="materials[]" multiple tabindex="-1"></select>
                     </div>
                     <button type="button" data-toggle="modal" data-target="#materialCreateModal" class="btn btn-sm btn-success">Yeni Malzeme</button>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
+                    <label for="materials">Araç(lar)</label>
+                    <div class="input-group mb-1">
+                        <select class="form-control vehicle_select" name="vehicles[]" multiple tabindex="-1"></select>
+                    </div>
+                    <button type="button" data-toggle="modal" data-target="#vehicleCreateModal" class="btn btn-sm btn-success">Yeni Araç</button>
+                </div>
+                @endcanany
+                <div class="col-12 col-lg-6 col-xl-6 mr-auto mb-3">
+                    <label for="materials">Zimmet Tarihi</label>
+                    <div class="input-group mb-1">
+                        <input type="date" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" class="form-control" name="issue_time" required>
+                    </div>
                 </div>
             </div>
             <input id="user_id" type="hidden" value="{{$user->id}}" name="user_id">
@@ -102,6 +119,12 @@
                             <span class="input-group-text">Seri No</span>
                         </div>
                         <input value="" class="form-control" id="hardware_create_serial_number" name="serial_number" aria-describedby="serial_help">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Ömür(Yıl)</span>
+                        </div>
+                        <input type="number" value="2" min="1" max="10" class="form-control" id="hardware_create_duration" name="duration" required>
                     </div>
                     <small id="serial_help" class="form-text text-muted mb-3">Örn:SN:012345</small>
                     <label for="detail">Detay</label>
@@ -251,6 +274,52 @@
                     <label for="detail">Detay</label>
                     <div class="input-group mb-3">
                         <textarea id="material_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit">Ekle</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Geri Dön</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="vehicleCreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="vehicleController">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Araç</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="vehicleCreateForm" action="{{ route('vehicle_create_ajax') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <b class="text-danger"><u id="vehicleErrorMessage"></u></b>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button onclick="vehicleCreateShowModel()" class="btn btn-outline-secondary" type="button">Marka</button>
+                        </div>
+                        <select class="vehicle_create_model_select" id="create_model_select" name="model_id" required>
+                            <option ng-repeat="model in models" value="@{{model.id}}">@{{model.name}}</option>
+                        </select>
+                        <input type="text" id="vehicle_create_new_model" placeholder="Yeni Marka" name="new_model" class="form-control" disabled style="display: none">
+                        <div class="input-group-append">
+                            <button onclick="vehicleCreateNewModel()" class="btn btn-outline-secondary" type="button">Yeni</button>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Araç Adı</span>
+                        </div>
+                        <input class="form-control" id="vehicle_create_name" name="name" required>
+                    </div>
+                    <label for="detail">Detay</label>
+                    <div class="input-group mb-3">
+                        <textarea id="vehicle_create_detail" rows="5" maxlength="255" class="form-control" aria-label="With textarea" name="detail" style="resize: none;"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

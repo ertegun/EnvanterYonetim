@@ -44,4 +44,13 @@ class User extends Model
     {
         return $this->getCommon->count();
     }
+
+    public function getVehicle()
+    {
+        return $this->hasMany('App\Models\Vehicle\VehicleOwner','owner_id');
+    }
+    public function getVehicleCount()
+    {
+        return $this->getVehicle->count();
+    }
 }

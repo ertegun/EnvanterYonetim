@@ -11,6 +11,8 @@ use App\Models\Material\MaterialOwner;
 use App\Models\Software\Software;
 use App\Models\Software\SoftwareOwner;
 use App\Models\User\User;
+use App\Models\Vehicle\Vehicle;
+use App\Models\Vehicle\VehicleOwner;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -20,9 +22,9 @@ class OwnerCreate
     {
         $control = User::find($request->user_id);
         if($control == NULL){
-            return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata1!',0.02));
+            return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
         }
-        if(!isset($request->hardwares) && !isset($request->softwares) && !isset($request->commons) && !isset($request->materials)){
+        if(!isset($request->hardwares) && !isset($request->softwares) && !isset($request->commons) && !isset($request->materials) && !isset($request->vehicles)){
             return redirect()->back()->withCookie(cookie('error','Hiç Seçim Yapmadınız!',0.02));
         }
         else{
@@ -68,6 +70,18 @@ class OwnerCreate
                 foreach($request->materials as $item){
                     $control = Material::find($item);
                     if($control == NULL){
+                        return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
+                    }
+                }
+            }
+            if(isset($request->vehicles)){
+                foreach($request->vehicles as $item){
+                    $control = Vehicle::where('id',$item)->first();
+                    if($control == NULL){
+                        return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
+                    }
+                    $control = VehicleOwner::where('vehicle_id',$item)->first();
+                    if($control != NULL){
                         return redirect()->back()->withCookie(cookie('error','İşlem Sırasında Hata!',0.02));
                     }
                 }

@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Middleware\Vehicle;
+
+use Closure;
+use Illuminate\Http\Request;
+use App\Models\Vehicle\VehicleModel;
+
+class VehicleModelUpdate
+{
+    public function handle(Request $request, Closure $next)
+    {
+        if($request->old_name == $request->name){
+            return redirect()->back()->withCookie(cookie('error','Bir Değişiklik Yapmadınız!',0.02));
+        }
+        else{
+            $control = VehicleModel::where('name',$request->name)->first();
+            if($control != NULL){
+                return redirect()->back()->withCookie(cookie('error','Model İsmi Kullanılıyor!',0.02));
+            }
+        }
+        return $next($request);
+    }
+}

@@ -21,9 +21,14 @@
         var getMaterialElements_url     =   "{{route('getMaterialElements')}}";
         var get_useable_material_url    =   "{{route('get_useable_material')}}";
         var material_create_ajax_url    =   "{{route('material_create_ajax')}}";
+
+        var getVehicleElements_url      =   "{{route('getVehicleElements')}}";
+        var get_useable_vehicle_url     =   "{{route('get_useable_vehicle')}}";
+        var vehicle_create_ajax_url     =   "{{route('vehicle_create_ajax')}}";
     </script>
     <script src="{{asset('js/owner/hardware_select.js')}}"></script>
     <script src="{{asset('js/owner/software_select.js')}}"></script>
     <script src="{{asset('js/owner/common_item_select.js')}}"></script>
     <script src="{{asset('js/owner/material_select.js')}}"></script>
+    <script src="{{asset('js/owner/vehicle_select.js')}}"></script>
 @endsection

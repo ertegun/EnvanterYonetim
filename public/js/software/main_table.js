@@ -39,7 +39,7 @@ $(document).ready( function () {
                 class: 'text-center',
                 render:function(data){
                     if(data){
-                        return data;
+                        return data+" Yıl";
                     }
                     else{
                         return "Süresiz";

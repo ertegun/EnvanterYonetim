@@ -15,7 +15,7 @@
             $('#hardware_delete_type').text(type);
             $('#hardware_delete_model').text(model);
         }
-        function hardwareUpdate(barcode_number,serial_number,detail,type_id,model_id,prefix){
+        function hardwareUpdate(barcode_number,serial_number,detail,type_id,model_id,prefix,duration){
             $('#hardware_update_barcode_number').val(barcode_number);
             $('#hardware_update_barcode_number_info').val(barcode_number.slice(prefix.length));
             $('#hardware_update_barcode_number_prepend').text(prefix);
@@ -24,6 +24,7 @@
             $('.hardware_update_type_select').select2("val",type_id);
             $('.hardware_update_model_select').select2("val",model_id);
             $('#hardware_update_detail').val(detail);
+            $('#hardware_update_duration').val(duration);
         }
         function hardwareUpdateNewType(){
             var type_select =   $('.hardware_update_type_select');

@@ -12,14 +12,16 @@
         <h3 class="my-3" style="text-align: center">Zimmet Fişi</h3>
         <div class='my-3 mx-auto' style="width: 85%">
         <div style="display: flex;justify-content: space-between;">
-            <p class="text-left"><u><b>TARİH:</b></u> {{date_create(now())->format('d/m/Y')}}</p>
+            <p class="text-left"><u><b>TARİH:</b></u> ..../..../20...</p>
             <p class="text-right"><u><b>SIRA NO:</b></u>.....  </p>
         </div>
-        <p class="text-left" style="font-size:large;text-decoration:underline;"><b>Çalışan Ad Soyad:</b> {{$user->name}}</p>
+        <p class="text-left" style="font-size:large"><u><b>Çalışan Ad Soyad:</b></u> {{$user->name}}</p></br></br>
+        <p class="text-left" style="font-size:large"><u><b>Donanımlar</b></u></p>
         </table>
-        <table class="table table-sm table-bordered text-left">
+        <table class="table table-sm small table-bordered text-left">
             <thead>
                 <th>Sıra</th>
+                <th>Barkod No</th>
                 <th>Seri No</th>
                 <th>Kategori</th>
                 <th>Detay</th>
@@ -27,13 +29,37 @@
                 <th>İade Tarihi</th>
             </thead>
             <tbody>
-                @foreach($items as $item)
+                @foreach($hardware as $item)
                 <tr>
                     <th scope="row">{{$item->id}}</th>
-                    <th>{{$item->sn}}</th>
+                    <th>{{$item->barcode_number}}</th>
+                    <th>{{$item->serial_number}}</th>
                     <td>{{$item->type}}</td>
                     <td>{{$item->detail}}</td>
-                    <td>{{date_create($item->created_at)->format('d/m/Y')}}</td>
+                    <td>{{$item->issue_time}}</td>
+                    <td>..../..../20..</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <p class="text-left" style="font-size:large;text-decoration:underline;"><b>Yazılımlar</b></p>
+        <table class="table table-sm small table-bordered text-left">
+            <thead>
+                <th>Sıra</th>
+                <th>Kategori</th>
+                <th>Yazılım Adı</th>
+                <th>Lisans Süresi</th>
+                <th>Veriliş Tarihi</th>
+                <th>İade Tarihi</th>
+            </thead>
+            <tbody>
+                @foreach($software as $item)
+                <tr>
+                    <th scope="row">{{$item->id}}</th>
+                    <th>{{$item->type}}</th>
+                    <td>{{$item->name}}</td>
+                    <td>{{$item->license_time}}</td>
+                    <td>{{$item->issue_time}}</td>
                     <td>..../..../20..</td>
                 </tr>
                 @endforeach
@@ -52,7 +78,7 @@
                     </th>
                     <th>Teslim Alanın<br/>
                         <br/>
-                        Ad Soyadı<br/>
+                        Ad Soyadı:<br/>
                         Ünvan:<br/>
                         <br/>
                         İmzası: ..................................<br/>

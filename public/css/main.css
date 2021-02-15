@@ -166,3 +166,9 @@
     cursor: none;
     color: #ccc;
 }
+@media screen and (max-width: 800px) {
+    .navbar-item {
+      visibility: hidden;
+      display: none;
+    }
+  }
