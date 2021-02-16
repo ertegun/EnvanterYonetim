@@ -59,8 +59,9 @@
         $('#delete_button').on('click',function (event) {
             var save = confirm("Hesabınız Silinecek Onaylıyor musunuz?");
             if (save) {
-                document.deleteForm.submit();
+                $('#deleteForm').submit();
             }
+            return false;
         });
     </script>
 @endsection

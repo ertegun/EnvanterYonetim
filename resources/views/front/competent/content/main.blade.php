@@ -125,10 +125,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button id="delete_button" class="btn btn-danger" type="submit" disabled="true" >Hesabımı Sil</button>
-                        </div>
                     </form>
+                    <div class="modal-footer">
+                        <button id="delete_button" class="btn btn-danger" type="submit" disabled="true" >Hesabımı Sil</button>
+                    </div>
                 </div>
             </div>
         </div>
