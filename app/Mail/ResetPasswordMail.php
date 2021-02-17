@@ -29,7 +29,7 @@ class ResetPasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->from('info@gruparge.com')
+        return $this->from('bt@gruparge.com','Grup Arge Envanter Yönetim')
         ->subject('Grup Arge Envanter Yönetim Şifre Sıfırlama')
         ->markdown('emails.reset_password_email')
         ->with('data',$this->data);
