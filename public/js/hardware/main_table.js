@@ -10,11 +10,16 @@ $(document).ready( function () {
         columns: [
             {
                 title:'Tip',
-                data: 'type',
+                data: 'get_type.name',
             },
             {
+<<<<<<< Updated upstream
                 title:'Model',
                 data:'model'
+=======
+                title:'Marka',
+                data:'get_model.name'
+>>>>>>> Stashed changes
             },
             {
                 title:'Barkod No',
@@ -34,6 +39,16 @@ $(document).ready( function () {
                 }
             },
             {
+<<<<<<< Updated upstream
+=======
+                title:'Ömür',
+                data:'duration',
+                render:function(data){
+                    return data+' Yıl';
+                }
+            },
+            {
+>>>>>>> Stashed changes
                 title:'Detay',
                 data:'detail',
                 render:function(data){
@@ -60,13 +75,13 @@ $(document).ready( function () {
             },
             {
                 title:'Sahibi',
-                data: 'owner',
-                render:function(data){
-                    if(!data){
+                data: null,
+                render:function(row){
+                    if(!row.get_owner){
                         return "Yok";
                     }
                     else{
-                        return data;
+                        return row.get_owner.name;
                     }
                 }
             },
@@ -90,6 +105,7 @@ $(document).ready( function () {
                     else{
                         var serial_number = '';
                     }
+<<<<<<< Updated upstream
                         var html ='';
                     if(!row.owner){
                         html+='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
@@ -97,6 +113,14 @@ $(document).ready( function () {
                         +'<i class="fas fa-edit table-icon text-primary"></i></a></span>'
                         +'<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
                         +'<a onclick="hardwareDelete(\''+row.barcode_number+'\',\''+serial_number+'\',\''+detail+'\',\''+row.type+'\',\''+row.model+'\')" data-toggle="modal" data-target="#hardwareDeleteModal">'
+=======
+                        var html ='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
+                        +'<a onclick="hardwareUpdate(\''+row.barcode_number+'\',\''+serial_number+'\',\''+detail_text+'\',\''+row.get_type.id+'\',\''+row.get_model.id+'\',\''+row.get_type.prefix+'\',\''+row.duration+'\')" data-toggle="modal" data-target="#hardwareUpdateModal">'
+                        +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
+                    if(!row.get_owner){
+                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
+                        +'<a onclick="hardwareDelete(\''+row.barcode_number+'\',\''+serial_number+'\',\''+detail+'\',\''+row.get_type.name+'\',\''+row.get_model.name+'\')" data-toggle="modal" data-target="#hardwareDeleteModal">'
+>>>>>>> Stashed changes
                         +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
                     }
                     else{

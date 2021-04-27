@@ -62,6 +62,19 @@ use App\Http\Middleware\Department\DepartmentDelete;
     use App\Http\Middleware\Material\MaterialTypeCreate;
     use App\Http\Middleware\Material\MaterialTypeUpdate;
     use App\Http\Middleware\Material\MaterialTypeDelete;
+<<<<<<< Updated upstream
+=======
+//Araç Kontrolleri ve Ara Katmanları
+    use App\Http\Controllers\VehicleController;
+    use App\Http\Middleware\Vehicle\VehicleUpdate;
+    use App\Http\Middleware\Vehicle\VehicleCreate;
+    use App\Http\Middleware\Vehicle\VehicleDelete;
+    use App\Http\Middleware\Vehicle\VehicleModelUpdate;
+    use App\Http\Middleware\Vehicle\VehicleModelCreate;
+    use App\Http\Middleware\Vehicle\VehicleModelDelete;
+//Demirbaş Kontrolleri ve Ara Katmanları
+    use App\Http\Controllers\FixtureController;
+>>>>>>> Stashed changes
 //Genel Kontroller(Giriş/Çıkış/Ana Sayfa)
     use App\Http\Controllers\MainController;
     use App\Http\Middleware\LoginControl;
@@ -196,4 +209,37 @@ Route::middleware([LoginControl::class])->group(function(){
         Route::post('/malzeme/ajax/getTable',[MaterialController::class,'material_table_ajax'])->name('material_table_ajax');
 
 
+<<<<<<< Updated upstream
+=======
+        //Araç Ajax Sorguları
+        Route::post('/arac/ajax/getVehicleElements',[VehicleController::class,'getVehicleElements'])->name('getVehicleElements');
+        Route::post('/arac/ajax/getTable',[VehicleController::class,'vehicle_table_ajax'])->name('vehicle_table_ajax');
+    });
+    Route::middleware('canAny:isAdmin,isHR')->group(function(){
+    //DEMİRBAŞ
+        //Demirbaş CRUD
+        Route::get('/demirbas', [FixtureController::class, "fixture"])->name("fixture");
+        Route::post('/demirbas/ekle', [FixtureController::class, "fixture_create"])->middleware(FixtureCreate::class)->name("fixture_create");
+        Route::post('/demirbas/duzenle', [FixtureController::class, "fixture_update"])->middleware(FixtureUpdate::class)->name("fixture_update");
+        Route::post('/demirbas/sil', [FixtureController::class, "fixture_delete"])->middleware(FixtureDelete::class)->name("fixture_delete");
+
+        //Demirbaş Türleri CRUD
+        Route::get('/demirbas/turler',[FixtureController::class,'fixture_type'])->name('fixture_type');
+        Route::post('/demirbas/turler/ekle',[FixtureController::class,'fixture_type_create'])->middleware(FixtureTypeCreate::class)->name('fixture_type_create');
+        Route::post('/demirbas/turler/duzenle',[FixtureController::class,'fixture_type_update'])->middleware(FixtureTypeUpdate::class)->name('fixture_type_update');
+        Route::post('/demirbas/turler/sil',[FixtureController::class,'fixture_type_delete'])->middleware(FixtureTypeDelete::class)->name('fixture_type_delete');
+
+        //Demirbaş Markaları CRUD
+        Route::get('/demirbas/markalar',[FixtureController::class,'fixture_brand'])->name('fixture_brand');
+        Route::post('/demirbas/markalar/ekle',[FixtureController::class,'fixture_brand_create'])->middleware(FixtureModelCreate::class)->name('fixture_brand_create');
+        Route::post('/demirbas/markalar/duzenle',[FixtureController::class,'fixture_brand_update'])->middleware(FixtureModelUpdate::class)->name('fixture_brand_update');
+        Route::post('/demirbas/markalar/sil',[FixtureController::class,'fixture_brand_delete'])->middleware(FixtureModelDelete::class)->name('fixture_brand_delete');
+
+        //Demirbaş Ajax Sorguları
+        Route::post('/demirbas/ajax/getFixtureElements',[FixtureController::class,'getFixtureElements'])->name('getFixtureElements');
+        Route::post('/demirbas/ajax/getTable',[FixtureController::class,'fixture_table_ajax'])->name('fixture_table_ajax');
+        Route::post('/demirbas/ajax/getSections',[FixtureController::class,'getSections'])->name('getSections');
+        Route::post('/demirbas/ajax/checkBarcode',[FixtureController::class,'checkBarcode'])->name('checkBarcode');
+    });
+>>>>>>> Stashed changes
 });

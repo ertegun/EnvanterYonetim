@@ -1,27 +1,29 @@
 <?php
 namespace App\Models\Hardware;
+
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 class HardwareOwner extends Model
 {
     protected $table="hardware_owner";
     protected $primaryKey="barcode_number";
     public $incrementing = false;
+<<<<<<< Updated upstream
+=======
+    public $timestamps = false;
+
+>>>>>>> Stashed changes
     public function getOwner()
     {
-        return $this->hasOneThrough(
-            'App\Models\User\User',
-            'App\Models\User\Owner',
-            'bn',
-            'id',
-            'bn',
-            'id'
-        );
+        return $this->hasOne(User::class,'id','owner_id');
     }
+
     public function getType()
     {
-        return $this->hasOne('App\Models\Hardware\HardwareType','id','type_id');
+        return $this->hasOne(HardwareType::class,'id','type_id');
     }
+
     public function getInfo(){
-        return $this->hasOne('App\Models\Hardware\Hardware','id','hardware_id');
+        return $this->hasOne(Hardware::class,'id','hardware_id');
     }
 }
