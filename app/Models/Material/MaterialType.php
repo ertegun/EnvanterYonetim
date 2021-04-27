@@ -9,8 +9,8 @@ class MaterialType extends Model
     public function getUsingItems()
     {
         return $this->hasManyThrough(
-            'App\Models\Material\MaterialOwner',
-            'App\Models\Material\Material',
+            MaterialOwner::class,
+            Material::class,
             'type_id',
             'material_id',
             'id',
@@ -22,7 +22,7 @@ class MaterialType extends Model
         return count($this->getUsingItems);
     }
     public function getItems(){
-        return $this->hasMany('App\Models\Material\Material','type_id','id');
+        return $this->hasMany(Material::class,'type_id','id');
     }
     public function getItemsCount()
     {

@@ -9,8 +9,8 @@ class CommonItemType extends Model
     public function getUsingItems()
     {
         return $this->hasManyThrough(
-            'App\Models\CommonItem\CommonItemOwner',
-            'App\Models\CommonItem\CommonItem',
+            CommonItemOwner::class,
+            CommonItem::class,
             'id',
             'common_item_id',
             'id',
@@ -22,7 +22,7 @@ class CommonItemType extends Model
         return count($this->getUsingItems);
     }
     public function getItems(){
-        return $this->hasMany('App\Models\CommonItem\CommonItem','type_id','id');
+        return $this->hasMany(CommonItem::class,'type_id','id');
     }
     public function getItemsCount()
     {

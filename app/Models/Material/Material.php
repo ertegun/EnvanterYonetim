@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models\Material;
+
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
@@ -8,8 +10,8 @@ class Material extends Model
     protected $table="material";
     public function getOwner(){
         return $this->hasOneThrough(
-            'App\Models\User\User',
-            'App\Models\Material\MaterialOwner',
+            User::class,
+            MaterialOwner::class,
             'material_id',
             'id',
             'id',
@@ -17,6 +19,6 @@ class Material extends Model
         );
     }
     public function getType(){
-        return $this->hasOne('App\Models\Material\MaterialType','id','type_id');
+        return $this->hasOne(MaterialType::class,'id','type_id');
     }
 }

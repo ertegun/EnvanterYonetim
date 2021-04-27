@@ -7,6 +7,6 @@ class CommonItemOwner extends Model
 {
     protected $table="common_item_owner";
     public function getInfo(){
-        return $this->hasOne('App\Models\CommonItem\CommonItem','id','common_item_id');
+        return $this->hasOne(CommonItem::class,'id','common_item_id');
     }
 }

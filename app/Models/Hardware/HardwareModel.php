@@ -7,8 +7,8 @@ class HardwareModel extends Model
     public function getUsingItems()
     {
         return $this->hasManyThrough(
-            'App\Models\Hardware\HardwareOwner',
-            'App\Models\Hardware\Hardware',
+            HardwareOwner::class,
+            Hardware::class,
             'model_id',
             'hardware_id',
             'id',
@@ -20,7 +20,7 @@ class HardwareModel extends Model
         return count($this->getUsingItems);
     }
     public function getItems(){
-        return $this->hasMany('App\Models\Hardware\Hardware','model_id','id');
+        return $this->hasMany(Hardware::class,'model_id','id');
     }
     public function getItemsCount()
     {

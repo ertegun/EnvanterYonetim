@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models\Software;
+
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class SoftwareOwner extends Model
@@ -9,9 +11,9 @@ class SoftwareOwner extends Model
     public $timestamps = false;
     public function getOwner()
     {
-        return $this->hasOne('App\Models\User\User','id','owner_id');
+        return $this->hasOne(User::class,'id','owner_id');
     }
     public function getInfo(){
-        return $this->hasOne('App\Models\Software\Software','id','software_id');
+        return $this->hasOne(Software::class,'id','software_id');
     }
 }

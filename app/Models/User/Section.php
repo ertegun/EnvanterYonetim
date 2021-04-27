@@ -1,21 +1,15 @@
 <?php
 namespace App\Models\User;
 
-use App\Models\CommonItem\CommonItemOwner;
-use App\Models\Fixture\FixtureOwner;
-use App\Models\Hardware\HardwareOwner;
-use App\Models\Material\MaterialOwner;
-use App\Models\Software\SoftwareOwner;
-use App\Models\Vehicle\VehicleOwner;
 use Illuminate\Database\Eloquent\Model;
-class Department extends Model
+class Section extends Model
 {
-    protected $table="department";
-    public function getUser()
+    protected $table="section";
+    public function getDepartment()
     {
-        return $this->hasMany(User::class,'department_id','id');
+        return $this->hasOne(Department::class,'id','department_id');
     }
-    public function getUserCount()
+    /*public function getUserCount()
     {
         return count($this->getUser);
     }
@@ -108,5 +102,5 @@ class Department extends Model
     }
     public function getFixtureCount(){
         return count($this->getFixture);
-    }
+    }*/
 }

@@ -1,18 +1,16 @@
 <?php
-
-namespace App\Models\Software;
+namespace App\Models\Fixture;
 use Illuminate\Database\Eloquent\Model;
-
-class SoftwareType extends Model
+class FixtureType extends Model
 {
-    protected $table="software_type";
+    protected $table="fixture_type";
     public function getUsingItems()
     {
         return $this->hasManyThrough(
-            SoftwareOwner::class,
-            Software::class,
+            FixtureOwner::class,
+            Fixture::class,
             'type_id',
-            'software_id',
+            'fixture_id',
             'id',
             'id',
         );
@@ -22,7 +20,7 @@ class SoftwareType extends Model
         return count($this->getUsingItems);
     }
     public function getItems(){
-        return $this->hasMany(Software::class,'type_id','id');
+        return $this->hasMany(Fixture::class,'type_id','id');
     }
     public function getItemsCount()
     {

@@ -21,7 +21,7 @@ class Alltables extends Migration
             $table->string('user_name')->unique();
             $table->string('password');
             $table->timestamps();
-
+            $table->softDeletes();
         });
         //Kullanıcı Tablosu
         Schema::create('user', function (Blueprint $table) {
@@ -30,6 +30,7 @@ class Alltables extends Migration
             $table->unsignedBigInteger('department_id');
             $table->string('email')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
         //Departman Tablosu
         Schema::create('department', function (Blueprint $table) {
@@ -144,6 +145,8 @@ class Alltables extends Migration
         Schema::create('transaction_type', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('theme');
+            $table->string('icon');
             $table->timestamps();
         });
 

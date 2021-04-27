@@ -9,8 +9,8 @@ class Transaction extends Model
 
     public function getDepartment(){
         return $this->HasOneThrough(
-            'App\Models\User\Department',
-            'App\Models\User\User',
+            Department::class,
+            User::class,
             'id',
             'id',
             'department_id',
@@ -18,6 +18,6 @@ class Transaction extends Model
         );
     }
     public function getType(){
-        return $this->HasOne('App\Models\Transaction\TransactionType','id','type_id');
+        return $this->HasOne(TransactionType::class,'id','type_id');
     }
 }

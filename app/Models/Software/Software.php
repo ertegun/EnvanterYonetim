@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models\Software;
+
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Software extends Model
@@ -9,8 +11,8 @@ class Software extends Model
     public $timestamps = false;
     public function getOwner(){
         return $this->hasOneThrough(
-            'App\Models\User\User',
-            'App\Models\Software\SoftwareOwner',
+            User::class,
+            SoftwareOwner::class,
             'software_id',
             'id',
             'id',
@@ -18,6 +20,6 @@ class Software extends Model
         );
     }
     public function getType(){
-        return $this->hasOne('App\Models\Software\SoftwareType','id','type_id');
+        return $this->hasOne(SoftwareType::class,'id','type_id');
     }
 }
