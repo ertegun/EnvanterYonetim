@@ -7,17 +7,34 @@
 @section("script")
     <script>
         var common_item_table_ajax_url = "{{route('common_item_table_ajax')}}";
-        function commonItemUpdate(id,type_id,name,detail){
-            $('#common_item_update_name').val(name);
-            $('#common_item_update_detail').val(detail);
-            $('.common_item_update_type_select').select2("val",type_id);
-            $('#common_item_update_id').val(id);
+        function commonItemUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getCommonItem')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#common_item_update_name').val(response.name);
+                    $('#common_item_update_detail').val(response.detail);
+                    //$('.common_item_update_type_select').select2("val",type_id);
+                    $('.common_item_update_type_select').val(response.type_id).trigger('change');
+                    $('#common_item_update_id').val(response.id);
+                }
+            })
         }
-        function commonItemDelete(id,type,name,detail){
-            $('#common_item_delete_name').text(name);
-            $('#common_item_delete_detail').text(detail);
-            $('#common_item_delete_type').text(type);
-            $('#common_item_delete_id').val(id);
+        function commonItemDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getCommonItem')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#common_item_delete_name').text(response.name);
+                    $('#common_item_delete_detail').text(response.detail);
+                    $('#common_item_delete_type').text(response.get_type.name);
+                    $('#common_item_delete_id').val(response.id);
+                }
+            })
         }
         function commonItemCreateShowType(){
             var new_type    =   $('#common_item_create_new_type');

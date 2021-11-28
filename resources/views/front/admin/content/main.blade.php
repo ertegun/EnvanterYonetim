@@ -23,7 +23,7 @@
                             <td>{{$admin->getRole->name}}</td>
                             <td>
                                 <span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yetkiliyi Düzenle">
-                                    <a data-toggle="modal" data-target="#adminUpdateModal" onclick="adminUpdate('{{$admin->id}}','{{$admin->user_name}}','{{$admin->name}}','{{$admin->email}}','{{$admin->role_id}}')" class="text-decoration-none">
+                                    <a data-toggle="modal" data-target="#adminUpdateModal" onclick="adminUpdate('{{$admin->id}}')" class="text-decoration-none">
                                         <i class="fas fa-edit table-icon text-primary"></i>
                                     </a>
                                 </span>
@@ -33,7 +33,7 @@
                                     </a>
                                 </span>
                                 <span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yetkiliyi Siler!">
-                                    <a data-toggle="modal" data-target="#adminDeleteModal" onclick="adminDelete('{{$admin->id}}','{{$admin->user_name}}','{{$admin->name}}','{{$admin->getRole->name}}')" class="text-decoration-none">
+                                    <a data-toggle="modal" data-target="#adminDeleteModal" onclick="adminDelete('{{$admin->id}}')" class="text-decoration-none">
                                         <i class="fas fa-trash-alt table-icon text-danger"></i>
                                     </a>
                                 </span>

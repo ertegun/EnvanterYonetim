@@ -294,4 +294,10 @@ class MainController extends Controller
             $data['roles'] = $roles;
             return response()->json($data);
         }
+    //Yetkili Getirme
+        public function getAdmin(Request $request){
+            $admin = Admin::where('id',$request->id)->get()->first();
+            $admin->getRole;
+            return response()->json($admin);
+        }
 }

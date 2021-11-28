@@ -28,13 +28,13 @@
                     <td>{{$department->material_count}}</td>
                     <td>
                         <span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Departmanı Düzenle">
-                            <a onclick="departmentUpdate('{{$department->id}}','{{$department->name}}')" data-toggle="modal" data-target="#departmentUpdateModal">
+                            <a onclick="departmentUpdate('{{$department->id}}')" data-toggle="modal" data-target="#departmentUpdateModal">
                                 <i class="fas fa-edit table-icon text-primary"></i>
                             </a>
                         </span>
                         @if($department->user_count == 0)
                             <span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Departmanı Siler!">
-                                <a onclick="departmentDelete('{{$department->id}}','{{$department->name}}')" data-toggle="modal" data-target="#departmentDeleteModal">
+                                <a onclick="departmentDelete('{{$department->id}}')" data-toggle="modal" data-target="#departmentDeleteModal">
                                     <i class="fas fa-trash-alt table-icon text-danger"></i>
                                 </a>
                             </span>

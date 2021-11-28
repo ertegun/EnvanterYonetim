@@ -24,13 +24,13 @@
                         <td class="text-center">{{$type->total_item}}</td>
                         <td class="text-center">
                             <span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Türü Düzenle">
-                                <a onclick="softwareTypeUpdate('{{$type->id}}','{{$type->name}}')" data-toggle="modal" data-target="#softwareTypeUpdateModal">
+                                <a onclick="softwareTypeUpdate('{{$type->id}}')" data-toggle="modal" data-target="#softwareTypeUpdateModal">
                                     <i class="fas fa-edit table-icon text-primary"></i>
                                 </a>
                             </span>
                             @if($type->total_item == 0)
                                 <span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Türü Siler!">
-                                    <a onclick="softwareTypeDelete('{{$type->id}}','{{$type->name}}')" data-toggle="modal" data-target="#softwareTypeDeleteModal">
+                                    <a onclick="softwareTypeDelete('{{$type->id}}')" data-toggle="modal" data-target="#softwareTypeDeleteModal">
                                         <i class="fas fa-trash-alt table-icon text-danger"></i>
                                     </a>
                                 </span>

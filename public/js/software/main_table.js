@@ -64,18 +64,18 @@ $(document).ready( function () {
                 class: 'text-center',
                 orderable:false,
                 render:function(row){
-                    var html ='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yazılımı Düzenle">'
-                    +'<a onclick="softwareUpdate(\''+row.id+'\',\''+row.name+'\',\''+row.type_id+'\',\''+row.license_time+'\',\''+row.update_time+'\')" data-toggle="modal" data-target="#softwareUpdateModal">'
-                    +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
+                    var html =`<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yazılımı Düzenle">
+                    <a onclick="softwareUpdate('${row.id}')" data-toggle="modal" data-target="#softwareUpdateModal">
+                    <i class="fas fa-edit table-icon text-primary"></i></a></span>`;
                     if(!row.owner){
-                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yazılımı Siler!">'
-                        +'<a onclick="softwareDelete(\''+row.id+'\',\''+row.name+'\',\''+row.type+'\')" data-toggle="modal" data-target="#softwareDeleteModal">'
-                        +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
+                        html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yazılımı Siler!">
+                        <a onclick="softwareDelete('${row.id}')" data-toggle="modal" data-target="#softwareDeleteModal">
+                        <i class="fas fa-trash-alt table-icon text-danger"></i></a></span>`;
                     }
                     else{
-                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Yazılımı </br> Kullanıcı Sayfasından </br> İade Alınız!">'
-                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
-                        +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
+                        html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Yazılımı </br> Kullanıcı Sayfasından </br> İade Alınız!">
+                        <a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">
+                        <i class="fas fa-trash-alt table-icon-disabled"></i></a></span>`;
                     }
                     return html;
                 }

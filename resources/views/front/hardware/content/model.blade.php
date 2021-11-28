@@ -24,13 +24,13 @@
                         <td class="text-center">{{$model->total_item}}</td>
                         <td class="text-center">
                             <span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Modeli Düzenle">
-                                <a onclick="hardwareModelUpdate('{{$model->id}}','{{$model->name}}')" data-toggle="modal" data-target="#hardwareModelUpdateModal">
+                                <a onclick="hardwareModelUpdate('{{$model->id}}')" data-toggle="modal" data-target="#hardwareModelUpdateModal">
                                     <i class="fas fa-edit table-icon text-primary"></i>
                                 </a>
                             </span>
                             @if($model->total_item == 0)
                                 <span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Modeli Siler!">
-                                    <a onclick="hardwareModelDelete('{{$model->id}}','{{$model->name}}')" data-toggle="modal" data-target="#hardwareModelDeleteModal">
+                                    <a onclick="hardwareModelDelete('{{$model->id}}')" data-toggle="modal" data-target="#hardwareModelDeleteModal">
                                         <i class="fas fa-trash-alt table-icon text-danger"></i>
                                     </a>
                                 </span>

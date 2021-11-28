@@ -12,37 +12,75 @@
     var owner_material_table_ajax_url   =   "{{route('owner_material_table_ajax')}}";
     var owner_vehicle_table_ajax_url    =   "{{route('owner_vehicle_table_ajax')}}";
     var user_id = "{{$user->id}}";
-    function hardwareDrop(hardware_id,barcode_number,serial_number,detail,type,model,issue_time){
-        $('#hardware_drop_barcode_number').text(barcode_number);
-        $('#hardware_drop_hardware_id').val(hardware_id);
-        $('#hardware_drop_serial_number').text(serial_number);
-        $('#hardware_drop_issue_time').text(issue_time);
-        $('#hardware_drop_detail').html(detail);
-        $('#hardware_drop_type').text(type);
-        $('#hardware_drop_model').text(model);
+    function hardwareDrop(id,issue_time){
+        $.ajax({
+            type:'POST',
+            url:`{{route('getHardware')}}`,
+            data:{id},
+            success:function(response){
+                $('#hardware_drop_barcode_number').text(response.barcode_number);
+                $('#hardware_drop_hardware_id').val(response.id);
+                $('#hardware_drop_serial_number').text(response.serial_number);
+                $('#hardware_drop_issue_time').text(issue_time);
+                $('#hardware_drop_detail').html(response.detail);
+                $('#hardware_drop_type').text(response.get_type.name);
+                $('#hardware_drop_model').text(response.get_model.name);
+            }
+        });
     }
-    function softwareDrop(software_id,name,type){
-        $('#software_drop_name').text(name);
-        $('#software_drop_type').text(type);
-        $('#software_drop_software_id').val(software_id);
+    function softwareDrop(id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('getSoftware')}}`,
+            data:{id},
+            dataType:'json',
+            success:function(response){
+                $('#software_drop_name').text(response.name);
+                $('#software_drop_type').text(response.get_type.name);
+                $('#software_drop_software_id').val(response.id);
+            }
+        });
     }
-    function commonDrop(common_id,name,type,detail){
-        $('#common_drop_name').text(name);
-        $('#common_drop_type').text(type);
-        $('#common_drop_detail').html(detail);
-        $('#common_drop_common_id').val(common_id);
+    function commonDrop(id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('getCommonItem')}}`,
+            data:{id},
+            dataType:'json',
+            success:function(response){
+                $('#common_drop_name').text(response.name);
+                $('#common_drop_type').text(response.get_type.name);
+                $('#common_drop_detail').html(response.detail);
+                $('#common_drop_common_id').val(response.id);
+            }
+        });
     }
-    function materialDrop(id,material_id,type,detail){
-        $('#material_drop_type').text(type);
-        $('#material_drop_detail').html(detail);
-        $('#material_drop_material_id').val(material_id);
-        $('#material_drop_id').val(id);
+    function materialDrop(issue_id,id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('getMaterial')}}`,
+            data:{id},
+            success:function(response){
+                $('#material_drop_type').text(response.get_type.name);
+                $('#material_drop_detail').html(response.detail);
+                $('#material_drop_material_id').val(response.id);
+                $('#material_drop_id').val(issue_id);
+            }
+        });
     }
-    function vehicleDrop(vehicle_id,name,model,detail){
-        $('#vehicle_drop_name').text(name);
-        $('#vehicle_drop_model').text(model);
-        $('#vehicle_drop_detail').html(detail);
-        $('#vehicle_drop_vehicle_id').val(vehicle_id);
+    function vehicleDrop(id){
+        $.ajax({
+            type:'POST',
+            url:`{{route('getVehicle')}}`,
+            data:{id},
+            dataType:'json',
+            success:function(response){
+                $('#vehicle_drop_name').text(response.name);
+                $('#vehicle_drop_model').text(response.get_model.name);
+                $('#vehicle_drop_detail').html(response.detail);
+                $('#vehicle_drop_vehicle_id').val(response.id);
+            }
+        });
     }
     function changeIssueTime(item_type,item_id,issue_input){
         $('#item_type').val(item_type);

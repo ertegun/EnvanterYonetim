@@ -7,17 +7,34 @@
 @section("script")
     <script>
         var vehicle_table_ajax_url = "{{route('vehicle_table_ajax')}}";
-        function vehicleDelete(detail,model,name,id){
-            $('#vehicle_delete_detail').html(detail);
-            $('#vehicle_delete_model').text(model);
-            $('#vehicle_delete_name').text(name);
-            $('#vehicle_delete_id').val(id);
+        function vehicleDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getVehicle')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#vehicle_delete_detail').html(response.detail);
+                    $('#vehicle_delete_model').text(response.get_model.name);
+                    $('#vehicle_delete_name').text(response.name);
+                    $('#vehicle_delete_id').val(response.id);
+                }
+            });
         }
-        function vehicleUpdate(detail,model_id,name,id){
-            $('#vehicle_update_detail').val(detail);
-            $('.vehicle_update_model_select').select2("val",model_id);
-            $('#vehicle_update_name').val(name);
-            $('#vehicle_update_id').val(id);
+        function vehicleUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getVehicle')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#vehicle_update_detail').val(response.detail);
+                    //$('.vehicle_update_model_select').select2("val",model_id);
+                    $('.vehicle_update_model_select').val(response.model_id).trigger('change');
+                    $('#vehicle_update_name').val(response.name);
+                    $('#vehicle_update_id').val(response.id);
+                }
+            });
         }
         function vehicleUpdateNewModel(){
             var model_select    =   $('.vehicle_update_model_select');

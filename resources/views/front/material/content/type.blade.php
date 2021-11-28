@@ -22,13 +22,13 @@
                         <td class="text-center">{{$type->total_item}}</td>
                         <td class="text-center">
                             <span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Türü Düzenle">
-                                <a onclick="materialTypeUpdate('{{$type->id}}','{{$type->name}}')" data-toggle="modal" data-target="#materialTypeUpdateModal">
+                                <a onclick="materialTypeUpdate('{{$type->id}}')" data-toggle="modal" data-target="#materialTypeUpdateModal">
                                     <i class="fas fa-edit table-icon text-primary"></i>
                                 </a>
                             </span>
                             @if($type->total_item == 0)
                                 <span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Türü Siler!">
-                                    <a onclick="materialTypeDelete('{{$type->id}}','{{$type->name}}')" data-toggle="modal" data-target="#materialTypeDeleteModal">
+                                    <a onclick="materialTypeDelete('{{$type->id}}')" data-toggle="modal" data-target="#materialTypeDeleteModal">
                                         <i class="fas fa-trash-alt table-icon text-danger"></i>
                                     </a>
                                 </span>

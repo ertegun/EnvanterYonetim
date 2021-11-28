@@ -7,22 +7,39 @@
 @section("script")
     <script>
         var getRoles_url = "{{route('getRoles')}}";
-        function adminUpdate(id,user_name,name,email,role_id){
-            email = email.split('@')[0];
-            $('.update_role_select').select2("val",role_id);
-            $('#admin_update_user_name').val(user_name);
-            $('#admin_update_name').val(name);
-            $('#admin_update_email').val(email);
-            $('#admin_update_id').val(id);
+        function adminUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getAdmin')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    let email = response.email.split('@')[0];
+                    //$('.update_role_select').select2("val",role_id);
+                    $('.update_role_select').val(response.role_id).trigger('change');
+                    $('#admin_update_user_name').val(response.user_name);
+                    $('#admin_update_name').val(response.name);
+                    $('#admin_update_email').val(email);
+                    $('#admin_update_id').val(response.id);
+                }
+            });
         }
         function adminUpdatePassword(id){
             $('#admin_id').val(id);
         }
-        function adminDelete(id,user_name,name,role){
-            $('#admin_delete_id').val(id);
-            $('#admin_delete_name').text(name);
-            $('#admin_delete_user_name').text(user_name);
-            $('#admin_delete_role').text(role);
+        function adminDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getAdmin')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#admin_delete_id').val(response.id);
+                    $('#admin_delete_name').text(response.name);
+                    $('#admin_delete_user_name').text(response.user_name);
+                    $('#admin_delete_role').text(response.get_role.name);
+                }
+            });
         }
         NgApp.controller('adminController',function($http,$scope){
             $http.post(getRoles_url).then(function(response){

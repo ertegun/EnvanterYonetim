@@ -1,14 +1,3 @@
-function userUpdate(department_id,name,email,user_id){
-    $('.update_department_select').select2("val",department_id);
-    $('#user_update_name').val(name);
-    $('#user_update_email').val(email);
-    $('#user_update_id').val(user_id);
-}
-function userDelete(id,name,department){
-    $('#user_id').val(id);
-    $('#user_name').text(name);
-    $('#user_department').text(department);
-}
 function CreateNewDepartment(){
     var select    =   $('.create_department_select');
     var department       =   $('#create_new_department');

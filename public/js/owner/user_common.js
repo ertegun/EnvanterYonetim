@@ -62,15 +62,9 @@ function createCommonTable (){
                 class: 'text-center',
                 render:function(row){
                     if(row.role){
-                        if(row.get_info.detail){
-                            var detail = row.get_info.detail.replaceAll('\\n', '</br>');
-                        }
-                        else{
-                            var detail = '';
-                        }
                         var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Kullanımdan Kaldır">'
                         +'<a data-toggle="modal" data-target="#commonDropModal" '
-                        +'onclick="commonDrop(\''+row.get_info.id+'\',\''+row.get_info.name+'\',\''+row.type+'\',\''+detail+'\')"'
+                        +'onclick="commonDrop(\''+row.get_info.id+'\')"'
                         +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     }
                     else{

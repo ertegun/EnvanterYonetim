@@ -16,17 +16,6 @@ class CommonItemController extends Controller
         }
         public function common_item_create(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if(isset($request->new_type)){
                 CommonItemType::insert([
                     'name' => $request->new_type,
@@ -41,7 +30,7 @@ class CommonItemController extends Controller
             $control = CommonItem::insert([
                 'type_id' => $type_id,
                 'name' => $request->name,
-                'detail' => $detail,
+                'detail' => $request->detail,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -54,17 +43,6 @@ class CommonItemController extends Controller
         }
         public function common_item_update(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if(isset($request->new_type)){
                 CommonItemType::insert([
                     'name' => $request->new_type,
@@ -80,7 +58,7 @@ class CommonItemController extends Controller
             ->update([
                 'type_id' => $type_id,
                 'name' => $request->name,
-                'detail' => $detail,
+                'detail' => $request->detail,
                 'updated_at' => now()
             ]);
             if($control <= 0){
@@ -162,5 +140,14 @@ class CommonItemController extends Controller
         public function getCommonItemElements(Request $request){
             $data['types']  = CommonItemType::all();
             return response()->json($data);
+        }
+        public function getCommonItem(Request $request){
+            $common_item = CommonItem::where('id',$request->id)->get()->first();
+            $common_item->getType;
+            return response()->json($common_item);
+        }
+        public function getCommonItemType(Request $request){
+            $common_item_type = CommonItemType::where('id',$request->id)->get()->first();
+            return response()->json($common_item_type);
         }
 }

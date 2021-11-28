@@ -26,13 +26,13 @@
                         <td class="text-center">{{$type->total_item}}</td>
                         <td class="text-center">
                             <span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Tipi Düzenle">
-                                <a onclick="hardwareTypeUpdate('{{$type->id}}','{{$type->name}}','{{$type->prefix}}','{{$type->total_item}}')" data-toggle="modal" data-target="#hardwareTypeUpdateModal">
+                                <a onclick="hardwareTypeUpdate('{{$type->id}}')" data-toggle="modal" data-target="#hardwareTypeUpdateModal">
                                     <i class="fas fa-edit table-icon text-primary"></i>
                                 </a>
                             </span>
                             @if($type->total_item == 0)
                                 <span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Tipi Siler!">
-                                    <a onclick="hardwareTypeDelete('{{$type->id}}','{{$type->name}}','{{$type->prefix}}')" data-toggle="modal" data-target="#hardwareTypeDeleteModal">
+                                    <a onclick="hardwareTypeDelete('{{$type->id}}')" data-toggle="modal" data-target="#hardwareTypeDeleteModal">
                                         <i class="fas fa-trash-alt table-icon text-danger"></i>
                                     </a>
                                 </span>

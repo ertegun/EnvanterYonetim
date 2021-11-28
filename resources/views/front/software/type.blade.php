@@ -6,14 +6,30 @@
 @endsection
 @section("script")
     <script>
-        function softwareTypeDelete(id,name){
-            $('#software_type_delete_name').text(name);
-            $('#software_type_delete_id').val(id);
+        function softwareTypeDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getSoftwareType')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#software_type_delete_name').text(response.name);
+                    $('#software_type_delete_id').val(response.id);
+                }
+            })
         }
-        function softwareTypeUpdate(id,name){
-            $('#software_type_update_name').val(name);
-            $('#software_type_update_old_name').val(name);
-            $('#software_type_update_id').val(id);
+        function softwareTypeUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getSoftwareType')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#software_type_update_name').val(response.name);
+                    $('#software_type_update_old_name').val(response.name);
+                    $('#software_type_update_id').val(response.id);
+                }
+            })
         }
     </script>
     <script src="{{asset('js/software/type_table.js')}}"></script>

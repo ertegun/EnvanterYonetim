@@ -15,17 +15,6 @@ class HardwareController extends Controller
         }
         public function hardware_create(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if($request->new_type && $request->new_type_prefix){
                 HardwareType::insert(['name'=> $request->new_type,'prefix' => $request->new_type_prefix,'created_at' => now(),'updated_at' => now()]);
                 if(!isset($request->barcode_number)){
@@ -74,7 +63,7 @@ class HardwareController extends Controller
                 'serial_number'=>$request->serial_number,
                 'type_id'=>$type_id,
                 'model_id'=>$model_id,
-                'detail'=>$detail,
+                'detail'=>$request->detail,
                 'duration'=>$request->duration,
                 'created_at'=>now(),
                 'updated_at'=>now()
@@ -91,22 +80,6 @@ class HardwareController extends Controller
             $serial_number = $request->serial_number;
             if($serial_number == NULL){
                 $serial_number = NULL;
-            }
-            if($request->detail != NULL){
-                $get_detail = trim($request->detail);
-                $get_detail = explode(PHP_EOL,$get_detail);
-                $detail='';
-                for($i=0;$i<count($get_detail);$i++){
-                    if($i != (count($get_detail)-1)){
-                        $detail .=  $get_detail[$i].'\n';
-                    }
-                    else{
-                        $detail .=  $get_detail[$i];
-                    }
-                }
-            }
-            else{
-                $detail = '';
             }
             if($request->new_type && $request->new_type_prefix){
                 HardwareType::insert(['name'=> $request->new_type,'prefix' => $request->new_type_prefix,'created_at' => now(),'updated_at' => now()]);
@@ -132,7 +105,7 @@ class HardwareController extends Controller
                     'serial_number'=>$serial_number,
                     'type_id'=>$type_id,
                     'model_id'=>$model_id,
-                    'detail'=>$detail,
+                    'detail'=>$request->detail,
                     'duration'=>$request->duration,
                     'updated_at'=>now()
                 ]);
@@ -143,7 +116,7 @@ class HardwareController extends Controller
                     'serial_number'=>$serial_number,
                     'type_id'=>$type_id,
                     'model_id'=>$model_id,
-                    'detail'=>$detail,
+                    'detail'=>$request->detail,
                     'duration'=>$request->duration,
                     'updated_at'=>now()
                 ]);
@@ -285,5 +258,20 @@ class HardwareController extends Controller
             $data['types']  = HardwareType::select('id','name','prefix')->get();
             $data['models'] = HardwareModel::select('id','name')->get();
             return response()->json($data);
+        }
+        public function getHardware(Request $request){
+            $hardware = Hardware::where('id',$request->id)->get()->first();
+            $hardware->model = $hardware->getModel;
+            $hardware->type = $hardware->getType;
+            $hardware->owner = $hardware->getOwner;
+            return response()->json($hardware);
+        }
+        public function getHardwareType(Request $request){
+            $hardware_type = HardwareType::where('id',$request->id)->get()->first();
+            return response()->json($hardware_type);
+        }
+        public function getHardwareModel(Request $request){
+            $hardware_model = HardwareModel::where('id',$request->id)->get()->first();
+            return response()->json($hardware_model);
         }
 }

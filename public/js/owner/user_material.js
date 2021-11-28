@@ -65,15 +65,9 @@ function createMaterialTable (){
                 class: 'text-center',
                 render:function(row){
                     if(row.role){
-                        if(row.get_info.detail){
-                            var detail = row.get_info.detail.replaceAll('\\n', '</br>');
-                        }
-                        else{
-                            var detail = '';
-                        }
                         var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Malzemeyi İade Al">'
                         +'<a data-toggle="modal" data-target="#materialDropModal" '
-                        +'onclick="materialDrop(\''+row.id+'\',\''+row.get_info.id+'\',\''+row.type+'\',\''+detail+'\')"'
+                        +'onclick="materialDrop(\''+row.id+'\',\''+row.get_info.id+'\')"'
                         +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     }
                     else{
@@ -169,10 +163,14 @@ function createMaterialTable (){
     }
 }
 function showMaterialWidgets(html){
-    full_html='';
-    html.forEach(function(element){
-        full_html+=element;
-    })
+    let full_html='';
+    if(html){
+        if(html.length > 0){
+            html.forEach(function(element){
+                full_html+=element;
+            });
+        }
+    }
     $('#materialWidget').html(full_html);
 }
 

@@ -511,7 +511,7 @@ class OwnerController extends Controller
                         <b class='small text-center'><u>Ortalama Kullanım</u></br><h5 class='text-center'> $average_day Gün</h5></b>
                     </div>
                 </div>";
-                if($i==9){
+                if($i==8){
                     $i=0;
                 }
                 else{

@@ -6,14 +6,28 @@
 @endsection
 @section("script")
     <script>
-        function materialTypeDelete(id,name){
-            $('#material_type_delete_name').text(name);
-            $('#material_type_delete_id').val(id);
+        function materialTypeDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getMaterialType')}}`,
+                data:{id},
+                success:function(response){
+                    $('#material_type_delete_name').text(response.name);
+                    $('#material_type_delete_id').val(response.id);
+                }
+            });
         }
-        function materialTypeUpdate(id,name){
-            $('#material_type_update_name').val(name);
-            $('#material_type_update_old_name').val(name);
-            $('#material_type_update_id').val(id);
+        function materialTypeUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getMaterialType')}}`,
+                data:{id},
+                success:function(response){
+                    $('#material_type_update_name').val(response.name);
+                    $('#material_type_update_old_name').val(response.name);
+                    $('#material_type_update_id').val(response.id);
+                }
+            });
         }
     </script>
     <script src="{{asset('js/material/type_table.js')}}"></script>

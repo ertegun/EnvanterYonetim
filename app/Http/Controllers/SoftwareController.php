@@ -175,4 +175,15 @@ class SoftwareController extends Controller
             $data['types']  = SoftwareType::all();
             return response()->json($data);
         }
+        public function getSoftware(Request $request){
+            $software = Software::where('id',$request->id)->get()->first();
+            $software->getType;
+            $start_time_show        =   strtotime($software->start_time);
+            $software->update_time  =   date('Y-m-d',$start_time_show);
+            return response()->json($software);
+        }
+        public function getSoftwareType(Request $request){
+            $software_type = SoftwareType::where('id',$request->id)->get()->first();
+            return response()->json($software_type);
+        }
 }

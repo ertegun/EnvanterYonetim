@@ -6,14 +6,30 @@
 @endsection
 @section("script")
     <script>
-        function hardwareModelDelete(id,name){
-            $('#hardware_model_delete_name').text(name);
-            $('#hardware_model_delete_id').val(id);
+        function hardwareModelDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getHardwareModel')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#hardware_model_delete_name').text(response.name);
+                    $('#hardware_model_delete_id').val(response.id);
+                }
+            });
         }
-        function hardwareModelUpdate(id,name){
-            $('#hardware_model_update_name').val(name);
-            $('#hardware_model_update_old_name').val(name);
-            $('#hardware_model_update_id').val(id);
+        function hardwareModelUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getHardwareModel')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#hardware_model_update_name').val(response.name);
+                    $('#hardware_model_update_old_name').val(response.name);
+                    $('#hardware_model_update_id').val(response.id);
+                }
+            });
         }
     </script>
     <script src="{{asset('js/hardware/model_table.js')}}"></script>

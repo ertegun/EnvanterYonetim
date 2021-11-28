@@ -70,7 +70,7 @@ function createSoftwareTable (){
                     if(row.role){
                         var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Yazılımı İade Al">'
                         +'<a data-toggle="modal" data-target="#softwareDropModal" '
-                        +'onclick="softwareDrop(\''+row.get_info.id+'\',\''+row.get_info.name+'\',\''+row.type+'\')"'
+                        +'onclick="softwareDrop(\''+row.get_info.id+'\')"'
                         +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     }
                     else{

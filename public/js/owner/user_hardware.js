@@ -86,21 +86,9 @@ function createHardwareTable (){
                 class: 'text-center',
                 render:function(row){
                     if(row.role){
-                        if(row.get_info.detail){
-                            var detail = row.get_info.detail.replaceAll('\\n', '</br>');
-                        }
-                        else{
-                            var detail = '';
-                        }
-                        if(row.get_info.serial_number){
-                            var serial_number = row.get_info.serial_number;
-                        }
-                        else{
-                            var serial_number = '-';
-                        }
                         var html='<span class="d-inline-block mr-2" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Donanımı İade Al">'
                         +'<a data-toggle="modal" data-target="#hardwareDropModal" '
-                        +'onclick="hardwareDrop(\''+row.get_info.id+'\',\''+row.get_info.barcode_number+'\',\''+serial_number+'\',\''+detail+'\',\''+row.type+'\',\''+row.model+'\',\''+row.issue_time+'\')"'
+                        +'onclick="hardwareDrop(\''+row.get_info.id+'\',\''+row.issue_input+'\')"'
                         +' class="text-decoration-none"><i class="fas fa-eraser table-icon text-danger"></i></a></span>';
                     }
                     else{

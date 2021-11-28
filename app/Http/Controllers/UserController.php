@@ -88,6 +88,11 @@ class UserController extends Controller
                 $data['users'] = $users;
                 return response()->json($data);
             }
+            public function getUser(Request $request){
+                $user = User::where('id',$request->id)->get()->first();
+                $user->getDepartment;
+                return response()->json($user);
+            }
         //Kullanıcı İşlem Geçmişi
             public function user_transaction(Request $request,$id)
             {
@@ -245,5 +250,9 @@ class UserController extends Controller
             $departments = Department::all();
             $data['departments'] = $departments;
             return response()->json($data);
+        }
+        public function getDepartment(Request $request){
+            $department = Department::where('id',$request->id)->get()->first();
+            return response()->json($department);
         }
 }

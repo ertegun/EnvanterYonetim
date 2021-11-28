@@ -59,26 +59,18 @@ $(document).ready( function () {
                 class: 'text-center',
                 orderable:false,
                 render:function(row){
-                    if(row.detail){
-                        var detail = row.detail.replaceAll('\\n', '</br>');
-                        var detail_text = row.detail;
-                    }
-                    else{
-                        var detail = '';
-                        var detail_text = '';
-                    }
-                    var html ='<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">'
-                    +'<a onclick="vehicleUpdate(\''+detail_text+'\',\''+row.model_id+'\',\''+row.name+'\',\''+row.id+'\')" data-toggle="modal" data-target="#vehicleUpdateModal">'
-                    +'<i class="fas fa-edit table-icon text-primary"></i></a></span>';
+                    var html =`<span class="d-inline-block mr-1" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Düzenle">
+                    <a onclick="vehicleUpdate('${row.id}')" data-toggle="modal" data-target="#vehicleUpdateModal">
+                    <i class="fas fa-edit table-icon text-primary"></i></a></span>`;
                     if(!row.owner){
-                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">'
-                        +'<a onclick="vehicleDelete(\''+detail+'\',\''+row.model+'\',\''+row.name+'\',\''+row.id+'\')" data-toggle="modal" data-target="#vehicleDeleteModal">'
-                        +'<i class="fas fa-trash-alt table-icon text-danger"></i></a></span>';
+                        html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-placement="bottom" title="Geçerli Ekipmanı Siler!">
+                        <a onclick="vehicleDelete('${row.id}')" data-toggle="modal" data-target="#vehicleDeleteModal">
+                        <i class="fas fa-trash-alt table-icon text-danger"></i></a></span>`;
                     }
                     else{
-                        html+='<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Aracı </br> Kullanıcı Sayfasından </br> İade Alınız!">'
-                        +'<a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">'
-                        +'<i class="fas fa-trash-alt table-icon-disabled"></i></a></span>';
+                        html+=`<span class="d-inline-block" tabindex="-1" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Öncelikle Geçerli Aracı </br> Kullanıcı Sayfasından </br> İade Alınız!">
+                        <a href="#" class="disabled"  role="button" aria-disabled="true" style="pointer-events: none;">
+                        <i class="fas fa-trash-alt table-icon-disabled"></i></a></span>`;
                     }
                     return html;
                 }

@@ -17,17 +17,6 @@ class MaterialController extends Controller
         }
         public function material_create(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if(isset($request->new_type)){
                 MaterialType::insert([
                     'name' => $request->new_type,
@@ -41,7 +30,7 @@ class MaterialController extends Controller
             }
             $control = Material::insert([
                 'type_id' => $type_id,
-                'detail' => $detail,
+                'detail' => $request->detail,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -54,17 +43,6 @@ class MaterialController extends Controller
         }
         public function material_update(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if(isset($request->new_type)){
                 MaterialType::insert([
                     'name' => $request->new_type,
@@ -79,7 +57,7 @@ class MaterialController extends Controller
             $control = Material::where('id',$request->id)
             ->update([
                 'type_id' => $type_id,
-                'detail' => $detail,
+                'detail' => $request->detail,
                 'updated_at' => now()
             ]);
             if($control <= 0){
@@ -160,5 +138,14 @@ class MaterialController extends Controller
         public function getMaterialElements(Request $request){
             $data['types']  = MaterialType::all();
             return response()->json($data);
+        }
+        public function getMaterial(Request $request){
+            $material = Material::where('id',$request->id)->get()->first();
+            $material->getType;
+            return response()->json($material);
+        }
+        public function getMaterialType(Request $request){
+            $material_type = MaterialType::where('id',$request->id)->get()->first();
+            return response()->json($material_type);
         }
 }

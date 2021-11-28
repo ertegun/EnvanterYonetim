@@ -7,26 +7,43 @@
 @section("script")
     <script>
         var software_table_ajax_url = "{{route('software_table_ajax')}}";
-        function softwareUpdate(id,name,type_id,license_time,start_time){
-            $('#software_update_name').val(name);
-            $('#software_update_start_time').val(start_time);
+        function softwareUpdate(id){
             var license = $('#software_update_license_time');
-            if(license_time != 'null'){
-                license.prop('disabled',false);
-                license.val(license_time);
-            }
-            else{
-                license.prop('disabled',true);
-                license.val('');
-                license.attr('placeholder','Süresiz');
-            }
-            $('.software_update_type_select').select2("val",type_id);
-            $('#software_update_id').val(id);
+            $.ajax({
+                type:'POST',
+                url:`{{route('getSoftware')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#software_update_name').val(response.name);
+                    $('#software_update_start_time').val(response.update_time);
+                    if(response.license_time){
+                        license.prop('disabled',false);
+                        license.val(response.license_time);
+                    }
+                    else{
+                        license.prop('disabled',true);
+                        license.val('');
+                        license.attr('placeholder','Süresiz');
+                    }
+                    //$('.software_update_type_select').select2("val",type_id);
+                    $('.software_update_type_select').val(response.type_id).trigger('change');
+                    $('#software_update_id').val(response.id);
+                }
+            })
         }
-        function softwareDelete(id,name,type){
-            $('#software_delete_name').text(name);
-            $('#software_delete_type').text(type);
-            $('#software_delete_id').val(id);
+        function softwareDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getSoftware')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#software_delete_name').text(response.name);
+                    $('#software_delete_type').text(response.get_type.name);
+                    $('#software_delete_id').val(response.id);
+                }
+            });
         }
         function softwareCreateShowType(){
             var new_type    =   $('#software_create_new_type');

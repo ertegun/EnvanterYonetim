@@ -14,17 +14,6 @@ class VehicleController extends Controller
         }
         public function vehicle_create(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if($request->new_model){
                 VehicleModel::insert(['name' => $request->new_model,'created_at' => now(),'updated_at' => now()]);
                 $model_id = VehicleModel::where('name',$request->new_model)->first()->id;
@@ -35,7 +24,7 @@ class VehicleController extends Controller
             $control        =   Vehicle::insert([
                 'name'=>$request->name,
                 'model_id'=>$model_id,
-                'detail'=>$detail,
+                'detail'=>$request->detail,
                 'created_at'=>now(),
                 'updated_at'=>now()
             ]);
@@ -48,17 +37,6 @@ class VehicleController extends Controller
         }
         public function vehicle_update(Request $request)
         {
-            $get_detail = trim($request->detail);
-            $get_detail = explode(PHP_EOL,$get_detail);
-            $detail='';
-            for($i=0;$i<count($get_detail);$i++){
-                if($i != (count($get_detail)-1)){
-                    $detail .=  $get_detail[$i].'\n';
-                }
-                else{
-                    $detail .=  $get_detail[$i];
-                }
-            }
             if($request->new_model){
                 VehicleModel::insert(['name' => $request->new_model,'created_at' => now(),'updated_at' => now()]);
                 $model_id = VehicleModel::where('name',$request->new_model)->first()->id;
@@ -70,7 +48,7 @@ class VehicleController extends Controller
             ->update([
                 'name'=>$request->name,
                 'model_id'=>$model_id,
-                'detail'=>$detail,
+                'detail'=>$request->detail,
                 'updated_at'=>now()
             ]);
             if($control>0){
@@ -148,5 +126,14 @@ class VehicleController extends Controller
         public function getVehicleElements(Request $request){
             $data['models'] = VehicleModel::select('id','name')->get();
             return response()->json($data);
+        }
+        public function getVehicle(Request $request){
+            $vehicle = Vehicle::where('id',$request->id)->get()->first();
+            $vehicle->getModel;
+            return response()->json($vehicle);
+        }
+        public function getVehicleModel(Request $request){
+            $vehicle_model = VehicleModel::where('id',$request->id)->get()->first();
+            return response()->json($vehicle_model);
         }
 }

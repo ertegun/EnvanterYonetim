@@ -7,15 +7,32 @@
 @section("script")
     <script>
         var material_table_ajax_url = "{{route('material_table_ajax')}}";
-        function materialUpdate(id,type_id,detail){
-            $('#material_update_detail').val(detail);
-            $('.material_update_type_select').select2("val",type_id);
-            $('#material_update_id').val(id);
+        function materialUpdate(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getMaterial')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#material_update_detail').val(response.detail);
+                    //$('.material_update_type_select').select2("val",type_id);
+                    $('.material_update_type_select').val(response.type_id).trigger('change');
+                    $('#material_update_id').val(response.id);
+                }
+            });
         }
-        function materialDelete(id,type,detail){
-            $('#material_delete_detail').html(detail);
-            $('#material_delete_type').text(type);
-            $('#material_delete_id').val(id);
+        function materialDelete(id){
+            $.ajax({
+                type:'POST',
+                url:`{{route('getMaterial')}}`,
+                data:{id},
+                dataType:'json',
+                success:function(response){
+                    $('#material_delete_detail').html(response.detail);
+                    $('#material_delete_type').text(response.get_type.name);
+                    $('#material_delete_id').val(response.id);
+                }
+            });
         }
         function materialCreateShowType(){
             var new_type    =   $('#material_create_new_type');
