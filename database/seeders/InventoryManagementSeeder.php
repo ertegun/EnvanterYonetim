@@ -15,16 +15,23 @@ use App\Models\CommonItem\CommonItemType;
 use App\Models\User\Department;
 use App\Models\User\User;
 use App\Models\Admin\Admin;
+use App\Models\Admin\Role;
 use App\Models\Transaction\TransactionType;
 
 class InventoryManagementSeeder extends Seeder
 {
     public function run()
     {
+        Role::insert(
+            ['name'=>'Yönetici','created_at'=>now(),'updated_at'=>now()],
+            ['name'=>'Bilgi İşlem','created_at'=>now(),'updated_at'=>now()],
+            ['name'=>'Üretim','created_at'=>now(),'updated_at'=>now()],
+            ['name'=>'İnsan Kaynakları','created_at'=>now(),'updated_at'=>now()]
+        );
         Admin::insert([
-            ['name'=>'Taha Yerlikaya','user_name'=>'admin','password'=>'admin','email'=>'taha.yerlikaya@gruparge.com','created_at'=>now(),'updated_at'=>now()],
-            ['name'=>'Mehmet Portuz','user_name'=>'mp','password'=>'M1234567','email'=>'mehmet.portuz@gruparge.com','created_at'=>now(),'updated_at'=>now()],
-            ['name'=>'Ataullah Turgut','user_name'=>'ata','password'=>'Ata123123a','email'=>'ataullah.turgut@gruparge.com','created_at'=>now(),'updated_at'=>now()]
+            ['name'=>'Taha Yerlikaya','role_id'=>'1','user_name'=>'admin','password'=>bcrypt('admin'),'email'=>'taha.yerlikaya@gruparge.com','created_at'=>now(),'updated_at'=>now()],
+            ['name'=>'Mehmet Portuz','role_id'=>'1','user_name'=>'mp','password'=>bcrypt('M1234567'),'email'=>'mehmet.portuz@gruparge.com','created_at'=>now(),'updated_at'=>now()],
+            ['name'=>'Ataullah Turgut','role_id'=>'1','user_name'=>'ata','password'=>bcrypt('Ata123123a'),'email'=>'ataullah.turgut@gruparge.com','created_at'=>now(),'updated_at'=>now()]
         ]);
         Department::insert([
             ['name' => 'Yazılım','created_at'=> now(),'updated_at'=> now()],
