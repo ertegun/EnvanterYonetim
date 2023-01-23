@@ -1,6 +1,6 @@
 FROM phpdockerio/php74-fpm:latest
 WORKDIR "/application"
-
+COPY . .
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -11,3 +11,6 @@ RUN apt-get update \
   php7.4-xhprof php7.4-yaml php7.4-zmq \
   && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*m
 # CMD composer update
+RUN composer install
+RUN chmod -R 777 storage
+RUN php artisan key:generate
