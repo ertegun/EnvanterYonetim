@@ -11,7 +11,7 @@ services:
       - .:/application
       - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "4446:80"
+      - "${WEB_PORT}:80"
   php-fpm:
     build:
       context: ./
