@@ -5,7 +5,6 @@ version: "3.1"
 services:
   webserver:
     image: nginx:alpine
-    container_name: envanter-webserver
     restart: always
     working_dir: /application
     volumes:
@@ -17,7 +16,6 @@ services:
     build:
       context: ./
       dockerfile: ./phpdocker/php-fpm/Dockerfile
-    container_name: envanter-php-fpm
     restart: always
     working_dir: /application
     volumes:
