@@ -1,16 +1,37 @@
-FROM phpdockerio/php74-fpm:latest
+FROM phpdockerio/php:8.1-fpm
+ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR "/application"
 COPY . .
-# Fix debconf warnings upon build
-ARG DEBIAN_FRONTEND=noninteractive
 
-# Install selected extensions and other stuff
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install  php7.4-mysql php7.4-redis php7.4-sqlite3 php7.4-xdebug php7.4-bcmath php7.4-bz2 php7.4-dba php7.4-enchant php7.4-gd php7.4-gearman \ 
-  php7.4-gmp php7.4-igbinary php7.4-imagick php7.4-interbase php7.4-intl php7.4-mongodb php7.4-msgpack php7.4-odbc php7.4-phpdbg php7.4-pspell php7.4-raphf php7.4-ssh2 php7.4-xsl \  
-  php7.4-xhprof php7.4-yaml php7.4-zmq \
-  && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*m
-# CMD composer update
+    && apt-get -y --no-install-recommends install \
+    php8.1-bcmath \
+    php8.1-dba \
+    php8.1-enchant \
+    php8.1-gd \
+    php8.1-gearman \
+    php8.1-gmp \
+    php8.1-igbinary \
+    php8.1-interbase \
+    php8.1-intl \
+    php8.1-mongodb \
+    php8.1-mysql \
+    php8.1-odbc \
+    php8.1-phpdbg \
+    php8.1-pspell \
+    php8.1-raphf \
+    php8.1-redis \
+    php8.1-sqlite3 \
+    php8.1-ssh2 \
+    php8.1-xdebug \
+    php8.1-xhprof \
+    php8.1-xsl \
+    php8.1-yaml \
+    php8.1-zmq \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+
 RUN chmod -R 777 storage
 RUN composer install
 RUN php artisan key:generate
